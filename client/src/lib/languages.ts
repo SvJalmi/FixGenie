@@ -201,6 +201,73 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
   { id: 'json', name: 'JSON', category: 'Data', extension: '.json', monacoId: 'json' },
   { id: 'yaml', name: 'YAML', category: 'Data', extension: '.yaml', monacoId: 'yaml' },
   { id: 'toml', name: 'TOML', category: 'Data', extension: '.toml', monacoId: 'toml' },
+
+  // 🧪 Esoteric & Experimental Languages
+  { id: 'brainfuck', name: 'Brainfuck', category: 'Esoteric', extension: '.bf', monacoId: 'plaintext' },
+  { id: 'lolcode', name: 'LOLCODE', category: 'Esoteric', extension: '.lol', monacoId: 'plaintext' },
+  { id: 'whitespace', name: 'Whitespace', category: 'Esoteric', extension: '.ws', monacoId: 'plaintext' },
+  { id: 'malbolge', name: 'Malbolge', category: 'Esoteric', extension: '.mb', monacoId: 'plaintext' },
+  { id: 'befunge', name: 'Befunge', category: 'Esoteric', extension: '.bf', monacoId: 'plaintext' },
+  { id: 'intercal', name: 'INTERCAL', category: 'Esoteric', extension: '.i', monacoId: 'plaintext' },
+  { id: 'ook', name: 'Ook!', category: 'Esoteric', extension: '.ook', monacoId: 'plaintext' },
+  { id: 'piet', name: 'Piet', category: 'Esoteric', extension: '.piet', monacoId: 'plaintext' },
+
+  // 🧬 Scientific & Analytical Languages
+  { id: 'j-lang', name: 'J', category: 'Scientific', extension: '.ijs', monacoId: 'apl' },
+  { id: 'idl', name: 'IDL (Interactive Data Language)', category: 'Scientific', extension: '.pro', monacoId: 'matlab' },
+  { id: 'gams', name: 'GAMS', category: 'Scientific', extension: '.gms', monacoId: 'plaintext' },
+  { id: 'mathematica', name: 'Mathematica/Wolfram Language', category: 'Scientific', extension: '.m', monacoId: 'mathematica' },
+  { id: 'scilab', name: 'Scilab', category: 'Scientific', extension: '.sci', monacoId: 'matlab' },
+  { id: 'octave', name: 'GNU Octave', category: 'Scientific', extension: '.m', monacoId: 'matlab' },
+  { id: 'sage', name: 'SageMath', category: 'Scientific', extension: '.sage', monacoId: 'python' },
+
+  // 🧙‍♂️ Blockchain & Smart Contract Languages
+  { id: 'solidity', name: 'Solidity', category: 'Blockchain', extension: '.sol', monacoId: 'solidity' },
+  { id: 'vyper', name: 'Vyper', category: 'Blockchain', extension: '.vy', monacoId: 'python' },
+  { id: 'move', name: 'Move', category: 'Blockchain', extension: '.move', monacoId: 'rust' },
+  { id: 'cairo', name: 'Cairo', category: 'Blockchain', extension: '.cairo', monacoId: 'rust' },
+  { id: 'scilla', name: 'Scilla', category: 'Blockchain', extension: '.scilla', monacoId: 'haskell' },
+  { id: 'michelson', name: 'Michelson', category: 'Blockchain', extension: '.tz', monacoId: 'lisp' },
+  { id: 'clarity', name: 'Clarity', category: 'Blockchain', extension: '.clar', monacoId: 'lisp' },
+
+  // 🧰 Configuration & Build Languages
+  { id: 'makefile', name: 'Makefile', category: 'Configuration', extension: '.mk', monacoId: 'makefile' },
+  { id: 'hcl', name: 'HCL (HashiCorp Configuration Language)', category: 'Configuration', extension: '.hcl', monacoId: 'hcl' },
+  { id: 'gradle', name: 'Gradle DSL', category: 'Configuration', extension: '.gradle', monacoId: 'groovy' },
+  { id: 'cmake', name: 'CMake', category: 'Configuration', extension: '.cmake', monacoId: 'cmake' },
+  { id: 'bazel', name: 'Bazel/Starlark', category: 'Configuration', extension: '.bzl', monacoId: 'python' },
+  { id: 'nix', name: 'Nix', category: 'Configuration', extension: '.nix', monacoId: 'nix' },
+  { id: 'dockerfile', name: 'Dockerfile', category: 'Configuration', extension: '.dockerfile', monacoId: 'dockerfile' },
+  { id: 'ansible', name: 'Ansible YAML', category: 'Configuration', extension: '.yml', monacoId: 'yaml' },
+
+  // 🧩 Emerging or Niche Languages
+  { id: 'zig', name: 'Zig', category: 'Emerging', extension: '.zig', monacoId: 'zig' },
+  { id: 'crystal', name: 'Crystal', category: 'Emerging', extension: '.cr', monacoId: 'ruby' },
+  { id: 'bosque', name: 'Bosque', category: 'Emerging', extension: '.bsq', monacoId: 'typescript' },
+  { id: 'v-lang', name: 'V', category: 'Emerging', extension: '.v', monacoId: 'go' },
+  { id: 'odin', name: 'Odin', category: 'Emerging', extension: '.odin', monacoId: 'go' },
+  { id: 'red', name: 'Red', category: 'Emerging', extension: '.red', monacoId: 'rebol' },
+  { id: 'pony', name: 'Pony', category: 'Emerging', extension: '.pony', monacoId: 'rust' },
+  { id: 'grain', name: 'Grain', category: 'Emerging', extension: '.gr', monacoId: 'ocaml' },
+
+  // 🧠 Metaprogramming & Macro Languages
+  { id: 'racket', name: 'Racket', category: 'Metaprogramming', extension: '.rkt', monacoId: 'racket' },
+  { id: 'elixir', name: 'Elixir', category: 'Metaprogramming', extension: '.ex', monacoId: 'elixir' },
+  { id: 'nim', name: 'Nim', category: 'Metaprogramming', extension: '.nim', monacoId: 'nim' },
+  { id: 'hy', name: 'Hy', category: 'Metaprogramming', extension: '.hy', monacoId: 'lisp' },
+  { id: 'clojure-macros', name: 'Clojure (with macros)', category: 'Metaprogramming', extension: '.clj', monacoId: 'clojure' },
+  { id: 'template-haskell', name: 'Template Haskell', category: 'Metaprogramming', extension: '.hs', monacoId: 'haskell' },
+  { id: 'rust-macros', name: 'Rust (with macros)', category: 'Metaprogramming', extension: '.rs', monacoId: 'rust' },
+
+  // 🧑‍🏫 Educational & Localized Languages
+  { id: 'kalaam', name: 'Kalaam (Hindi)', category: 'Educational', extension: '.kal', monacoId: 'plaintext' },
+  { id: 'citrine', name: 'Citrine', category: 'Educational', extension: '.ctr', monacoId: 'plaintext' },
+  { id: 'hedy', name: 'Hedy', category: 'Educational', extension: '.hedy', monacoId: 'python' },
+  { id: 'kojo', name: 'Kojo', category: 'Educational', extension: '.kojo', monacoId: 'scala' },
+  { id: 'snap', name: 'Snap!', category: 'Educational', extension: '.xml', monacoId: 'xml' },
+  { id: 'turtlestitch', name: 'TurtleStitch', category: 'Educational', extension: '.xml', monacoId: 'xml' },
+  { id: 'quorum', name: 'Quorum', category: 'Educational', extension: '.quorum', monacoId: 'java' },
+  { id: 'greenfoot', name: 'Greenfoot Java', category: 'Educational', extension: '.java', monacoId: 'java' },
 ];
 
 export const getLanguageByCategory = (category: string): ProgrammingLanguage[] => {

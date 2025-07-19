@@ -75,13 +75,26 @@ Preferred communication style: Simple, everyday language.
 - **Audio Controls**: Playback speed, volume, and download functionality
 - **Real-time Generation**: On-demand audio explanation creation
 
-### Multi-Language Support
-- **Supported Languages**: 30+ programming languages across 5 categories
-  - Compiled: C, C++, C#, Java, Fortran, ALGOL, COBOL, Visual Basic, Smalltalk
-  - Interpreted: Python, Ruby, Perl, Pascal, Lisp, BASIC, APL
-  - Scripting: PHP, VBScript, PowerShell, Bash, R, Lua
-  - Markup: HTML, XML, XHTML, SGML
-  - Functional: Haskell, F#, Scala, Erlang, Elixir, Clojure
+### Universal Multi-Language Support
+- **Supported Languages**: 270+ programming languages across 20+ categories
+  - **Core Languages**: C, C++, C#, Java, Python, JavaScript, TypeScript, Go, Rust, Swift
+  - **Compiled**: Fortran, ALGOL, COBOL, Visual Basic, Smalltalk, Ada, Nim
+  - **Interpreted**: Ruby, Perl, Pascal, Lisp, BASIC, APL, Julia, MATLAB
+  - **Scripting**: PHP, VBScript, PowerShell, Bash, R, Lua, Tcl
+  - **Markup & Data**: HTML, XML, YAML, JSON, TOML, CSS, SCSS, Less
+  - **Functional**: Haskell, Scala, Clojure, Erlang, Elixir, F#, Racket
+  - **🧪 Esoteric**: Brainfuck, LOLCODE, Whitespace, Malbolge, Befunge, INTERCAL, Ook!, Piet
+  - **🧬 Scientific**: J, IDL, GAMS, Mathematica/Wolfram, Scilab, GNU Octave, SageMath
+  - **🧙‍♂️ Blockchain**: Solidity, Vyper, Move, Cairo, Scilla, Michelson, Clarity
+  - **🧰 Configuration**: Makefile, HCL, Gradle DSL, CMake, Bazel/Starlark, Nix, Dockerfile, Ansible
+  - **🧩 Emerging**: Zig, Crystal, Bosque, V, Odin, Red, Pony, Grain
+  - **🧠 Metaprogramming**: Racket, Elixir, Nim, Hy, Template Haskell, Rust Macros
+  - **🧑‍🏫 Educational**: Kalaam (Hindi), Citrine, Hedy, Kojo, Snap!, TurtleStitch, Quorum, Greenfoot
+  - **Hardware Description**: Verilog, VHDL, ABEL, AHDL, Bluespec, Lava
+  - **Assembly**: ARM, x86, MIPS, SPARC, System/360
+  - **Logic Programming**: Prolog, ALF, Alma-0, Fril, Janus
+  - **Visual/Educational**: Scratch, Logo, Alice, Blockly, Karel
+  - **Non-English**: Chinese BASIC, Fjölnir (Icelandic), LSE (French), Lexico (Spanish), Rapira (Russian), ChaScript (Bengali), ezhil (Tamil)
 - **Monaco Integration**: Language-specific syntax highlighting and IntelliSense
 
 ### User Interface Components

@@ -216,6 +216,73 @@ export class UniversalErrorAnalyzer {
       case 'simulink':
         return this.analyzeMATLAB(code);
       
+      // Esoteric & Experimental Languages
+      case 'brainfuck': return this.analyzeBrainfuck(code);
+      case 'lolcode': return this.analyzeLOLCODE(code);
+      case 'whitespace': return this.analyzeWhitespace(code);
+      case 'malbolge': return this.analyzeMalbolge(code);
+      case 'befunge': return this.analyzeBefunge(code);
+      case 'intercal': return this.analyzeINTERCAL(code);
+      case 'ook': return this.analyzeOok(code);
+      case 'piet': return this.analyzePiet(code);
+      
+      // Scientific & Analytical Languages
+      case 'j-lang': return this.analyzeJ(code);
+      case 'idl': return this.analyzeIDL(code);
+      case 'gams': return this.analyzeGAMS(code);
+      case 'mathematica': return this.analyzeMathematica(code);
+      case 'scilab': return this.analyzeScilab(code);
+      case 'octave': return this.analyzeOctave(code);
+      case 'sage': return this.analyzeSage(code);
+      
+      // Blockchain & Smart Contract Languages
+      case 'solidity': return this.analyzeSolidity(code);
+      case 'vyper': return this.analyzeVyper(code);
+      case 'move': return this.analyzeMove(code);
+      case 'cairo': return this.analyzeCairo(code);
+      case 'scilla': return this.analyzeScilla(code);
+      case 'michelson': return this.analyzeMichelson(code);
+      case 'clarity': return this.analyzeClarity(code);
+      
+      // Configuration & Build Languages
+      case 'makefile': return this.analyzeMakefile(code);
+      case 'hcl': return this.analyzeHCL(code);
+      case 'gradle': return this.analyzeGradle(code);
+      case 'cmake': return this.analyzeCMake(code);
+      case 'bazel': return this.analyzeBazel(code);
+      case 'nix': return this.analyzeNix(code);
+      case 'dockerfile': return this.analyzeDockerfile(code);
+      case 'ansible': return this.analyzeAnsible(code);
+      
+      // Emerging or Niche Languages
+      case 'zig': return this.analyzeZig(code);
+      case 'crystal': return this.analyzeCrystal(code);
+      case 'bosque': return this.analyzeBosque(code);
+      case 'v-lang': return this.analyzeV(code);
+      case 'odin': return this.analyzeOdin(code);
+      case 'red': return this.analyzeRed(code);
+      case 'pony': return this.analyzePony(code);
+      case 'grain': return this.analyzeGrain(code);
+      
+      // Metaprogramming & Macro Languages
+      case 'racket': return this.analyzeRacket(code);
+      case 'elixir': return this.analyzeElixir(code);
+      case 'nim': return this.analyzeNim(code);
+      case 'hy': return this.analyzeHy(code);
+      case 'clojure-macros': return this.analyzeClojureMacros(code);
+      case 'template-haskell': return this.analyzeTemplateHaskell(code);
+      case 'rust-macros': return this.analyzeRustMacros(code);
+      
+      // Educational & Localized Languages
+      case 'kalaam': return this.analyzeKalaam(code);
+      case 'citrine': return this.analyzeCitrine(code);
+      case 'hedy': return this.analyzeHedy(code);
+      case 'kojo': return this.analyzeKojo(code);
+      case 'snap': return this.analyzeSnap(code);
+      case 'turtlestitch': return this.analyzeTurtleStitch(code);
+      case 'quorum': return this.analyzeQuorum(code);
+      case 'greenfoot': return this.analyzeGreenfoot(code);
+      
       default:
         return this.analyzeGeneric(code, language);
     }
@@ -853,6 +920,423 @@ export class UniversalErrorAnalyzer {
   private analyzeMATLAB(code: string) {
     const errors: CodeError[] = [];
     const suggestions = ['Use vectorized operations', 'Proper matrix operations'];
+    return { errors, suggestions };
+  }
+
+  // ========== NEW LANGUAGE ANALYZERS ==========
+  
+  // Esoteric & Experimental Languages
+  private analyzeBrainfuck(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Brainfuck uses only 8 commands: ><+-.,[]', 'Use online interpreters for testing'];
+    
+    const validChars = new Set('><+-.,[]');
+    for (let i = 0; i < code.length; i++) {
+      if (!validChars.has(code[i]) && code[i] !== '\n' && code[i] !== ' ') {
+        errors.push({
+          type: 'Invalid Character',
+          severity: 'error',
+          message: `Invalid character: ${code[i]}`,
+          line: 1,
+          column: i,
+          suggestion: 'Only use ><+-.,[] characters in Brainfuck',
+          category: 'syntax'
+        });
+      }
+    }
+    return { errors, suggestions };
+  }
+
+  private analyzeLOLCODE(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Start with HAI and end with KTHXBYE', 'Use proper LOLCODE syntax'];
+    
+    if (!code.includes('HAI')) {
+      errors.push({
+        type: 'Missing Program Start',
+        severity: 'error',
+        message: 'LOLCODE programs must start with HAI',
+        line: 1,
+        column: 0,
+        suggestion: 'Add HAI at the beginning',
+        category: 'syntax'
+      });
+    }
+    
+    if (!code.includes('KTHXBYE')) {
+      errors.push({
+        type: 'Missing Program End',
+        severity: 'error',
+        message: 'LOLCODE programs must end with KTHXBYE',
+        line: 1,
+        column: 0,
+        suggestion: 'Add KTHXBYE at the end',
+        category: 'syntax'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeWhitespace(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Whitespace uses only spaces, tabs, and newlines', 'Each command has specific whitespace patterns'];
+    
+    for (let i = 0; i < code.length; i++) {
+      if (code[i] !== ' ' && code[i] !== '\t' && code[i] !== '\n') {
+        errors.push({
+          type: 'Invalid Character',
+          severity: 'error',
+          message: 'Whitespace only allows spaces, tabs, and newlines',
+          line: 1,
+          column: i,
+          suggestion: 'Remove all visible characters',
+          category: 'syntax'
+        });
+      }
+    }
+    return { errors, suggestions };
+  }
+
+  private analyzeMalbolge(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Malbolge is intentionally difficult', 'Use specialized tools for Malbolge development'];
+    return { errors, suggestions };
+  }
+
+  private analyzeBefunge(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Befunge is a 2D language', 'Program flow changes direction with ><^v'];
+    return { errors, suggestions };
+  }
+
+  private analyzeINTERCAL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use PLEASE for politeness in INTERCAL', 'Follow INTERCAL conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeOok(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Ook! uses only Ook. Ook? Ook!', 'Based on Brainfuck semantics'];
+    return { errors, suggestions };
+  }
+
+  private analyzePiet(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Piet is a visual language using colors', 'Use Piet interpreters for execution'];
+    return { errors, suggestions };
+  }
+
+  // Scientific & Analytical Languages
+  private analyzeJ(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['J is array-oriented like APL', 'Use J-specific operators and syntax'];
+    return { errors, suggestions };
+  }
+
+  private analyzeIDL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['IDL is great for data analysis', 'Use proper IDL procedures and functions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeGAMS(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['GAMS is for optimization problems', 'Define sets, parameters, and equations properly'];
+    return { errors, suggestions };
+  }
+
+  private analyzeMathematica(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Mathematica/Wolfram Language syntax', 'Leverage symbolic computation features'];
+    return { errors, suggestions };
+  }
+
+  private analyzeScilab(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Scilab is similar to MATLAB', 'Use Scilab-specific functions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeOctave(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['GNU Octave is MATLAB-compatible', 'Use vectorized operations'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSage(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['SageMath combines many math libraries', 'Use Python-based syntax'];
+    return { errors, suggestions };
+  }
+
+  // Blockchain & Smart Contract Languages
+  private analyzeSolidity(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper Solidity pragma version', 'Implement security best practices', 'Handle gas optimization'];
+    
+    if (!code.includes('pragma solidity')) {
+      errors.push({
+        type: 'Missing Pragma',
+        severity: 'error',
+        message: 'Solidity files must specify pragma version',
+        line: 1,
+        column: 0,
+        suggestion: 'Add pragma solidity ^0.8.0; at the top',
+        category: 'syntax'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeVyper(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Vyper is Pythonic smart contract language', 'Focus on security and simplicity'];
+    return { errors, suggestions };
+  }
+
+  private analyzeMove(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Move focuses on resource safety', 'Use proper module and resource definitions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCairo(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Cairo is for StarkNet contracts', 'Use proper Cairo syntax and patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeScilla(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Scilla is functional and safe', 'Use proper contract structure'];
+    return { errors, suggestions };
+  }
+
+  private analyzeMichelson(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Michelson is stack-based', 'Use proper Tezos contract patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeClarity(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Clarity is decidable and safe', 'Use proper Stacks blockchain patterns'];
+    return { errors, suggestions };
+  }
+
+  // Configuration & Build Languages
+  private analyzeMakefile(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use tabs for indentation in Makefiles', 'Define proper targets and dependencies'];
+    
+    const lines = code.split('\n');
+    lines.forEach((line, index) => {
+      if (line.startsWith(' ') && line.includes(':')) {
+        errors.push({
+          type: 'Indentation Error',
+          severity: 'error',
+          message: 'Makefiles require tabs, not spaces',
+          line: index + 1,
+          column: 0,
+          suggestion: 'Use tabs for indentation',
+          category: 'syntax'
+        });
+      }
+    });
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeHCL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper HCL syntax', 'Follow Terraform conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeGradle(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Gradle DSL properly', 'Define dependencies correctly'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCMake(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use CMake best practices', 'Define targets and dependencies'];
+    return { errors, suggestions };
+  }
+
+  private analyzeBazel(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Bazel/Starlark syntax', 'Define build rules properly'];
+    return { errors, suggestions };
+  }
+
+  private analyzeNix(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Nix expression language', 'Define derivations properly'];
+    return { errors, suggestions };
+  }
+
+  private analyzeDockerfile(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper Dockerfile instructions', 'Optimize for layer caching'];
+    
+    if (!code.includes('FROM')) {
+      errors.push({
+        type: 'Missing Base Image',
+        severity: 'error',
+        message: 'Dockerfile must start with FROM instruction',
+        line: 1,
+        column: 0,
+        suggestion: 'Add FROM instruction at the beginning',
+        category: 'syntax'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeAnsible(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper Ansible YAML syntax', 'Define tasks and handlers correctly'];
+    return { errors, suggestions };
+  }
+
+  // Emerging or Niche Languages
+  private analyzeZig(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Zig focuses on safety and performance', 'Use proper error handling'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCrystal(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Crystal has Ruby-like syntax', 'Use static typing features'];
+    return { errors, suggestions };
+  }
+
+  private analyzeBosque(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Bosque is experimental from Microsoft', 'Use proper type annotations'];
+    return { errors, suggestions };
+  }
+
+  private analyzeV(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['V is simple and fast', 'Use proper V syntax'];
+    return { errors, suggestions };
+  }
+
+  private analyzeOdin(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Odin is data-oriented', 'Use proper procedures and structures'];
+    return { errors, suggestions };
+  }
+
+  private analyzeRed(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Red is full-stack language', 'Use proper Red syntax'];
+    return { errors, suggestions };
+  }
+
+  private analyzePony(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Pony is actor-model language', 'Use proper capability security'];
+    return { errors, suggestions };
+  }
+
+  private analyzeGrain(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Grain is functional language', 'Use proper pattern matching'];
+    return { errors, suggestions };
+  }
+
+  // Metaprogramming & Macro Languages
+  private analyzeRacket(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Racket is great for language design', 'Use proper macro definitions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeElixir(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Elixir is functional and concurrent', 'Use proper pattern matching'];
+    return { errors, suggestions };
+  }
+
+  private analyzeHy(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Hy is Lisp on Python', 'Use proper S-expressions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeClojureMacros(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Clojure macros wisely', 'Prefer functions over macros'];
+    return { errors, suggestions };
+  }
+
+  private analyzeTemplateHaskell(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Template Haskell enables metaprogramming', 'Use compile-time code generation'];
+    return { errors, suggestions };
+  }
+
+  private analyzeRustMacros(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Rust macros are hygienic', 'Use proper macro syntax'];
+    return { errors, suggestions };
+  }
+
+  // Educational & Localized Languages
+  private analyzeKalaam(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Kalaam uses Hindi keywords', 'Follow Kalaam syntax rules'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCitrine(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Citrine supports multiple human languages', 'Use proper object-oriented patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeHedy(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Hedy is beginner-friendly', 'Use gradual programming concepts'];
+    return { errors, suggestions };
+  }
+
+  private analyzeKojo(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Kojo is for learning programming', 'Use turtle graphics and Scala features'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSnap(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Snap! is visual block-based', 'Use proper block connections'];
+    return { errors, suggestions };
+  }
+
+  private analyzeTurtleStitch(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['TurtleStitch is for embroidery', 'Use proper stitching patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeQuorum(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Quorum is evidence-based language', 'Use proper accessibility features'];
+    return { errors, suggestions };
+  }
+
+  private analyzeGreenfoot(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Greenfoot is educational Java', 'Use proper actor-based programming'];
     return { errors, suggestions };
   }
   
