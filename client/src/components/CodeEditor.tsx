@@ -652,7 +652,7 @@ calculate-total: func [items [block!]] [
   };
 
   return (
-    <div className="flex-1 flex flex-col border border-blue-500/20 rounded-lg overflow-hidden bg-dark-elevated/50">
+    <div className="flex-1 flex flex-col border border-blue-500/20 rounded-lg overflow-hidden bg-dark-elevated/50 min-h-[500px]">
       {/* Code Editor Header */}
       <div className="bg-dark-elevated border-b border-blue-500/30 px-6 py-3">
         <div className="flex items-center justify-between">
@@ -709,11 +709,11 @@ calculate-total: func [items [block!]] [
       </div>
 
       {/* Monaco Editor Container */}
-      <div className="flex-1 relative border-t border-blue-500/10">
+      <div className="flex-1 relative border-t border-blue-500/10 min-h-[400px]">
         <div 
           ref={containerRef} 
-          className="absolute inset-0 bg-dark rounded-b-lg"
-          style={{ minHeight: '400px' }}
+          className="absolute inset-0 bg-dark rounded-b-lg w-full h-full"
+          style={{ minHeight: '400px', minWidth: '100%' }}
         />
         
         {/* Code is empty state - Centered in the middle */}
