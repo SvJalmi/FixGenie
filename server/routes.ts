@@ -86,29 +86,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Voice generation endpoints
+  // Voice generation endpoints - Fixed and Simplified
   app.post("/api/generate-voice", async (req, res) => {
     try {
+      console.log('Voice generation request received:', req.body);
+      
       const schema = z.object({
-        errorAnalysisId: z.number(),
-        errorIndex: z.number(),
-        voiceId: z.string(),
+        text: z.string().min(1, "Text is required"),
+        voiceId: z.string().optional().default("voice_us_male"),
         speed: z.number().min(0.5).max(2).optional().default(1.0),
       });
       
-      const { errorAnalysisId, errorIndex, voiceId, speed } = schema.parse(req.body);
+      const { text, voiceId, speed } = schema.parse(req.body);
       
-      const voiceGeneration = await errorAnalyzer.generateVoiceExplanation(
-        errorAnalysisId, 
-        errorIndex, 
-        voiceId, 
-        speed
-      );
+      console.log('Generating voice for text:', text.substring(0, 100) + '...');
       
-      res.json(voiceGeneration);
-    } catch (error) {
+      try {
+        // Try Murf TTS first
+        const { audioUrl, duration } = await generateSpeech(text, voiceId, {
+          speed,
+          format: 'mp3',
+        });
+        
+        console.log('Murf TTS successful:', audioUrl);
+        
+        res.json({
+          success: true,
+          audioUrl,
+          duration,
+          provider: 'murf',
+          text: text.substring(0, 200) + (text.length > 200 ? '...' : ''),
+          voiceId,
+          speed
+        });
+      } catch (murfError) {
+        console.log('Murf TTS failed, using browser fallback:', murfError.message);
+        
+        // Return browser TTS fallback
+        res.json({
+          success: true,
+          audioUrl: null, // Browser will handle TTS
+          duration: Math.ceil(text.length / 10), // Estimate: 10 chars per second
+          provider: 'browser',
+          text: text,
+          voiceId,
+          speed,
+          fallback: true,
+          message: 'Using browser text-to-speech as fallback'
+        });
+      }
+    } catch (validationError) {
+      console.error('Voice generation validation error:', validationError);
       res.status(400).json({ 
-        message: error instanceof Error ? error.message : "Failed to generate voice" 
+        success: false,
+        message: validationError instanceof Error ? validationError.message : "Invalid request parameters" 
       });
     }
   });

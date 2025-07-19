@@ -201,28 +201,43 @@ export default function Dashboard() {
     },
   });
 
-  // Generate voice mutation
+  // Generate voice mutation - Fixed to send proper data structure
   const generateVoiceMutation = useMutation({
     mutationFn: async (data: { 
-      errorAnalysisId: number; 
-      errorIndex: number; 
+      text: string;
       voiceId: string; 
       speed: number; 
     }) => {
       const response = await apiRequest('POST', '/api/generate-voice', data);
       return response.json();
     },
-    onSuccess: (voiceGeneration: VoiceGeneration) => {
-      if (voiceGeneration.audioUrl) {
-        setCurrentAudioUrl(voiceGeneration.audioUrl);
-        setIsVoicePlayerVisible(true);
-        toast({
-          title: "Voice Generated",
-          description: "Audio explanation is ready to play.",
-        });
+    onSuccess: (voiceGeneration: any) => {
+      console.log('Voice generation successful:', voiceGeneration);
+      
+      if (voiceGeneration.success) {
+        if (voiceGeneration.audioUrl) {
+          // Murf TTS success
+          setCurrentAudioUrl(voiceGeneration.audioUrl);
+          setIsVoicePlayerVisible(true);
+          toast({
+            title: "Voice Generated",
+            description: `Audio explanation ready (${voiceGeneration.provider})`,
+          });
+        } else if (voiceGeneration.fallback) {
+          // Browser TTS fallback
+          const utterance = new SpeechSynthesisUtterance(voiceGeneration.text);
+          utterance.rate = voiceGeneration.speed;
+          speechSynthesis.speak(utterance);
+          
+          toast({
+            title: "Voice Explanation",
+            description: "Using browser text-to-speech",
+          });
+        }
       }
     },
     onError: (error: Error) => {
+      console.error('Voice generation error:', error);
       toast({
         title: "Voice Generation Failed",
         description: error.message,
@@ -257,16 +272,57 @@ export default function Dashboard() {
       return;
     }
 
-    // Generate voice for the first error
-    handleGenerateVoice(0);
+    // Create comprehensive explanation for all errors
+    const allErrorsText = currentAnalysis.errors.map((error, index) => {
+      return `Error ${index + 1}: ${error.message} on line ${error.line}. 
+      ${error.suggestion || ''} 
+      ${error.fix ? `Fix: ${error.fix}` : ''}`;
+    }).join('\n\n');
+    
+    const explanationText = `
+      Code analysis complete. Found ${currentAnalysis.errors.length} ${currentAnalysis.errors.length === 1 ? 'issue' : 'issues'} in your ${currentAnalysis.language} code.
+      
+      ${allErrorsText}
+      
+      Please review these issues and apply the suggested fixes to improve your code quality.
+    `.trim();
+
+    console.log('Explaining all errors:', explanationText);
+
+    generateVoiceMutation.mutate({
+      text: explanationText,
+      voiceId: selectedVoice,
+      speed: speechSpeed,
+    });
   };
 
   const handleGenerateVoice = (errorIndex: number) => {
-    if (!currentAnalysis) return;
+    if (!currentAnalysis || !currentAnalysis.errors[errorIndex]) return;
+
+    const error = currentAnalysis.errors[errorIndex];
+    
+    // Create comprehensive error explanation text
+    const explanationText = `
+      Error found on line ${error.line}: ${error.message}
+      
+      Error type: ${error.type}
+      Severity: ${error.severity}
+      
+      ${error.suggestion ? `Suggestion: ${error.suggestion}` : ''}
+      
+      ${error.fix ? `Recommended fix: ${error.fix}` : ''}
+      
+      This error occurs because the code violates ${error.type} rules. 
+      ${error.severity === 'error' ? 'This must be fixed for the code to run properly.' : 
+        error.severity === 'warning' ? 'This should be addressed to improve code quality.' : 
+        'This is informational and can help improve your code.'}
+    `.trim();
+
+    console.log('Generating voice for error:', error);
+    console.log('Explanation text:', explanationText);
 
     generateVoiceMutation.mutate({
-      errorAnalysisId: currentAnalysis.id,
-      errorIndex,
+      text: explanationText,
       voiceId: selectedVoice,
       speed: speechSpeed,
     });
