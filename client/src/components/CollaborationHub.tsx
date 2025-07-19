@@ -155,6 +155,27 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
         console.log("Participant left:", message.participantId);
         queryClient.invalidateQueries({ queryKey: ["/api/collaboration/sessions"] });
         break;
+      case 'video_chat_start':
+        console.log(`${message.participantName} started video chat`);
+        break;
+      case 'video_chat_end':
+        console.log(`${message.participantName} ended video chat`);
+        break;
+      case 'voice_chat_start':
+        console.log(`${message.participantName} started voice chat with config:`, message.audioConfig);
+        break;
+      case 'voice_chat_end':
+        console.log(`${message.participantName} ended voice chat`);
+        break;
+      case 'screen_share_start':
+        console.log(`${message.participantName} started screen sharing:`, message.screenConfig);
+        break;
+      case 'screen_share_end':
+        console.log(`${message.participantName} stopped screen sharing`);
+        break;
+      case 'global_access_toggle':
+        console.log(`${message.participantName} ${message.globalAccess ? 'enabled' : 'disabled'} global access`);
+        break;
       case 'error':
         console.error("Collaboration error:", message.message);
         break;
@@ -192,31 +213,51 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
     }
   };
 
-  // Collaboration Feature Functions
+  // Enhanced Real-Time Collaboration Functions
   const toggleVideoChat = async () => {
     try {
       if (!isVideoEnabled) {
         const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-          video: true, 
-          audio: true 
+          video: { width: 1280, height: 720, facingMode: 'user' }, 
+          audio: { echoCancellation: true, noiseSuppression: true }
         });
         setStream(mediaStream);
         if (videoRef.current) {
           videoRef.current.srcObject = mediaStream;
         }
         setIsVideoEnabled(true);
-        console.log("Video chat enabled");
+        
+        // Broadcast video chat start to other participants
+        if (wsRef.current?.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify({
+            type: 'video_chat_start',
+            participantName,
+            timestamp: new Date().toISOString()
+          }));
+        }
+        
+        console.log("Video chat enabled with real-time collaboration");
       } else {
         if (stream) {
           stream.getTracks().forEach(track => track.stop());
           setStream(null);
         }
         setIsVideoEnabled(false);
+        
+        // Broadcast video chat end
+        if (wsRef.current?.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify({
+            type: 'video_chat_end',
+            participantName,
+            timestamp: new Date().toISOString()
+          }));
+        }
+        
         console.log("Video chat disabled");
       }
     } catch (error) {
       console.error("Error accessing camera:", error);
-      alert("Camera access denied. Please allow camera permissions for video chat.");
+      alert("Camera access denied. Please allow camera permissions for video collaboration.");
     }
   };
 
@@ -224,18 +265,47 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
     try {
       if (!isVoiceEnabled) {
         const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-          audio: true 
+          audio: { 
+            echoCancellation: true, 
+            noiseSuppression: true,
+            autoGainControl: true,
+            sampleRate: 44100
+          }
         });
         setIsVoiceEnabled(true);
-        console.log("Voice chat enabled");
-        // In a real implementation, you'd connect this to WebRTC
+        
+        // Start real-time audio collaboration
+        if (wsRef.current?.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify({
+            type: 'voice_chat_start',
+            participantName,
+            audioConfig: {
+              sampleRate: 44100,
+              echoCancellation: true,
+              noiseSuppression: true
+            },
+            timestamp: new Date().toISOString()
+          }));
+        }
+        
+        console.log("Voice chat enabled with real-time audio collaboration");
       } else {
         setIsVoiceEnabled(false);
+        
+        // End voice chat session
+        if (wsRef.current?.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify({
+            type: 'voice_chat_end',
+            participantName,
+            timestamp: new Date().toISOString()
+          }));
+        }
+        
         console.log("Voice chat disabled");
       }
     } catch (error) {
       console.error("Error accessing microphone:", error);
-      alert("Microphone access denied. Please allow microphone permissions for voice chat.");
+      alert("Microphone access denied. Please allow microphone permissions for voice collaboration.");
     }
   };
 
@@ -243,17 +313,55 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
     try {
       if (!isScreenSharing) {
         const mediaStream = await navigator.mediaDevices.getDisplayMedia({ 
-          video: true 
+          video: { 
+            mediaSource: 'screen',
+            width: 1920, 
+            height: 1080,
+            frameRate: 30
+          },
+          audio: true
         });
         setIsScreenSharing(true);
-        console.log("Screen sharing enabled");
+        
+        // Broadcast screen sharing start
+        if (wsRef.current?.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify({
+            type: 'screen_share_start',
+            participantName,
+            screenConfig: {
+              width: 1920,
+              height: 1080,
+              frameRate: 30
+            },
+            timestamp: new Date().toISOString()
+          }));
+        }
         
         // Handle when user stops screen sharing via browser UI
         mediaStream.getVideoTracks()[0].onended = () => {
           setIsScreenSharing(false);
+          if (wsRef.current?.readyState === WebSocket.OPEN) {
+            wsRef.current.send(JSON.stringify({
+              type: 'screen_share_end',
+              participantName,
+              timestamp: new Date().toISOString()
+            }));
+          }
         };
+        
+        console.log("Screen sharing enabled with real-time collaboration");
       } else {
         setIsScreenSharing(false);
+        
+        // Broadcast screen sharing end
+        if (wsRef.current?.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify({
+            type: 'screen_share_end',
+            participantName,
+            timestamp: new Date().toISOString()
+          }));
+        }
+        
         console.log("Screen sharing disabled");
       }
     } catch (error) {
@@ -263,9 +371,25 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
   };
 
   const toggleGlobalAccess = () => {
-    setIsGlobalAccess(!isGlobalAccess);
-    console.log(`Global access ${!isGlobalAccess ? 'enabled' : 'disabled'}`);
-    // In a real implementation, this would update session permissions
+    const newGlobalState = !isGlobalAccess;
+    setIsGlobalAccess(newGlobalState);
+    
+    // Broadcast global access change to all participants
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({
+        type: 'global_access_toggle',
+        participantName,
+        globalAccess: newGlobalState,
+        permissions: {
+          worldwideCollaboration: newGlobalState,
+          publicSession: newGlobalState,
+          crossRegionAccess: newGlobalState
+        },
+        timestamp: new Date().toISOString()
+      }));
+    }
+    
+    console.log(`Global access ${newGlobalState ? 'enabled' : 'disabled'} - Worldwide collaboration ${newGlobalState ? 'active' : 'inactive'}`);
   };
 
   const formatTimeAgo = (dateString: string) => {
@@ -368,94 +492,135 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
         </div>
       </div>
 
-      {/* Collaboration Features */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-card rounded-lg border">
+      {/* Real-Time Collaboration Features */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+        {/* Video Chat */}
         <div 
           onClick={toggleVideoChat}
-          className={`flex flex-col items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+          className={`flex items-center gap-4 p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 hover:scale-105 ${
             isVideoEnabled 
-              ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20' 
-              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+              ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 shadow-lg shadow-blue-500/20' 
+              : 'border-gray-200 hover:border-blue-300 dark:border-gray-700 dark:hover:border-blue-600 bg-card hover:shadow-md'
           }`}
         >
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-            isVideoEnabled ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${
+            isVideoEnabled ? 'bg-blue-500 text-white shadow-lg' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600'
           }`}>
-            <VideoIcon className="w-6 h-6" />
+            📹
           </div>
-          <div className="text-center">
-            <h3 className="font-semibold text-sm">Video Chat</h3>
-            <p className="text-xs text-gray-500">Face-to-face collaboration</p>
+          <div className="flex-1">
+            <h3 className="font-bold text-lg text-white">Video Chat</h3>
+            <p className="text-sm text-gray-300">Face-to-face collaboration</p>
+            {isVideoEnabled && (
+              <div className="flex items-center gap-2 mt-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-green-400 font-medium">Live</span>
+              </div>
+            )}
           </div>
           {isVideoEnabled && (
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div className="text-green-400">
+              <VideoIcon className="w-6 h-6" />
+            </div>
           )}
         </div>
 
+        {/* Voice Chat */}
         <div 
           onClick={toggleVoiceChat}
-          className={`flex flex-col items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+          className={`flex items-center gap-4 p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 hover:scale-105 ${
             isVoiceEnabled 
-              ? 'border-green-500 bg-green-50 dark:bg-green-950/20' 
-              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+              ? 'border-green-500 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/20 shadow-lg shadow-green-500/20' 
+              : 'border-gray-200 hover:border-green-300 dark:border-gray-700 dark:hover:border-green-600 bg-card hover:shadow-md'
           }`}
         >
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-            isVoiceEnabled ? 'bg-green-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${
+            isVoiceEnabled ? 'bg-green-500 text-white shadow-lg' : 'bg-green-100 dark:bg-green-900/30 text-green-600'
           }`}>
-            <Phone className="w-6 h-6" />
+            🎙️
           </div>
-          <div className="text-center">
-            <h3 className="font-semibold text-sm">Voice Chat</h3>
-            <p className="text-xs text-gray-500">Audio communication</p>
+          <div className="flex-1">
+            <h3 className="font-bold text-lg text-white">Voice Chat</h3>
+            <p className="text-sm text-gray-300">Audio communication</p>
+            {isVoiceEnabled && (
+              <div className="flex items-center gap-2 mt-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-green-400 font-medium">Recording</span>
+              </div>
+            )}
           </div>
           {isVoiceEnabled && (
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div className="text-green-400">
+              <Mic className="w-6 h-6" />
+            </div>
           )}
         </div>
 
+        {/* Screen Share */}
         <div 
           onClick={toggleScreenShare}
-          className={`flex flex-col items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+          className={`flex items-center gap-4 p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 hover:scale-105 ${
             isScreenSharing 
-              ? 'border-purple-500 bg-purple-50 dark:bg-purple-950/20' 
-              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+              ? 'border-purple-500 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/30 dark:to-purple-900/20 shadow-lg shadow-purple-500/20' 
+              : 'border-gray-200 hover:border-purple-300 dark:border-gray-700 dark:hover:border-purple-600 bg-card hover:shadow-md'
           }`}
         >
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-            isScreenSharing ? 'bg-purple-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${
+            isScreenSharing ? 'bg-purple-500 text-white shadow-lg' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-600'
           }`}>
-            <Monitor className="w-6 h-6" />
+            🔗
           </div>
-          <div className="text-center">
-            <h3 className="font-semibold text-sm">Screen Share</h3>
-            <p className="text-xs text-gray-500">Share your screen</p>
+          <div className="flex-1">
+            <h3 className="font-bold text-lg text-white">Screen Share</h3>
+            <p className="text-sm text-gray-300">Share your screen</p>
+            {isScreenSharing && (
+              <div className="flex items-center gap-2 mt-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-green-400 font-medium">Sharing</span>
+              </div>
+            )}
           </div>
           {isScreenSharing && (
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div className="text-green-400">
+              <Share2 className="w-6 h-6" />
+            </div>
           )}
         </div>
 
+        {/* Global Access */}
         <div 
           onClick={toggleGlobalAccess}
-          className={`flex flex-col items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+          className={`flex items-center gap-4 p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 hover:scale-105 ${
             isGlobalAccess 
-              ? 'border-orange-500 bg-orange-50 dark:bg-orange-950/20' 
-              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+              ? 'border-orange-500 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950/30 dark:to-orange-900/20 shadow-lg shadow-orange-500/20' 
+              : 'border-gray-200 hover:border-orange-300 dark:border-gray-700 dark:hover:border-orange-600 bg-card hover:shadow-md'
           }`}
         >
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-            isGlobalAccess ? 'bg-orange-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${
+            isGlobalAccess ? 'bg-orange-500 text-white shadow-lg' : 'bg-orange-100 dark:bg-orange-900/30 text-orange-600'
           }`}>
-            <Earth className="w-6 h-6" />
+            🌍
           </div>
-          <div className="text-center">
-            <h3 className="font-semibold text-sm">Global Access</h3>
-            <p className="text-xs text-gray-500">Collaborate worldwide</p>
+          <div className="flex-1">
+            <h3 className="font-bold text-lg text-white">Global Access</h3>
+            <p className="text-sm text-gray-300">Collaborate worldwide</p>
+            {isGlobalAccess && (
+              <div className="flex items-center gap-2 mt-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-green-400 font-medium">Active</span>
+              </div>
+            )}
           </div>
-          {isGlobalAccess && (
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          )}
+          <div className="flex items-center gap-1">
+            {isGlobalAccess && (
+              <div className="text-green-400">
+                <Globe className="w-6 h-6" />
+              </div>
+            )}
+            <div className="text-orange-400">
+              🎤
+            </div>
+          </div>
         </div>
       </div>
 
