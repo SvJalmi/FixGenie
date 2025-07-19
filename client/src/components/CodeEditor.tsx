@@ -398,22 +398,25 @@ ORDER BY total_sales DESC
           style={{ minHeight: '400px' }}
         />
         
-        {/* Code is empty state */}
+        {/* Code is empty state - Centered in the middle */}
         {!code.trim() && (
-          <div className="absolute inset-0 flex items-center justify-center bg-dark/50 backdrop-blur-sm">
-            <div className="text-center">
-              <AlertTriangle className="w-12 h-12 text-text-secondary mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-primary mb-2">
-                No Code to Analyze
-              </h3>
-              <p className="text-text-secondary mb-4">
-                Paste your {languageInfo?.name || 'code'} here or load a sample to get started
-              </p>
+          <div className="absolute inset-0 flex items-center justify-center bg-dark/80 backdrop-blur-sm z-10">
+            <div className="text-center space-y-6 px-8 py-12 max-w-md mx-auto">
+              <div className="space-y-4">
+                <AlertTriangle className="w-16 h-16 text-accent-yellow mx-auto animate-pulse" />
+                <h3 className="text-2xl font-bold text-text-primary">
+                  No Code to Analyze
+                </h3>
+                <p className="text-text-secondary text-base leading-relaxed">
+                  Paste your {languageInfo?.name || 'JavaScript'} here or load a sample to get started with FixGenie's AI-powered error analysis
+                </p>
+              </div>
               <Button 
                 onClick={loadSampleCode}
-                variant="outline"
-                className="border-dark-border text-text-primary hover:bg-dark-elevated"
+                size="lg"
+                className="bg-gradient-primary hover:opacity-90 text-white font-semibold px-8 py-3 rounded-xl shadow-glow transition-all duration-200 hover:scale-105"
               >
+                <Wand2 className="w-5 h-5 mr-2" />
                 Load Sample Code
               </Button>
             </div>
