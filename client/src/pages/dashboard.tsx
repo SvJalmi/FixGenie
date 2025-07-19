@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useMobile } from "@/hooks/use-mobile";
+import { useVoiceCommands, type VoiceCommand } from "@/hooks/useVoiceCommands";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import CodeEditor from "@/components/CodeEditor";
@@ -31,6 +32,141 @@ export default function Dashboard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const isMobile = useMobile();
+
+  // Define voice commands
+  const voiceCommands: VoiceCommand[] = [
+    {
+      command: "analyze_code",
+      keywords: ["analyze", "analyze code", "check code", "find errors", "scan code"],
+      action: () => handleAnalyzeCode(),
+      description: "Analyze the current code for errors"
+    },
+    {
+      command: "explain_errors",
+      keywords: ["explain", "explain errors", "read errors", "voice explanation", "speak errors"],
+      action: () => handleExplainErrors(),
+      description: "Generate voice explanation of errors"
+    },
+    {
+      command: "load_sample",
+      keywords: ["load sample", "sample code", "example code", "demo code", "load example"],
+      action: () => {
+        const samples = {
+          javascript: `function calculateTotal(items) {
+    let total = 0;
+    for (let i = 0; i < items.length; i++) {
+        total += items[i].price;
+    }
+    if (total > 100) {
+        total = total * 0.9 // Missing semicolon
+    }
+    return total.toFixed(2) // Should return string with currency symbol
+}`,
+          python: `def calculate_total(items):
+    total = 0
+    for item in items:
+        total += item['price']
+    if total > 100:
+        total = total * 0.9
+    return f"$" + str(total)`,
+          java: `public class Calculator {
+    public static double calculateTotal(Item[] items) {
+        double total = 0;
+        for (int i = 0; i < items.length; i++) {
+            total += items[i].getPrice();
+        }
+        if (total > 100) {
+            total = total * 0.9;
+        }
+        return total // Missing semicolon
+    }
+}`
+        };
+        setCode(samples[selectedLanguage] || samples.javascript);
+      },
+      description: "Load sample code for the current language"
+    },
+    {
+      command: "clear_code",
+      keywords: ["clear", "clear code", "delete code", "reset", "new file"],
+      action: () => setCode(""),
+      description: "Clear the code editor"
+    },
+    {
+      command: "change_language_javascript",
+      keywords: ["javascript", "change to javascript", "switch to javascript", "use javascript"],
+      action: () => setSelectedLanguage("javascript"),
+      description: "Switch to JavaScript"
+    },
+    {
+      command: "change_language_python",
+      keywords: ["python", "change to python", "switch to python", "use python"],
+      action: () => setSelectedLanguage("python"),
+      description: "Switch to Python"
+    },
+    {
+      command: "change_language_java",
+      keywords: ["java", "change to java", "switch to java", "use java"],
+      action: () => setSelectedLanguage("java"),
+      description: "Switch to Java"
+    },
+    {
+      command: "play_audio",
+      keywords: ["play", "play audio", "start playback", "listen", "hear explanation"],
+      action: () => setIsVoicePlayerVisible(true),
+      description: "Show voice player and play audio"
+    },
+    {
+      command: "stop_audio",
+      keywords: ["stop", "stop audio", "pause", "stop playback", "silence"],
+      action: () => setIsVoicePlayerVisible(false),
+      description: "Hide voice player and stop audio"
+    },
+    {
+      command: "show_help",
+      keywords: ["help", "commands", "what can you do", "voice commands", "assistance"],
+      action: () => {
+        const commandsList = voiceCommands.map(cmd => `• "${cmd.keywords[0]}" - ${cmd.description}`).join('\n');
+        toast({
+          title: "Available Voice Commands",
+          description: `Here are the available voice commands:\n\n${commandsList}`,
+        });
+      },
+      description: "Show available voice commands"
+    },
+    {
+      command: "switch_tab_code",
+      keywords: ["code editor", "show code", "code tab", "editor"],
+      action: () => setActiveTab("code"),
+      description: "Switch to Code Editor tab"
+    },
+    {
+      command: "switch_tab_ai",
+      keywords: ["ai mentor", "show ai", "mentor tab", "ai assistant"],
+      action: () => setActiveTab("ai"),
+      description: "Switch to AI Mentor tab"
+    },
+    {
+      command: "switch_tab_analytics",
+      keywords: ["analytics", "show analytics", "statistics", "metrics"],
+      action: () => setActiveTab("analytics"),
+      description: "Switch to Analytics tab"
+    },
+    {
+      command: "switch_tab_collaborate",
+      keywords: ["collaborate", "collaboration", "team", "share"],
+      action: () => setActiveTab("collaborate"),
+      description: "Switch to Collaboration tab"
+    }
+  ];
+
+  // Initialize voice commands
+  const { isListening, isSupported, toggleListening } = useVoiceCommands({
+    commands: voiceCommands,
+    language: 'en-US',
+    continuous: false,
+    interimResults: true
+  });
 
   // Fetch voices
   const { data: voices = [] } = useQuery<MurfVoice[]>({
@@ -160,11 +296,7 @@ export default function Dashboard() {
   };
 
   const handleVoiceCommand = () => {
-    // TODO: Implement voice command recognition
-    toast({
-      title: "Voice Commands",
-      description: "Voice command feature coming soon!",
-    });
+    toggleListening();
   };
 
   const handleHelp = () => {
@@ -355,6 +487,8 @@ export default function Dashboard() {
         onToggleVoice={() => setIsVoicePlayerVisible(!isVoicePlayerVisible)}
         isAnalyzing={analyzeCodeMutation.isPending}
         hasAudio={!!currentAudioUrl}
+        isListening={isListening}
+        isVoiceSupported={isSupported}
       />
       
       {/* Footer with FixGenie Branding */}
