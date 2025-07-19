@@ -6,7 +6,7 @@
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);
   --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
+  --muted-foreground: hsl(0, 0%, 85%);
   --popover: hsl(240, 10%, 3.9%);
   --popover-foreground: hsl(0, 0%, 98%);
   --card: hsl(240, 10%, 3.9%);
@@ -41,8 +41,8 @@
   --accent-red: hsl(0, 84%, 60%);
   --accent-pink: hsl(316, 73%, 52%);
   --text-primary: hsl(0, 0%, 98%);
-  --text-secondary: hsl(240, 5%, 64.9%);
-  --text-tertiary: hsl(240, 3.8%, 46.1%);
+  --text-secondary: hsl(0, 0%, 95%);
+  --text-tertiary: hsl(0, 0%, 90%);
 }
 
 .light {
@@ -284,6 +284,56 @@
     .recharts-responsive-container {
       height: 250px !important;
     }
+  }
+
+  /* Global text color overrides for better visibility */
+  .text-secondary {
+    color: hsl(0, 0%, 95%) !important;
+  }
+  
+  .text-muted-foreground {
+    color: hsl(0, 0%, 85%) !important;
+  }
+  
+  /* Force all text to be visible */
+  .text-gray-400,
+  .text-gray-500,
+  .text-gray-600 {
+    color: hsl(0, 0%, 90%) !important;
+  }
+  
+  /* Make CardDescription text more visible */
+  .text-muted-foreground,
+  [data-description] {
+    color: hsl(0, 0%, 85%) !important;
+  }
+
+  /* Override any grey text in components */
+  .text-secondary,
+  .text-muted-foreground,
+  .text-gray-400,
+  .text-gray-500,
+  .text-gray-600,
+  .text-slate-400,
+  .text-slate-500,
+  .text-slate-600 {
+    color: hsl(0, 0%, 90%) !important;
+  }
+
+  /* Make all text in cards visible */
+  .glass p,
+  .glass span,
+  .glass div,
+  .card-content p,
+  .card-content span,
+  .card-content div {
+    color: hsl(0, 0%, 90%) !important;
+  }
+
+  /* Specific component text visibility fixes */
+  [class*="text-secondary"],
+  [class*="text-muted"] {
+    color: hsl(0, 0%, 90%) !important;
   }
 
   /* Enhanced responsive design for all screen sizes */

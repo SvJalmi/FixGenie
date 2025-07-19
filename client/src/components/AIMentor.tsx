@@ -137,7 +137,7 @@ export function AIMentor({ code, language, onCodeSuggestion }: AIMentorProps) {
                 <Target className="h-4 w-4 md:h-5 md:w-5 text-accent-cyan" />
                 Personalized Mentorship
               </CardTitle>
-              <CardDescription className="text-xs md:text-sm text-secondary">
+              <CardDescription className="text-xs md:text-sm text-white/90">
                 Get AI-powered mentorship tailored to your coding journey and skill level.
               </CardDescription>
             </CardHeader>
@@ -245,7 +245,7 @@ export function AIMentor({ code, language, onCodeSuggestion }: AIMentorProps) {
                 <Zap className="h-4 w-4 md:h-5 md:w-5 text-accent-orange" />
                 Code Optimization
               </CardTitle>
-              <CardDescription className="text-xs md:text-sm text-secondary">
+              <CardDescription className="text-xs md:text-sm text-white/90">
                 AI-powered code optimization for performance, readability, and maintainability.
               </CardDescription>
             </CardHeader>
@@ -315,7 +315,7 @@ export function AIMentor({ code, language, onCodeSuggestion }: AIMentorProps) {
                 <Shield className="h-4 w-4 md:h-5 md:w-5 text-accent-blue" />
                 Security Audit
               </CardTitle>
-              <CardDescription className="text-xs md:text-sm text-secondary">
+              <CardDescription className="text-xs md:text-sm text-white/90">
                 Comprehensive security analysis with vulnerability detection and compliance checks.
               </CardDescription>
             </CardHeader>
@@ -390,7 +390,7 @@ export function AIMentor({ code, language, onCodeSuggestion }: AIMentorProps) {
                 <Code2 className="h-4 w-4 md:h-5 md:w-5 text-accent-green" />
                 Intelligent Suggestions
               </CardTitle>
-              <CardDescription className="text-xs md:text-sm text-secondary">
+              <CardDescription className="text-xs md:text-sm text-white/90">
                 AI-powered code suggestions for completion, refactoring, and improvements.
               </CardDescription>
             </CardHeader>
