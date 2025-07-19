@@ -63,10 +63,10 @@ export default function Sidebar({
   };
 
   return (
-    <aside className="w-80 bg-white border-r border-gray-200 flex flex-col">
+    <aside className="w-80 bg-elevated border-r border-border flex flex-col glass-card">
       {/* Language & Voice Settings */}
-      <div className="p-6 border-b border-gray-200 bg-white">
-        <h3 className="text-sm font-bold mb-4 text-black">Language & Voice Settings</h3>
+      <div className="p-6 border-b border-border glass">
+        <h3 className="text-sm font-bold mb-4 text-primary bg-gradient-to-r from-accent-purple to-accent-blue bg-clip-text text-transparent">Language & Voice Settings</h3>
         
         {/* Category Filter */}
         <div className="mb-4">

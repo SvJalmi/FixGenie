@@ -336,10 +336,10 @@ ORDER BY total_sales DESC
   return (
     <div className="flex-1 flex flex-col">
       {/* Code Editor Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-3">
+      <div className="bg-dark-elevated border-b border-dark-border px-6 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h2 className="text-sm font-semibold text-black">Code Editor</h2>
+            <h2 className="text-sm font-semibold text-text-primary">Code Editor</h2>
             <div className="flex items-center space-x-2">
               {errorCount > 0 && (
                 <>
@@ -394,20 +394,20 @@ ORDER BY total_sales DESC
       <div className="flex-1 relative">
         <div 
           ref={containerRef} 
-          className="absolute inset-0 bg-white"
+          className="absolute inset-0 bg-dark"
           style={{ minHeight: '400px' }}
         />
         
         {/* Code is empty state - Centered in the middle */}
         {!code.trim() && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/95 backdrop-blur-sm z-10">
+          <div className="absolute inset-0 flex items-center justify-center bg-dark/80 backdrop-blur-sm z-10">
             <div className="text-center space-y-6 px-8 py-12 max-w-md mx-auto">
               <div className="space-y-4">
                 <AlertTriangle className="w-16 h-16 text-accent-yellow mx-auto animate-pulse" />
-                <h3 className="text-2xl font-bold text-black">
+                <h3 className="text-2xl font-bold text-text-primary">
                   No Code to Analyze
                 </h3>
-                <p className="text-gray-600 text-base leading-relaxed">
+                <p className="text-text-secondary text-base leading-relaxed">
                   Paste your {languageInfo?.name || 'JavaScript'} here or load a sample to get started with FixGenie's AI-powered error analysis
                 </p>
               </div>
