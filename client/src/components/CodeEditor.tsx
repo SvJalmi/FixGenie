@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as monaco from 'monaco-editor';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Volume2, Wand2, AlertTriangle } from "lucide-react";
+import { Volume2, Wand2, AlertTriangle, Sparkles } from "lucide-react";
 import { configureMonaco, createErrorMarkers } from "@/lib/monaco";
 import { getLanguageById } from "@/lib/languages";
 import { useToast } from "@/hooks/use-toast";
@@ -15,7 +15,9 @@ interface CodeEditorProps {
   errors: ErrorDetail[];
   onAnalyze: () => void;
   onExplainErrors: () => void;
+  onCleanCode: () => void;
   isAnalyzing: boolean;
+  isCleaningCode: boolean;
 }
 
 export default function CodeEditor({
@@ -25,7 +27,9 @@ export default function CodeEditor({
   errors,
   onAnalyze,
   onExplainErrors,
+  onCleanCode,
   isAnalyzing,
+  isCleaningCode,
 }: CodeEditorProps) {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -694,16 +698,28 @@ calculate-total: func [items [block!]] [
               <Volume2 className="w-4 h-4 mr-2" />
               Explain Errors
             </Button>
-            <Button
-              onClick={onAnalyze}
-              disabled={isAnalyzing}
-              variant="outline"
-              size="sm"
-              className="border-dark-border text-text-primary hover:bg-dark-elevated"
-            >
-              <Wand2 className="w-4 h-4 mr-2" />
-              {isAnalyzing ? 'Analyzing...' : 'Analyze Code'}
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={onAnalyze}
+                disabled={isAnalyzing}
+                variant="outline"
+                size="sm"
+                className="border-dark-border text-text-primary hover:bg-dark-elevated"
+              >
+                <Wand2 className="w-4 h-4 mr-2" />
+                {isAnalyzing ? 'Analyzing...' : 'Analyze Code'}
+              </Button>
+              
+              <Button
+                onClick={onCleanCode}
+                disabled={isCleaningCode || !code.trim()}
+                size="sm"
+                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-0 shadow-lg"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                {isCleaningCode ? 'Cleaning...' : 'Clean Code'}
+              </Button>
+            </div>
           </div>
         </div>
       </div>

@@ -470,6 +470,134 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Clean Code endpoint with AI-powered improvements
+  app.post("/api/clean-code", async (req, res) => {
+    try {
+      const { code, language } = req.body;
+      
+      if (!code || !language) {
+        return res.status(400).json({ 
+          message: "Missing required fields: code and language are required" 
+        });
+      }
+
+      // Use OpenAI to clean and optimize code
+      const cleanCodePrompt = `You are an expert software engineer. Clean, format, and optimize the following ${language} code:
+
+Code to clean:
+\`\`\`${language}
+${code}
+\`\`\`
+
+Please provide:
+1. Clean, well-formatted code with proper indentation
+2. Remove unnecessary comments and add meaningful ones where needed
+3. Optimize for readability and performance
+4. Fix any obvious issues (missing semicolons, inconsistent naming, etc.)
+5. Follow best practices for ${language}
+
+Respond with JSON in this format:
+{
+  "cleanCode": "the cleaned and optimized code",
+  "improvements": ["list of improvements made"],
+  "explanation": "brief explanation of what was cleaned"
+}`;
+
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o', // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+            messages: [
+              {
+                role: 'system',
+                content: 'You are an expert code cleaner and formatter. Always respond with valid JSON.'
+              },
+              {
+                role: 'user',
+                content: cleanCodePrompt
+              }
+            ],
+            response_format: { type: "json_object" },
+            temperature: 0.3,
+            max_tokens: 2000,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        const cleanResult = JSON.parse(result.choices[0].message.content);
+
+        res.json({
+          cleanCode: cleanResult.cleanCode || code,
+          improvements: cleanResult.improvements || ['Basic formatting applied'],
+          explanation: cleanResult.explanation || 'Code cleaned and formatted',
+          success: true
+        });
+
+      } catch (openaiError) {
+        console.error('OpenAI cleaning error:', openaiError);
+        
+        // Fallback: Basic cleaning without AI
+        const basicCleanedCode = basicCodeCleaner(code, language);
+        
+        res.json({
+          cleanCode: basicCleanedCode,
+          improvements: ['Basic formatting and cleanup applied'],
+          explanation: 'Applied basic code formatting (AI cleaning unavailable)',
+          success: true
+        });
+      }
+
+    } catch (error) {
+      console.error('Code cleaning error:', error);
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to clean code",
+        success: false
+      });
+    }
+  });
+
+  // Helper function for basic code cleaning when AI is unavailable
+  function basicCodeCleaner(code: string, language: string): string {
+    let cleanedCode = code;
+    
+    try {
+      // Basic cleaning operations
+      cleanedCode = cleanedCode
+        .replace(/\r\n/g, '\n') // Normalize line endings
+        .replace(/\t/g, '  ') // Convert tabs to spaces
+        .split('\n')
+        .map(line => line.trimEnd()) // Remove trailing whitespace
+        .join('\n')
+        .replace(/\n{3,}/g, '\n\n'); // Remove excessive blank lines
+
+      // Language-specific basic cleaning
+      if (language === 'javascript' || language === 'typescript') {
+        // Add semicolons where obviously missing
+        cleanedCode = cleanedCode.replace(/([^;{}\s])\n/g, '$1;\n');
+      }
+      
+      if (language === 'python') {
+        // Basic Python formatting
+        cleanedCode = cleanedCode.replace(/,([^\s])/g, ', $1');
+      }
+      
+    } catch (error) {
+      console.error('Basic cleaning error:', error);
+      return code; // Return original if cleaning fails
+    }
+    
+    return cleanedCode;
+  }
+
   app.get("/api/analytics/dashboard/:userId", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId) || 1;

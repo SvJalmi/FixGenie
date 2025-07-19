@@ -28,6 +28,7 @@ export default function Dashboard() {
   const [maxCharacters] = useState(50000000);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("code");
+  const [isCleaningCode, setIsCleaningCode] = useState(false);
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -240,6 +241,35 @@ export default function Dashboard() {
     },
   });
 
+  // Clean Code mutation
+  const cleanCodeMutation = useMutation({
+    mutationFn: async (data: { code: string; language: string }) => {
+      const response = await apiRequest('POST', '/api/clean-code', data);
+      return response.json();
+    },
+    onSuccess: (result: { cleanCode: string; improvements: string[] }) => {
+      setCode(result.cleanCode);
+      setIsCleaningCode(false);
+      toast({
+        title: "Code Cleaned Successfully",
+        description: `Applied ${result.improvements.length} improvements to your code.`,
+      });
+      
+      // Automatically re-analyze the cleaned code
+      setTimeout(() => {
+        handleAnalyzeCode();
+      }, 500);
+    },
+    onError: (error: Error) => {
+      setIsCleaningCode(false);
+      toast({
+        title: "Code Cleaning Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleAnalyzeCode = () => {
     if (!code.trim()) {
       toast({
@@ -337,6 +367,23 @@ export default function Dashboard() {
         description: `Applied fix for line ${error.line}.`,
       });
     }
+  };
+
+  const handleCleanCode = () => {
+    if (!code.trim()) {
+      toast({
+        title: "No Code to Clean",
+        description: "Please enter some code first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsCleaningCode(true);
+    cleanCodeMutation.mutate({
+      code: code.trim(),
+      language: selectedLanguage,
+    });
   };
 
   const handleAnalysisSelect = (analysis: ErrorAnalysis) => {
@@ -467,7 +514,9 @@ export default function Dashboard() {
                     errors={currentAnalysis?.errors || []}
                     onAnalyze={handleAnalyzeCode}
                     onExplainErrors={handleExplainErrors}
+                    onCleanCode={handleCleanCode}
                     isAnalyzing={analyzeCodeMutation.isPending}
+                    isCleaningCode={isCleaningCode}
                   />
                 </div>
                 
