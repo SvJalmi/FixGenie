@@ -51,8 +51,8 @@ export default function FloatingActionButton({
               variant="outline"
               size="lg"
               disabled={isAnalyzing}
-              className={`${buttonSize} rounded-full shadow-lg border-dark-border bg-dark-elevated hover:bg-dark hover:text-text-primary mobile-touch-friendly ${
-                isAnalyzing ? 'animate-pulse' : ''
+              className={`${buttonSize} rounded-full shadow-glow border-border glass-card hover:bg-gradient-primary hover:text-white mobile-touch-friendly transition-all duration-300 ${
+                isAnalyzing ? 'animate-pulse bg-gradient-primary text-white' : ''
               }`}
               title="Quick Analyze"
             >
@@ -66,7 +66,7 @@ export default function FloatingActionButton({
               onClick={onToggleVoice}
               variant="outline"
               size="lg"
-              className={`${buttonSize} rounded-full shadow-lg border-dark-border bg-dark-elevated hover:bg-dark hover:text-text-primary mobile-touch-friendly`}
+              className={`${buttonSize} rounded-full shadow-glow border-border glass-card hover:bg-gradient-success hover:text-white mobile-touch-friendly transition-all duration-300`}
               title="Toggle Voice Playback"
             >
               <Volume2 className={`${iconSize} text-text-secondary`} />

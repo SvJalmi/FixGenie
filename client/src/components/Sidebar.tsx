@@ -63,21 +63,21 @@ export default function Sidebar({
   };
 
   return (
-    <aside className="w-80 bg-dark-elevated border-r border-dark-border flex flex-col">
+    <aside className="w-80 bg-elevated border-r border-border flex flex-col glass-card">
       {/* Language & Voice Settings */}
-      <div className="p-6 border-b border-dark-border">
-        <h3 className="text-sm font-semibold mb-4 text-text-primary">Language & Voice Settings</h3>
+      <div className="p-6 border-b border-border glass">
+        <h3 className="text-sm font-bold mb-4 text-primary bg-gradient-to-r from-accent-purple to-accent-blue bg-clip-text text-transparent">Language & Voice Settings</h3>
         
         {/* Category Filter */}
         <div className="mb-4">
-          <Label className="block text-xs font-medium text-text-secondary mb-2">
+          <Label className="block text-xs font-medium text-secondary mb-2">
             Category Filter
           </Label>
           <Select value={languageCategory} onValueChange={setLanguageCategory}>
-            <SelectTrigger className="w-full bg-dark border-dark-border text-text-primary">
+            <SelectTrigger className="w-full glass border-border text-primary hover:shadow-glow/50 transition-all">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="glass-card border-border">
               <SelectItem value="all">All Categories</SelectItem>
               {categories.map(category => (
                 <SelectItem key={category} value={category}>{category}</SelectItem>

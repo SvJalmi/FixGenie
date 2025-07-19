@@ -196,7 +196,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-dark text-text-primary">
+    <div className="min-h-screen bg-background text-foreground">
       <Header 
         charactersUsed={charactersUsed} 
         maxCharacters={maxCharacters}
@@ -240,27 +240,30 @@ export default function Dashboard() {
           ${isMobile && isSidebarOpen ? 'pointer-events-none' : ''}
         `}>
           {/* Tab Navigation */}
-          <div className="border-b border-dark-border bg-dark-elevated">
-            <div className="flex space-x-1 p-2">
+          <div className="border-b border-border bg-elevated glass-card">
+            <div className="flex space-x-1 p-3">
               {[
-                { id: "code", label: "Code Editor", icon: "💻" },
-                { id: "mentor", label: "AI Mentor", icon: "🧠" },
-                { id: "analytics", label: "Analytics", icon: "📊" },
-                { id: "collaborate", label: "Collaborate", icon: "👥" }
+                { id: "code", label: "Code Editor", icon: "💻", color: "accent-purple" },
+                { id: "mentor", label: "AI Mentor", icon: "🧠", color: "accent-blue" },
+                { id: "analytics", label: "Analytics", icon: "📊", color: "accent-cyan" },
+                { id: "collaborate", label: "Collaborate", icon: "👥", color: "accent-green" }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`
-                    px-4 py-2 rounded-lg text-sm font-medium transition-colors
+                    px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 relative overflow-hidden
                     ${activeTab === tab.id 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'text-text-secondary hover:text-text-primary hover:bg-dark-muted'
+                      ? 'bg-gradient-primary text-white shadow-glow transform scale-105' 
+                      : 'text-secondary hover:text-primary glass hover:shadow-glow/50'
                     }
                   `}
                 >
-                  <span className="mr-2">{tab.icon}</span>
-                  {tab.label}
+                  <span className="mr-2 text-base">{tab.icon}</span>
+                  <span className="font-semibold">{tab.label}</span>
+                  {activeTab === tab.id && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent animate-pulse" />
+                  )}
                 </button>
               ))}
             </div>

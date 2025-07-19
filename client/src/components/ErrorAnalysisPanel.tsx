@@ -58,11 +58,11 @@ export default function ErrorAnalysisPanel({
 
   if (errors.length === 0) {
     return (
-      <div className="w-96 bg-dark-elevated border-l border-dark-border flex flex-col">
-        <div className="p-4 border-b border-dark-border">
-          <h3 className="text-sm font-semibold text-text-primary mb-2">Error Analysis</h3>
+      <div className="w-96 bg-elevated border-l border-border flex flex-col glass-card">
+        <div className="p-4 border-b border-border glass">
+          <h3 className="text-sm font-bold text-primary mb-2 bg-gradient-to-r from-accent-green to-accent-cyan bg-clip-text text-transparent">Error Analysis</h3>
           <div className="flex items-center space-x-2 text-xs">
-            <span className="bg-success/20 text-success px-2 py-1 rounded">Clean Code</span>
+            <span className="bg-gradient-success text-white px-3 py-1 rounded-full shadow-success">Clean Code</span>
           </div>
         </div>
         
