@@ -2,7 +2,7 @@
 
 ## Overview
 
-FixGenie is the world's most advanced AI-powered code analysis platform that revolutionizes how developers learn, collaborate, and write code. Combining cutting-edge AI mentorship, real-time collaboration, intelligent code generation, and comprehensive analytics with high-quality text-to-speech capabilities across 150+ programming languages, FixGenie represents the next generation of developer tools.
+FixGenie is the world's most advanced AI-powered code analysis platform that revolutionizes how developers learn, debug, and optimize code. Featuring intelligent error detection with GPT-4o, high-quality Murf TTS explanations, comprehensive settings management, and user analytics across 320+ programming languages, FixGenie represents the next generation of developer debugging tools.
 
 ## Revolutionary Unique Features (July 2025)
 
@@ -83,7 +83,7 @@ Preferred communication style: Simple, everyday language.
 - **Real-time Generation**: On-demand audio explanation creation
 
 ### Universal Multi-Language Support  
-- **Supported Languages**: 400+ programming languages across 35+ categories (Current count: 320 languages)
+- **Supported Languages**: 320+ programming languages across 35+ specialized categories
   - **Core Languages**: C, C++, C#, Java, Python, JavaScript, TypeScript, Go, Rust, Swift
   - **Compiled**: Fortran, ALGOL, COBOL, Visual Basic, Smalltalk, Ada, Nim
   - **Interpreted**: Ruby, Perl, Pascal, Lisp, BASIC, APL, Julia, MATLAB

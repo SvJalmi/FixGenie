@@ -24,8 +24,8 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-sm text-white/80 text-center lg:text-left max-w-md">
-              The world's most advanced AI-powered code analysis platform with mentorship, 
-              real-time collaboration, and intelligent code generation across 150+ programming languages.
+              The world's most advanced AI-powered code analysis platform with intelligent error detection, 
+              high-quality TTS explanations, and comprehensive debugging across 320+ programming languages.
             </p>
           </div>
 
@@ -49,7 +49,7 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2 glass rounded-lg p-3">
               <Code className="h-4 w-4 text-accent-purple" />
-              <span className="text-xs text-white/90">150+ Languages</span>
+              <span className="text-xs text-white/90">320+ Languages</span>
             </div>
             <div className="flex items-center gap-2 glass rounded-lg p-3">
               <Heart className="h-4 w-4 text-accent-pink" />
