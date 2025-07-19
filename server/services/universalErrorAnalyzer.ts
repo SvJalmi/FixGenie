@@ -61,31 +61,161 @@ export class UniversalErrorAnalyzer {
   private getLanguageSpecificAnalysis(code: string, language: string) {
     const lang = language.toLowerCase();
     
+    // Main supported languages with dedicated analyzers
     switch (lang) {
+      // Web Technologies
       case 'javascript':
-      case 'typescript':
+      case 'javascript-client':
+      case 'javascript-func':
         return this.analyzeJavaScript(code);
-      case 'python':
-        return this.analyzePython(code);
-      case 'java':
-        return this.analyzeJava(code);
+      case 'typescript':
+        return this.analyzeTypeScript(code);
+      case 'html':
+      case 'xhtml':
+        return this.analyzeHTML(code);
+      case 'css':
+      case 'scss':
+      case 'less':
+        return this.analyzeCSS(code);
+      case 'php':
+      case 'php-func':
+      case 'php-server':
+        return this.analyzePHP(code);
+      
+      // Compiled Languages
       case 'c':
+        return this.analyzeC(code);
       case 'cpp':
       case 'c++':
+      case 'cpp-func':
+      case 'cpp-oop':
+      case 'cpp-multi':
         return this.analyzeCpp(code);
       case 'csharp':
       case 'c#':
+      case 'csharp-func':
+      case 'csharp-oop':
+      case 'csharp-multi':
         return this.analyzeCSharp(code);
-      case 'php':
-        return this.analyzePHP(code);
-      case 'ruby':
-        return this.analyzeRuby(code);
+      case 'java':
+      case 'java-oop':
+      case 'java-concurrent':
+        return this.analyzeJava(code);
       case 'go':
+      case 'go-concurrent':
         return this.analyzeGo(code);
       case 'rust':
         return this.analyzeRust(code);
       case 'swift':
         return this.analyzeSwift(code);
+      
+      // Interpreted Languages
+      case 'python':
+      case 'python-func':
+      case 'python-oop':
+        return this.analyzePython(code);
+      case 'ruby':
+      case 'ruby-oop':
+      case 'ruby-ext':
+        return this.analyzeRuby(code);
+      case 'perl':
+      case 'perl-ext':
+        return this.analyzePerl(code);
+      case 'lua':
+        return this.analyzeLua(code);
+      case 'r':
+        return this.analyzeR(code);
+      
+      // Functional Languages
+      case 'haskell':
+        return this.analyzeHaskell(code);
+      case 'scala':
+      case 'scala-concurrent':
+        return this.analyzeScala(code);
+      case 'clojure':
+      case 'clojure-concurrent':
+        return this.analyzeClojure(code);
+      case 'lisp':
+      case 'lisp-func':
+        return this.analyzeLisp(code);
+      
+      // Scripting Languages
+      case 'bash':
+        return this.analyzeBash(code);
+      case 'powershell':
+        return this.analyzePowerShell(code);
+      case 'vbscript':
+      case 'vbscript-server':
+      case 'vbscript-client':
+        return this.analyzeVBScript(code);
+      
+      // Markup and Data Languages
+      case 'xml':
+      case 'sgml':
+        return this.analyzeXML(code);
+      case 'json':
+        return this.analyzeJSON(code);
+      case 'yaml':
+        return this.analyzeYAML(code);
+      case 'sql':
+        return this.analyzeSQL(code);
+      
+      // System Languages
+      case 'ada':
+      case 'ada-multi':
+        return this.analyzeAda(code);
+      case 'nim':
+        return this.analyzeNim(code);
+      case 'fortran':
+        return this.analyzeFortran(code);
+      
+      // Assembly and Machine Languages
+      case 'arm':
+      case 'x86':
+      case 'mips':
+      case 'sparc':
+        return this.analyzeAssembly(code, lang);
+      
+      // Educational and Visual Languages
+      case 'scratch':
+      case 'scratch-edu':
+        return this.analyzeScratch(code);
+      case 'logo':
+        return this.analyzeLogo(code);
+      
+      // Hardware Description Languages
+      case 'verilog-ams':
+      case 'vhdl-ams':
+      case 'abel':
+      case 'ahdl':
+        return this.analyzeHDL(code, lang);
+      
+      // Logic Programming
+      case 'prolog':
+        return this.analyzeProlog(code);
+      
+      // Legacy and Non-English Languages
+      case 'cobol':
+        return this.analyzeCOBOL(code);
+      case 'algol':
+        return this.analyzeALGOL(code);
+      case 'pascal':
+        return this.analyzePascal(code);
+      case 'basic':
+      case 'visualbasic':
+      case 'vbnet':
+      case 'chinese-basic':
+        return this.analyzeBasic(code);
+      
+      // Concurrent and Parallel Languages
+      case 'julia':
+        return this.analyzeJulia(code);
+      
+      // Domain-Specific Languages
+      case 'matlab':
+      case 'simulink':
+        return this.analyzeMATLAB(code);
+      
       default:
         return this.analyzeGeneric(code, language);
     }
@@ -473,6 +603,268 @@ export class UniversalErrorAnalyzer {
     suggestions.push('Use camelCase for variables and functions');
     suggestions.push('Use PascalCase for types and protocols');
     return { errors, suggestions };
+  }
+
+  // ========== ADDITIONAL LANGUAGE ANALYZERS ==========
+  
+  private analyzeTypeScript(code: string) {
+    const jsAnalysis = this.analyzeJavaScript(code);
+    const errors = [...jsAnalysis.errors];
+    const suggestions = [...jsAnalysis.suggestions];
+    
+    // TypeScript-specific checks
+    if (!code.includes('interface') && !code.includes('type') && code.length > 100) {
+      suggestions.push('Consider using TypeScript interfaces or types for better type safety');
+    }
+    
+    if (code.includes('any')) {
+      errors.push({
+        type: 'Type Safety',
+        severity: 'warning',
+        message: 'Using "any" type reduces type safety',
+        line: this.findLineWithText(code, 'any'),
+        column: 0,
+        suggestion: 'Use specific types instead of "any"',
+        category: 'style'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+  
+  // Comprehensive language analyzers for major language families
+  private analyzeHTML(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions: string[] = [];
+    
+    if (code.includes('<img') && !code.includes('alt=')) {
+      errors.push({
+        type: 'Accessibility',
+        severity: 'warning',
+        message: 'Image missing alt attribute',
+        line: this.findLineWithText(code, '<img'),
+        column: 0,
+        suggestion: 'Add alt attribute for accessibility',
+        category: 'style'
+      });
+    }
+    
+    suggestions.push('Validate HTML using W3C validator');
+    suggestions.push('Use semantic HTML elements for better accessibility');
+    return { errors, suggestions };
+  }
+  
+  private analyzeCSS(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions: string[] = [];
+    
+    suggestions.push('Use CSS Grid or Flexbox for layouts');
+    suggestions.push('Consider using CSS variables for consistent theming');
+    return { errors, suggestions };
+  }
+  
+  private analyzePerl(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions: string[] = [];
+    
+    if (!code.includes('use strict;')) {
+      errors.push({
+        type: 'Best Practice',
+        severity: 'warning',
+        message: 'Missing "use strict;" pragma',
+        line: 1,
+        column: 0,
+        suggestion: 'Add "use strict;" at the beginning of your script',
+        category: 'style'
+      });
+    }
+    
+    suggestions.push('Use modern Perl practices and modules');
+    return { errors, suggestions };
+  }
+  
+  private analyzeLua(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions: string[] = [];
+    
+    const functionCount = (code.match(/\bfunction\b/g) || []).length;
+    const endCount = (code.match(/\bend\b/g) || []).length;
+    
+    if (functionCount > endCount) {
+      errors.push({
+        type: 'Syntax Error',
+        severity: 'error',
+        message: 'Missing "end" keyword for function',
+        line: this.findLineWithText(code, 'function'),
+        column: 0,
+        suggestion: 'Add "end" keyword to close function block',
+        category: 'syntax'
+      });
+    }
+    
+    suggestions.push('Use local variables when possible');
+    return { errors, suggestions };
+  }
+  
+  // Stub analyzers for comprehensive language support
+  private analyzeC(code: string) { return this.analyzeCpp(code); }
+  private analyzeR(code: string) { 
+    const errors: CodeError[] = [];
+    const suggestions = ['Use vectorized operations for better performance', 'Follow R style guide conventions'];
+    return { errors, suggestions };
+  }
+  private analyzeHaskell(code: string) { 
+    const errors: CodeError[] = [];
+    const suggestions = ['Use pattern matching effectively', 'Leverage Haskell\'s type system for safety'];
+    return { errors, suggestions };
+  }
+  private analyzeScala(code: string) { return this.analyzeJava(code); }
+  private analyzeClojure(code: string) { return this.analyzeLisp(code); }
+  private analyzeLisp(code: string) { 
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper parentheses balancing', 'Follow Lisp naming conventions'];
+    return { errors, suggestions };
+  }
+  private analyzeBash(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper quoting for variables', 'Add error checking with set -e'];
+    if (!code.includes('#!/bin/bash')) {
+      errors.push({
+        type: 'Missing Shebang',
+        severity: 'warning',
+        message: 'Missing shebang line',
+        line: 1,
+        column: 0,
+        suggestion: 'Add #!/bin/bash at the beginning',
+        category: 'style'
+      });
+    }
+    return { errors, suggestions };
+  }
+  private analyzePowerShell(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use approved verbs for functions', 'Add proper error handling'];
+    return { errors, suggestions };
+  }
+  private analyzeVBScript(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Option Explicit', 'Proper error handling with On Error Resume Next'];
+    return { errors, suggestions };
+  }
+  private analyzeXML(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Validate XML structure', 'Use proper namespaces'];
+    return { errors, suggestions };
+  }
+  private analyzeSQL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use parameterized queries to prevent SQL injection', 'Index frequently queried columns'];
+    return { errors, suggestions };
+  }
+  private analyzeJSON(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions: string[] = [];
+    
+    try {
+      JSON.parse(code);
+    } catch (error) {
+      errors.push({
+        type: 'JSON Syntax',
+        severity: 'error',
+        message: 'Invalid JSON format',
+        line: 1,
+        column: 0,
+        suggestion: 'Fix JSON syntax errors',
+        category: 'syntax'
+      });
+    }
+    return { errors, suggestions };
+  }
+  private analyzeYAML(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Check indentation consistency', 'Validate YAML syntax'];
+    return { errors, suggestions };
+  }
+  private analyzeAda(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Ada naming conventions', 'Proper package structure'];
+    return { errors, suggestions };
+  }
+  private analyzeNim(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Nim style guide', 'Leverage compile-time features'];
+    return { errors, suggestions };
+  }
+  private analyzeFortran(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use modern Fortran features', 'Proper array handling'];
+    return { errors, suggestions };
+  }
+  private analyzeAssembly(code: string, variant: string) {
+    const errors: CodeError[] = [];
+    const suggestions = [`Follow ${variant.toUpperCase()} assembly conventions`, 'Use comments to document register usage'];
+    return { errors, suggestions };
+  }
+  private analyzeScratch(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper sprite management', 'Add comments to blocks'];
+    return { errors, suggestions };
+  }
+  private analyzeLogo(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper turtle graphics commands', 'Add structured programming'];
+    return { errors, suggestions };
+  }
+  private analyzeHDL(code: string, lang: string) {
+    const errors: CodeError[] = [];
+    const suggestions = [`Follow ${lang.toUpperCase()} conventions`, 'Use proper signal declarations'];
+    return { errors, suggestions };
+  }
+  private analyzeProlog(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper fact and rule structure', 'Add cut operators carefully'];
+    return { errors, suggestions };
+  }
+  private analyzeCOBOL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Follow COBOL column structure', 'Use proper division organization'];
+    return { errors, suggestions };
+  }
+  private analyzeALGOL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use structured programming', 'Proper block structure'];
+    return { errors, suggestions };
+  }
+  private analyzePascal(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use proper Pascal syntax', 'Structure with procedures and functions'];
+    return { errors, suggestions };
+  }
+  private analyzeBasic(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use line numbers appropriately', 'Structure with subroutines'];
+    return { errors, suggestions };
+  }
+  private analyzeJulia(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use Julia type system effectively', 'Leverage multiple dispatch'];
+    return { errors, suggestions };
+  }
+  private analyzeMATLAB(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Use vectorized operations', 'Proper matrix operations'];
+    return { errors, suggestions };
+  }
+  
+  // ========== UTILITY METHODS ==========
+  private findLineWithText(code: string, searchText: string): number {
+    const lines = code.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].includes(searchText)) {
+        return i + 1;
+      }
+    }
+    return 1;
   }
 
   private analyzeGeneric(code: string, language: string) {
