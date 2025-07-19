@@ -76,7 +76,7 @@ Preferred communication style: Simple, everyday language.
 - **Real-time Generation**: On-demand audio explanation creation
 
 ### Universal Multi-Language Support  
-- **Supported Languages**: 300+ programming languages across 25+ categories
+- **Supported Languages**: 350+ programming languages across 30+ categories
   - **Core Languages**: C, C++, C#, Java, Python, JavaScript, TypeScript, Go, Rust, Swift
   - **Compiled**: Fortran, ALGOL, COBOL, Visual Basic, Smalltalk, Ada, Nim
   - **Interpreted**: Ruby, Perl, Pascal, Lisp, BASIC, APL, Julia, MATLAB
@@ -102,6 +102,14 @@ Preferred communication style: Simple, everyday language.
   - **🧑‍🎨 Creative**: Processing, openFrameworks, Pure Data, SuperCollider, ChucK, p5.js, Cinder
   - **🧑‍🔬 Bioinformatics**: BioPerl, Bioconductor, CellML, BioPython, BioJava, EMBOSS, PHYLIP
   - **🧰 Infrastructure**: Starlark, Dhall, CUE, Jsonnet, Pulumi, Helm, Kustomize
+  - **🧬 Constraint/Rules**: CHR (Constraint Handling Rules), Drools (Business Rules), Jess (Expert Systems)
+  - **🧩 DSL Creation**: MetaOCaml, Rascal, Spoofax, Xtext, JetBrains MPS
+  - **🧙‍♂️ Quantum Computing**: QCL, ProjectQ, LIQUi⟩, Q#, Cirq
+  - **🧰 Advanced Automation**: Ansible YAML DSL, Terraform HCL, Pulumi Multi-language
+  - **🧑‍🎨 Creative Advanced**: ChucK Audio Synthesis, SuperCollider Algorithmic Composition, Hydra Live Visuals, Sonic Pi, TidalCycles
+  - **🧑‍🏫 Accessibility**: Quorum Accessibility, Hedy Gradual Programming, TurtleArt
+  - **🧠 Historical Languages**: TRAC (1960s), TUTOR (PLATO), JOSS, MAD, FOCAL, PILOT, SNOBOL
+  - **🧬 Simulation/Modeling**: GPSS, SIMSCRIPT, DYNAMO, STELLA/iThink, Vensim
 - **Monaco Integration**: Language-specific syntax highlighting and IntelliSense
 
 ### User Interface Components

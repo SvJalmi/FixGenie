@@ -326,6 +326,58 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
   { id: 'pulumi', name: 'Pulumi (Infrastructure as Code)', category: 'Infrastructure', extension: '.ts', monacoId: 'typescript' },
   { id: 'helm', name: 'Helm Templates', category: 'Infrastructure', extension: '.tpl', monacoId: 'yaml' },
   { id: 'kustomize', name: 'Kustomize', category: 'Infrastructure', extension: '.yaml', monacoId: 'yaml' },
+
+  // 🧬 Constraint & Rule-Based Languages
+  { id: 'chr', name: 'CHR (Constraint Handling Rules)', category: 'Constraint', extension: '.chr', monacoId: 'prolog' },
+  { id: 'drools-advanced', name: 'Drools (Business Rules)', category: 'Constraint', extension: '.drl', monacoId: 'java' },
+  { id: 'jess-expert', name: 'Jess (Expert Systems)', category: 'Constraint', extension: '.clp', monacoId: 'lisp' },
+
+  // 🧩 DSL Creation & Meta-Programming Languages
+  { id: 'metaocaml', name: 'MetaOCaml', category: 'DSL-Creation', extension: '.ml', monacoId: 'ocaml' },
+  { id: 'rascal', name: 'Rascal', category: 'DSL-Creation', extension: '.rsc', monacoId: 'java' },
+  { id: 'spoofax', name: 'Spoofax', category: 'DSL-Creation', extension: '.sdf3', monacoId: 'plaintext' },
+  { id: 'xtext', name: 'Xtext', category: 'DSL-Creation', extension: '.xtext', monacoId: 'java' },
+  { id: 'jetbrains-mps', name: 'JetBrains MPS', category: 'DSL-Creation', extension: '.mps', monacoId: 'xml' },
+
+  // 🧙‍♂️ Quantum & Emerging Paradigms
+  { id: 'qcl', name: 'QCL (Quantum Computation Language)', category: 'Quantum', extension: '.qcl', monacoId: 'c' },
+  { id: 'projectq', name: 'ProjectQ', category: 'Quantum', extension: '.py', monacoId: 'python' },
+  { id: 'liquid', name: 'LIQUi⟩ (Microsoft Quantum)', category: 'Quantum', extension: '.fs', monacoId: 'fsharp' },
+  { id: 'qsharp', name: 'Q#', category: 'Quantum', extension: '.qs', monacoId: 'csharp' },
+  { id: 'cirq', name: 'Cirq', category: 'Quantum', extension: '.py', monacoId: 'python' },
+
+  // 🧰 Advanced Infrastructure & Automation
+  { id: 'ansible-advanced', name: 'Ansible YAML DSL', category: 'Automation', extension: '.yml', monacoId: 'yaml' },
+  { id: 'terraform-hcl', name: 'Terraform HCL', category: 'Automation', extension: '.tf', monacoId: 'hcl' },
+  { id: 'pulumi-advanced', name: 'Pulumi (Multi-language)', category: 'Automation', extension: '.ts', monacoId: 'typescript' },
+
+  // 🧑‍🎨 Creative & Generative Art Languages
+  { id: 'chuck-advanced', name: 'ChucK (Audio Synthesis)', category: 'Creative-Advanced', extension: '.ck', monacoId: 'c' },
+  { id: 'supercollider-advanced', name: 'SuperCollider (Algorithmic Composition)', category: 'Creative-Advanced', extension: '.sc', monacoId: 'javascript' },
+  { id: 'hydra', name: 'Hydra (Live Coding Visuals)', category: 'Creative-Advanced', extension: '.js', monacoId: 'javascript' },
+  { id: 'sonic-pi', name: 'Sonic Pi', category: 'Creative-Advanced', extension: '.rb', monacoId: 'ruby' },
+  { id: 'tidal-cycles', name: 'TidalCycles', category: 'Creative-Advanced', extension: '.tidal', monacoId: 'haskell' },
+
+  // 🧑‍🏫 Accessibility & Inclusive Learning Languages
+  { id: 'quorum-advanced', name: 'Quorum (Accessibility)', category: 'Accessibility', extension: '.quorum', monacoId: 'java' },
+  { id: 'hedy-advanced', name: 'Hedy (Gradual Programming)', category: 'Accessibility', extension: '.hedy', monacoId: 'python' },
+  { id: 'turtleart', name: 'TurtleArt', category: 'Accessibility', extension: '.ta', monacoId: 'xml' },
+
+  // 🧠 Historical & Forgotten Languages
+  { id: 'trac', name: 'TRAC (Text Processing)', category: 'Historical', extension: '.trac', monacoId: 'plaintext' },
+  { id: 'tutor', name: 'TUTOR (PLATO System)', category: 'Historical', extension: '.tutor', monacoId: 'plaintext' },
+  { id: 'joss', name: 'JOSS (Interactive Language)', category: 'Historical', extension: '.joss', monacoId: 'basic' },
+  { id: 'mad', name: 'MAD (Michigan Algorithm Decoder)', category: 'Historical', extension: '.mad', monacoId: 'fortran' },
+  { id: 'focal', name: 'FOCAL (PDP Computers)', category: 'Historical', extension: '.focal', monacoId: 'basic' },
+  { id: 'pilot', name: 'PILOT', category: 'Historical', extension: '.pilot', monacoId: 'plaintext' },
+  { id: 'snobol', name: 'SNOBOL', category: 'Historical', extension: '.sno', monacoId: 'plaintext' },
+
+  // 🧬 Simulation & Modeling Languages
+  { id: 'gpss', name: 'GPSS (General Purpose Simulation)', category: 'Simulation', extension: '.gps', monacoId: 'plaintext' },
+  { id: 'simscript', name: 'SIMSCRIPT', category: 'Simulation', extension: '.sim', monacoId: 'plaintext' },
+  { id: 'dynamo', name: 'DYNAMO (System Dynamics)', category: 'Simulation', extension: '.dyn', monacoId: 'plaintext' },
+  { id: 'stella', name: 'STELLA/iThink', category: 'Simulation', extension: '.stella', monacoId: 'plaintext' },
+  { id: 'vensim', name: 'Vensim', category: 'Simulation', extension: '.mdl', monacoId: 'plaintext' },
 ];
 
 export const getLanguageByCategory = (category: string): ProgrammingLanguage[] => {

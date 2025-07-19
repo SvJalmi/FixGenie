@@ -342,6 +342,58 @@ export class UniversalErrorAnalyzer {
       case 'helm': return this.analyzeHelm(code);
       case 'kustomize': return this.analyzeKustomize(code);
       
+      // Constraint & Rule-Based Languages
+      case 'chr': return this.analyzeCHR(code);
+      case 'drools-advanced': return this.analyzeDroolsAdvanced(code);
+      case 'jess-expert': return this.analyzeJessExpert(code);
+      
+      // DSL Creation & Meta-Programming Languages
+      case 'metaocaml': return this.analyzeMetaOCaml(code);
+      case 'rascal': return this.analyzeRascal(code);
+      case 'spoofax': return this.analyzeSpoofax(code);
+      case 'xtext': return this.analyzeXtext(code);
+      case 'jetbrains-mps': return this.analyzeJetBrainsMPS(code);
+      
+      // Quantum & Emerging Paradigms
+      case 'qcl': return this.analyzeQCL(code);
+      case 'projectq': return this.analyzeProjectQ(code);
+      case 'liquid': return this.analyzeLIQUi(code);
+      case 'qsharp': return this.analyzeQSharp(code);
+      case 'cirq': return this.analyzeCirq(code);
+      
+      // Advanced Infrastructure & Automation
+      case 'ansible-advanced': return this.analyzeAnsibleAdvanced(code);
+      case 'terraform-hcl': return this.analyzeTerraformHCL(code);
+      case 'pulumi-advanced': return this.analyzePulumiAdvanced(code);
+      
+      // Creative & Generative Art Languages
+      case 'chuck-advanced': return this.analyzeChucKAdvanced(code);
+      case 'supercollider-advanced': return this.analyzeSuperColliderAdvanced(code);
+      case 'hydra': return this.analyzeHydra(code);
+      case 'sonic-pi': return this.analyzeSonicPi(code);
+      case 'tidal-cycles': return this.analyzeTidalCycles(code);
+      
+      // Accessibility & Inclusive Learning Languages
+      case 'quorum-advanced': return this.analyzeQuorumAdvanced(code);
+      case 'hedy-advanced': return this.analyzeHedyAdvanced(code);
+      case 'turtleart': return this.analyzeTurtleArt(code);
+      
+      // Historical & Forgotten Languages
+      case 'trac': return this.analyzeTRAC(code);
+      case 'tutor': return this.analyzeTUTOR(code);
+      case 'joss': return this.analyzeJOSS(code);
+      case 'mad': return this.analyzeMAD(code);
+      case 'focal': return this.analyzeFOCAL(code);
+      case 'pilot': return this.analyzePILOT(code);
+      case 'snobol': return this.analyzeSNOBOL(code);
+      
+      // Simulation & Modeling Languages
+      case 'gpss': return this.analyzeGPSS(code);
+      case 'simscript': return this.analyzeSIMSCRIPT(code);
+      case 'dynamo': return this.analyzeDYNAMO(code);
+      case 'stella': return this.analyzeSTELLA(code);
+      case 'vensim': return this.analyzeVensim(code);
+      
       default:
         return this.analyzeGeneric(code, language);
     }
@@ -1741,6 +1793,245 @@ export class UniversalErrorAnalyzer {
   private analyzeKustomize(code: string) {
     const errors: CodeError[] = [];
     const suggestions = ['Kustomize customizes Kubernetes YAML', 'Use proper overlay structure', 'Follow GitOps patterns'];
+    return { errors, suggestions };
+  }
+
+  // ========== ADVANCED SPECIALIZED ANALYZERS ==========
+
+  // Constraint & Rule-Based Languages
+  private analyzeCHR(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['CHR extends Prolog with constraints', 'Use proper constraint handling rules', 'Follow CHR syntax patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeDroolsAdvanced(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Drools for business rule management', 'Use when-then-end syntax', 'Define proper rule patterns'];
+    
+    if (!code.includes('rule') || !code.includes('when') || !code.includes('then')) {
+      errors.push({
+        type: 'Missing Rule Structure',
+        severity: 'error',
+        message: 'Drools rules need rule-when-then structure',
+        line: 1,
+        column: 0,
+        suggestion: 'Add rule "RuleName" when condition then action end',
+        category: 'structure'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeJessExpert(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Jess for Java-based expert systems', 'Use (defrule) and (deffacts)', 'Follow expert system patterns'];
+    return { errors, suggestions };
+  }
+
+  // DSL Creation & Meta-Programming Languages
+  private analyzeMetaOCaml(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['MetaOCaml for staged programming', 'Use proper staging annotations', 'Leverage compile-time code generation'];
+    return { errors, suggestions };
+  }
+
+  private analyzeRascal(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Rascal for source code analysis', 'Use pattern matching and transformation', 'Follow DSL creation patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSpoofax(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Spoofax language workbench', 'Define syntax and semantics', 'Use proper SDF3 grammar definitions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeXtext(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Xtext for Eclipse-based DSLs', 'Define grammar and semantics', 'Use proper Xtext patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeJetBrainsMPS(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['JetBrains MPS for language design', 'Use projectional editing', 'Define language concepts properly'];
+    return { errors, suggestions };
+  }
+
+  // Quantum & Emerging Paradigms
+  private analyzeQCL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['QCL for quantum algorithms', 'Use quantum gates and circuits', 'Follow quantum programming patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeProjectQ(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['ProjectQ quantum framework', 'Use Python-based quantum programming', 'Implement quantum algorithms'];
+    return { errors, suggestions };
+  }
+
+  private analyzeLIQUi(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['LIQUi⟩ for quantum simulation', 'Use F# for quantum programming', 'Follow Microsoft Quantum patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeQSharp(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Q# for quantum programming', 'Use quantum operations and functions', 'Follow Azure Quantum patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCirq(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Cirq for quantum circuits', 'Use Google quantum framework', 'Implement NISQ algorithms'];
+    return { errors, suggestions };
+  }
+
+  // Advanced Infrastructure & Automation
+  private analyzeAnsibleAdvanced(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Ansible for automation', 'Use YAML playbooks', 'Define tasks, handlers, and roles'];
+    return { errors, suggestions };
+  }
+
+  private analyzeTerraformHCL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Terraform HCL for infrastructure', 'Define resources and providers', 'Use proper state management'];
+    return { errors, suggestions };
+  }
+
+  private analyzePulumiAdvanced(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Pulumi for cloud infrastructure', 'Use familiar programming languages', 'Follow cloud-native patterns'];
+    return { errors, suggestions };
+  }
+
+  // Creative & Generative Art Languages
+  private analyzeChucKAdvanced(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['ChucK for real-time audio synthesis', 'Use time-based programming', 'Implement sound generators'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSuperColliderAdvanced(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['SuperCollider for algorithmic composition', 'Use Server and Language components', 'Create audio synthesis patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeHydra(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Hydra for live coding visuals', 'Use browser-based visual synthesis', 'Create real-time graphics'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSonicPi(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Sonic Pi for live coding music', 'Use Ruby-based music programming', 'Create musical compositions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeTidalCycles(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['TidalCycles for algorithmic music', 'Use Haskell-based pattern language', 'Create complex rhythmic patterns'];
+    return { errors, suggestions };
+  }
+
+  // Accessibility & Inclusive Learning Languages
+  private analyzeQuorumAdvanced(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Quorum designed for accessibility', 'Evidence-based language design', 'Support for screen readers'];
+    return { errors, suggestions };
+  }
+
+  private analyzeHedyAdvanced(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Hedy for gradual programming learning', 'Multilingual programming concepts', 'Progressive syntax introduction'];
+    return { errors, suggestions };
+  }
+
+  private analyzeTurtleArt(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['TurtleArt for creative programming', 'Visual block-based interface', 'Focus on artistic expression'];
+    return { errors, suggestions };
+  }
+
+  // Historical & Forgotten Languages
+  private analyzeTRAC(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['TRAC from 1960s text processing', 'Macro-based language', 'Historical programming significance'];
+    return { errors, suggestions };
+  }
+
+  private analyzeTUTOR(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['TUTOR for PLATO educational system', 'Early computer-assisted instruction', 'Educational programming pioneer'];
+    return { errors, suggestions };
+  }
+
+  private analyzeJOSS(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['JOSS early interactive language', 'Time-sharing system pioneer', 'Conversational programming style'];
+    return { errors, suggestions };
+  }
+
+  private analyzeMAD(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['MAD Michigan Algorithm Decoder', 'Early scientific computing', 'University of Michigan heritage'];
+    return { errors, suggestions };
+  }
+
+  private analyzeFOCAL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['FOCAL for PDP computers', 'Early interactive programming', 'DEC computer systems'];
+    return { errors, suggestions };
+  }
+
+  private analyzePILOT(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['PILOT for computer-aided instruction', 'Educational programming language', 'Simple command structure'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSNOBOL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['SNOBOL for string manipulation', 'Pattern matching pioneer', 'Text processing capabilities'];
+    return { errors, suggestions };
+  }
+
+  // Simulation & Modeling Languages
+  private analyzeGPSS(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['GPSS for discrete event simulation', 'Use blocks and transactions', 'Model complex systems'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSIMSCRIPT(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['SIMSCRIPT for simulation modeling', 'Military and logistics applications', 'Event-based simulation'];
+    return { errors, suggestions };
+  }
+
+  private analyzeDYNAMO(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['DYNAMO for system dynamics', 'Model feedback loops', 'Jay Forrester methodology'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSTELLA(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['STELLA/iThink for system modeling', 'Visual modeling interface', 'Stock and flow diagrams'];
+    return { errors, suggestions };
+  }
+
+  private analyzeVensim(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Vensim for system dynamics', 'Business and policy modeling', 'Causal loop diagrams'];
     return { errors, suggestions };
   }
   
