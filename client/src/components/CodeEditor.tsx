@@ -721,14 +721,13 @@ calculate-total: func [items [block!]] [
           <div className="absolute inset-0 flex items-center justify-center bg-dark/80 backdrop-blur-sm z-10" style={{ paddingTop: '160px' }}>
             <div className="text-center space-y-6 px-8 py-8 max-w-md mx-auto">
               <div className="space-y-4">
+                <AlertTriangle className="w-16 h-16 text-accent-yellow mx-auto animate-pulse" />
                 <h3 className="text-2xl font-bold text-text-primary">
                   No Code to Analyze
                 </h3>
                 <p className="text-text-secondary text-base leading-relaxed">
                   Paste your {languageInfo?.name || 'JavaScript'} here or load a sample to get started with FixGenie's AI-powered error analysis
                 </p>
-              </div>
-              <div className="space-y-4">
                 <Button 
                   onClick={loadSampleCode}
                   size="lg"
@@ -737,7 +736,6 @@ calculate-total: func [items [block!]] [
                   <Wand2 className="w-5 h-5 mr-2" />
                   Load Sample Code
                 </Button>
-                <AlertTriangle className="w-16 h-16 text-accent-yellow mx-auto animate-pulse" />
               </div>
             </div>
           </div>
