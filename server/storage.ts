@@ -1,4 +1,6 @@
 import { users, errorAnalyses, voiceGenerations, type User, type InsertUser, type ErrorAnalysis, type InsertErrorAnalysis, type VoiceGeneration, type InsertVoiceGeneration } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -101,4 +103,78 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Database Storage implementation
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async createErrorAnalysis(analysis: InsertErrorAnalysis & { userId: number }): Promise<ErrorAnalysis> {
+    const [errorAnalysis] = await db
+      .insert(errorAnalyses)
+      .values({
+        ...analysis,
+        createdAt: new Date(),
+      })
+      .returning();
+    return errorAnalysis;
+  }
+
+  async getErrorAnalysis(id: number): Promise<ErrorAnalysis | undefined> {
+    const [analysis] = await db.select().from(errorAnalyses).where(eq(errorAnalyses.id, id));
+    return analysis || undefined;
+  }
+
+  async getUserErrorAnalyses(userId: number, limit: number = 10): Promise<ErrorAnalysis[]> {
+    return await db
+      .select()
+      .from(errorAnalyses)
+      .where(eq(errorAnalyses.userId, userId))
+      .orderBy(errorAnalyses.createdAt)
+      .limit(limit);
+  }
+
+  async getRecentAnalyses(userId: number, limit: number = 50): Promise<ErrorAnalysis[]> {
+    return this.getUserErrorAnalyses(userId, limit);
+  }
+
+  async createVoiceGeneration(generation: InsertVoiceGeneration): Promise<VoiceGeneration> {
+    const [voiceGeneration] = await db
+      .insert(voiceGenerations)
+      .values({
+        ...generation,
+        createdAt: new Date(),
+      })
+      .returning();
+    return voiceGeneration;
+  }
+
+  async getVoiceGeneration(id: number): Promise<VoiceGeneration | undefined> {
+    const [generation] = await db.select().from(voiceGenerations).where(eq(voiceGenerations.id, id));
+    return generation || undefined;
+  }
+
+  async getErrorVoiceGenerations(errorAnalysisId: number): Promise<VoiceGeneration[]> {
+    return await db
+      .select()
+      .from(voiceGenerations)
+      .where(eq(voiceGenerations.errorAnalysisId, errorAnalysisId))
+      .orderBy(voiceGenerations.createdAt);
+  }
+}
+
+export const storage = new DatabaseStorage();
