@@ -3,25 +3,53 @@ import { createServer, type Server } from "http";
 import { z } from "zod";
 import { storage } from "./storage";
 import { errorAnalyzer } from "./services/errorAnalyzer";
-import { getMurfVoices } from "./services/murf";
+import { getMurfVoices, generateSpeech } from "./services/murf";
 import { insertErrorAnalysisSchema } from "@shared/schema";
 import { generatePersonalizedMentorship, generateCodeOptimization, generateSecurityAudit } from "./services/aiMentor";
 import { collaborationManager } from "./services/realTimeCollaboration";
 import { generateIntelligentSuggestions, generateSmartRefactoring, suggestArchitecturalPatterns, generateFromNaturalLanguage, generateCodeFromImage } from "./services/intelligentCodeGen";
 import { analyzeCodeMetrics, generatePersonalizedInsights, calculateSkillProgression, generateAchievements, generateVisualizationData } from "./services/analytics";
 import { intelligentBackend } from "./services/intelligentBackend";
+import { universalErrorAnalyzer, type ErrorAnalysisResult } from "./services/universalErrorAnalyzer";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Error analysis endpoints
+  // Universal Code Error Analysis - Works with any programming language
   app.post("/api/analyze", async (req, res) => {
     try {
-      const { code, language } = insertErrorAnalysisSchema.parse(req.body);
-      const userId = 1; // TODO: Get from session/auth
+      const { code, language } = req.body;
       
-      const analysis = await errorAnalyzer.analyzeCode(code, language, userId);
+      if (!code || !language) {
+        return res.status(400).json({ 
+          message: "Missing required fields: code and language are required" 
+        });
+      }
+      
+      // Use universal error analyzer for comprehensive analysis
+      const analysis: ErrorAnalysisResult = universalErrorAnalyzer.analyzeCode(code, language);
+      
+      // Store analysis for user history (optional)
+      const userId = 1; // TODO: Get from session/auth
+      try {
+        await storage.createErrorAnalysis({
+          userId,
+          language,
+          code,
+          errors: analysis.errors.map(e => ({
+            type: e.type,
+            severity: e.severity,
+            message: e.message,
+            line: e.line,
+            column: e.column,
+            suggestion: e.suggestion
+          })),
+        });
+      } catch (storageError) {
+        console.log('Failed to store analysis, continuing with response:', storageError);
+      }
+      
       res.json(analysis);
     } catch (error) {
-      res.status(400).json({ 
+      res.status(500).json({ 
         message: error instanceof Error ? error.message : "Failed to analyze code" 
       });
     }
@@ -90,8 +118,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const voices = await getMurfVoices();
       res.json(voices);
     } catch (error) {
+      // Fallback voices when Murf API is not available
+      const fallbackVoices = [
+        { id: "voice_us_male", name: "US Male", language: "en-US", gender: "male" },
+        { id: "voice_us_female", name: "US Female", language: "en-US", gender: "female" },
+        { id: "voice_uk_male", name: "UK Male", language: "en-GB", gender: "male" },
+        { id: "voice_uk_female", name: "UK Female", language: "en-GB", gender: "female" }
+      ];
+      res.json(fallbackVoices);
+    }
+  });
+
+  // NEW: Direct TTS Generation for Error Explanations
+  app.post("/api/generate-error-speech", async (req, res) => {
+    try {
+      const { text, voiceId = "voice_us_male", speed = 1.0 } = req.body;
+      
+      if (!text) {
+        return res.status(400).json({ 
+          message: "Missing required field: text" 
+        });
+      }
+
+      try {
+        // Try Murf TTS first
+        const { audioUrl, duration } = await generateSpeech(text, voiceId, {
+          speed,
+          format: 'mp3',
+        });
+        
+        res.json({
+          success: true,
+          audioUrl,
+          duration,
+          provider: 'murf',
+          text: text
+        });
+      } catch (murfError) {
+        // Fallback: Return text and mock audio response
+        console.log('Murf TTS failed, providing fallback response:', murfError.message);
+        
+        res.json({
+          success: true,
+          audioUrl: null,
+          duration: Math.ceil(text.length / 10), // Estimate: ~10 chars per second
+          provider: 'fallback',
+          text: text,
+          message: 'TTS service temporarily unavailable. Text explanation provided.'
+        });
+      }
+    } catch (error) {
       res.status(500).json({ 
-        message: error instanceof Error ? error.message : "Failed to get voices" 
+        message: error instanceof Error ? error.message : "Failed to generate speech" 
       });
     }
   });
