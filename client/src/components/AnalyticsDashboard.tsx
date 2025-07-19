@@ -167,7 +167,7 @@ export function AnalyticsDashboard({ userId = 1 }: AnalyticsDashboardProps) {
     <div className="w-full space-y-3 md:space-y-6 analytics-dashboard">
       <div className="flex items-center gap-2 mb-3 md:mb-6 responsive-header">
         <Activity className="h-5 w-5 md:h-6 md:w-6 text-accent-blue" />
-        <h2 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">Analytics Dashboard</h2>
+        <h2 className="text-lg md:text-2xl font-bold text-white">Analytics Dashboard</h2>
         <Badge variant="secondary" className="bg-gradient-primary text-white text-xs shadow-glow">Premium</Badge>
       </div>
 
