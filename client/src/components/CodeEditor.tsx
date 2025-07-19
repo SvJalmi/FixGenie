@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Volume2, Wand2, AlertTriangle } from "lucide-react";
 import { configureMonaco, createErrorMarkers } from "@/lib/monaco";
 import { getLanguageById } from "@/lib/languages";
+import { useToast } from "@/hooks/use-toast";
 import type { ErrorDetail } from "@shared/schema";
 
 interface CodeEditorProps {
@@ -29,6 +30,7 @@ export default function CodeEditor({
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isEditorReady, setIsEditorReady] = useState(false);
+  const { toast } = useToast();
 
   const languageInfo = getLanguageById(language);
   const errorCount = errors.filter(e => e.severity === 'error').length;
@@ -617,9 +619,36 @@ calculate-total: func [items [block!]] [
     return samples[lang] || samples.javascript;
   };
 
-  const loadSampleCode = () => {
-    const sample = getSampleCode(language);
-    onCodeChange(sample);
+  const loadSampleCode = async () => {
+    try {
+      const response = await fetch(`/api/sample-code/${language}`);
+      const data = await response.json();
+      
+      if (data.success && data.code) {
+        onCodeChange(data.code);
+        toast({
+          title: "Sample Code Loaded",
+          description: `Loaded ${language} boilerplate code for analysis`,
+        });
+      } else {
+        // Fallback to JavaScript sample
+        const fallbackResponse = await fetch('/api/sample-code/javascript');
+        const fallbackData = await fallbackResponse.json();
+        onCodeChange(fallbackData.code || '// Sample code unavailable');
+        toast({
+          title: "Sample Code Loaded", 
+          description: `Loaded JavaScript sample (${language} not available)`,
+        });
+      }
+    } catch (error) {
+      // Emergency fallback to existing hardcoded samples
+      const sample = getSampleCode(language);
+      onCodeChange(sample);
+      toast({
+        title: "Sample Code Loaded",
+        description: "Loaded local sample code",
+      });
+    }
   };
 
   return (

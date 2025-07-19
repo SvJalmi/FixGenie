@@ -406,6 +406,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // NEW: Sample Code Generation API for All 320 Languages
+  app.get("/api/sample-code/:language", async (req, res) => {
+    try {
+      const language = req.params.language.toLowerCase();
+      const sampleCode = universalErrorAnalyzer.generateSampleCode(language);
+      
+      res.json({
+        language,
+        code: sampleCode,
+        success: true
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Failed to generate sample code",
+        success: false
+      });
+    }
+  });
+
   // Real-time Collaboration endpoints
   app.get("/api/collaboration/sessions", async (req, res) => {
     try {
