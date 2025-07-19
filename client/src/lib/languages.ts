@@ -378,6 +378,49 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
   { id: 'dynamo', name: 'DYNAMO (System Dynamics)', category: 'Simulation', extension: '.dyn', monacoId: 'plaintext' },
   { id: 'stella', name: 'STELLA/iThink', category: 'Simulation', extension: '.stella', monacoId: 'plaintext' },
   { id: 'vensim', name: 'Vensim', category: 'Simulation', extension: '.mdl', monacoId: 'plaintext' },
+
+  // 🧙‍♂️ Advanced Quantum & Theoretical Languages
+  { id: 'qcl-advanced', name: 'QCL (Quantum Computation Language)', category: 'Quantum-Advanced', extension: '.qcl', monacoId: 'c' },
+  { id: 'liquid-advanced', name: 'LIQUi⟩ (Microsoft Quantum Toolkit)', category: 'Quantum-Advanced', extension: '.fs', monacoId: 'fsharp' },
+  { id: 'openqasm', name: 'OpenQASM (IBM Quantum Assembly)', category: 'Quantum-Advanced', extension: '.qasm', monacoId: 'plaintext' },
+
+  // 🧰 Advanced Infrastructure & Automation DSLs
+  { id: 'bicep', name: 'Bicep (Azure IaC)', category: 'Infrastructure-Advanced', extension: '.bicep', monacoId: 'json' },
+  { id: 'tiltfile', name: 'Tiltfile (Kubernetes Workflow)', category: 'Infrastructure-Advanced', extension: '.tilt', monacoId: 'python' },
+  { id: 'cue-advanced', name: 'CUE (Configuration with Validation)', category: 'Infrastructure-Advanced', extension: '.cue', monacoId: 'json' },
+
+  // 🧑‍🎨 Advanced Creative & Multimedia Languages
+  { id: 'fluxus', name: 'Fluxus (Live Coding Visuals)', category: 'Creative-Multimedia', extension: '.scm', monacoId: 'scheme' },
+  { id: 'gibber', name: 'Gibber (Browser Live Coding)', category: 'Creative-Multimedia', extension: '.js', monacoId: 'javascript' },
+  { id: 'impromptu', name: 'Impromptu (Live Audio/Visual)', category: 'Creative-Multimedia', extension: '.scm', monacoId: 'scheme' },
+
+  // 🧠 Obsolete & Ultra-Rare Languages
+  { id: 'rexx', name: 'REXX (IBM Scripting)', category: 'Obsolete', extension: '.rexx', monacoId: 'plaintext' },
+  { id: 'egl', name: 'EGL (Enterprise Generation Language)', category: 'Obsolete', extension: '.egl', monacoId: 'plaintext' },
+  { id: 'cms2', name: 'CMS-2 (Military Systems)', category: 'Obsolete', extension: '.cms', monacoId: 'plaintext' },
+  { id: 'jovial', name: 'JOVIAL (Aerospace/Defense)', category: 'Obsolete', extension: '.jov', monacoId: 'plaintext' },
+  { id: 'natural', name: 'NATURAL (4GL Adabas)', category: 'Obsolete', extension: '.nsn', monacoId: 'plaintext' },
+
+  // 🧬 Hardware & Platform-Specific Languages
+  { id: 'opencl-c', name: 'OpenCL C (GPU Programming)', category: 'Hardware-Specific', extension: '.cl', monacoId: 'c' },
+  { id: 'shaderlab', name: 'ShaderLab (Unity Shaders)', category: 'Hardware-Specific', extension: '.shader', monacoId: 'hlsl' },
+  { id: 'vhdl-ams', name: 'VHDL-AMS (Analog/Mixed-Signal)', category: 'Hardware-Specific', extension: '.vhd', monacoId: 'vhdl' },
+  { id: 'systemverilog', name: 'SystemVerilog (Hardware Design)', category: 'Hardware-Specific', extension: '.sv', monacoId: 'verilog' },
+
+  // 🧩 Language Design & Transformation Languages
+  { id: 'txl', name: 'TXL (Source Transformation)', category: 'Language-Design', extension: '.txl', monacoId: 'plaintext' },
+  { id: 'asf-sdf', name: 'ASF+SDF (Algebraic Specification)', category: 'Language-Design', extension: '.asf', monacoId: 'plaintext' },
+  { id: 'stratego-xt', name: 'Stratego/XT (Program Transformation)', category: 'Language-Design', extension: '.str', monacoId: 'plaintext' },
+
+  // 🧙‍♀️ Security & Formal Methods Languages
+  { id: 'spark-ada', name: 'SPARK Ada (High-Integrity)', category: 'Security-Formal', extension: '.ads', monacoId: 'ada' },
+  { id: 'cryptol', name: 'Cryptol (Cryptographic Algorithms)', category: 'Security-Formal', extension: '.cry', monacoId: 'haskell' },
+  { id: 'fstar', name: 'F* (Verification-Oriented)', category: 'Security-Formal', extension: '.fst', monacoId: 'fsharp' },
+
+  // 🧑‍🎨 Live Coding & Performance Languages
+  { id: 'impromptu-performance', name: 'Impromptu (Performance)', category: 'Live-Performance', extension: '.scm', monacoId: 'scheme' },
+  { id: 'extempore', name: 'Extempore (Real-time Multimedia)', category: 'Live-Performance', extension: '.xtm', monacoId: 'lisp' },
+  { id: 'tidal-cycles-performance', name: 'TidalCycles (Live Music)', category: 'Live-Performance', extension: '.tidal', monacoId: 'haskell' },
 ];
 
 export const getLanguageByCategory = (category: string): ProgrammingLanguage[] => {

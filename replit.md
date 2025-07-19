@@ -76,7 +76,7 @@ Preferred communication style: Simple, everyday language.
 - **Real-time Generation**: On-demand audio explanation creation
 
 ### Universal Multi-Language Support  
-- **Supported Languages**: 350+ programming languages across 30+ categories
+- **Supported Languages**: 400+ programming languages across 35+ categories
   - **Core Languages**: C, C++, C#, Java, Python, JavaScript, TypeScript, Go, Rust, Swift
   - **Compiled**: Fortran, ALGOL, COBOL, Visual Basic, Smalltalk, Ada, Nim
   - **Interpreted**: Ruby, Perl, Pascal, Lisp, BASIC, APL, Julia, MATLAB
@@ -110,6 +110,14 @@ Preferred communication style: Simple, everyday language.
   - **🧑‍🏫 Accessibility**: Quorum Accessibility, Hedy Gradual Programming, TurtleArt
   - **🧠 Historical Languages**: TRAC (1960s), TUTOR (PLATO), JOSS, MAD, FOCAL, PILOT, SNOBOL
   - **🧬 Simulation/Modeling**: GPSS, SIMSCRIPT, DYNAMO, STELLA/iThink, Vensim
+  - **🧙‍♂️ Advanced Quantum**: QCL, LIQUi⟩ Toolkit, OpenQASM (IBM)
+  - **🧰 Advanced Infrastructure**: Bicep (Azure), Tiltfile (Kubernetes), CUE Advanced
+  - **🧑‍🎨 Multimedia Advanced**: Fluxus, Gibber, Impromptu
+  - **🧠 Obsolete/Ultra-Rare**: REXX, EGL, CMS-2, JOVIAL, NATURAL
+  - **🧬 Hardware-Specific**: OpenCL C, ShaderLab, VHDL-AMS, SystemVerilog
+  - **🧩 Language Design**: TXL, ASF+SDF, Stratego/XT
+  - **🧙‍♀️ Security/Formal**: SPARK Ada, Cryptol, F*
+  - **🧑‍🎨 Live Performance**: Impromptu Performance, Extempore, TidalCycles Performance
 - **Monaco Integration**: Language-specific syntax highlighting and IntelliSense
 
 ### User Interface Components
