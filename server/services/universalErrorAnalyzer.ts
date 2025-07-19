@@ -56,8 +56,20 @@ export class UniversalErrorAnalyzer {
         fixedCode = aiLogicalAnalysis.fixedCode;
       }
     } catch (error) {
-      console.log('Logical error analysis fallback');
-      // Continue with standard analysis if AI fails
+      console.log('AI analysis failed, using pattern-based analysis fallback:', error.message);
+      
+      // Fallback: Use pattern-based detection only
+      try {
+        const patternLogicalErrors = logicalErrorAnalyzer.detectCommonLogicalErrors(code, language);
+        errors.push(...patternLogicalErrors);
+        
+        // Generate fallback explanation based on detected patterns
+        if (patternLogicalErrors.length > 0) {
+          explanation = `Code analysis completed using pattern detection. Found ${patternLogicalErrors.length} potential issues that need attention.`;
+        }
+      } catch (patternError) {
+        console.log('Pattern analysis also failed, continuing with basic analysis:', patternError.message);
+      }
     }
     errors.push(...languageAnalysis.errors);
     suggestions.push(...languageAnalysis.suggestions);
@@ -67,8 +79,10 @@ export class UniversalErrorAnalyzer {
     errors.push(...universalAnalysis.errors);
     suggestions.push(...universalAnalysis.suggestions);
 
-    // Generate comprehensive explanation
-    explanation = this.generateExplanation(errors, language);
+    // Generate comprehensive explanation (only if we don't already have one from AI analysis)
+    if (!explanation) {
+      explanation = this.generateExplanation(errors, language);
+    }
     
     // Attempt to fix common errors
     fixedCode = this.generateFixedCode(code, errors, language);
