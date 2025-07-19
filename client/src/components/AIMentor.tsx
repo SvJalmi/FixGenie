@@ -108,7 +108,7 @@ export function AIMentor({ code, language, onCodeSuggestion }: AIMentorProps) {
     <div className="w-full space-y-3 md:space-y-4 ai-mentor-container">
       <div className="flex items-center gap-2 mb-3 md:mb-4 responsive-header">
         <Brain className="h-5 w-5 md:h-6 md:w-6 text-accent-purple" />
-        <h2 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-accent-purple to-accent-blue bg-clip-text text-transparent">AI Mentor</h2>
+        <h2 className="text-lg md:text-2xl font-bold text-white">AI Mentor</h2>
         <Badge variant="secondary" className="bg-gradient-primary text-white text-xs shadow-glow">Advanced</Badge>
       </div>
 
