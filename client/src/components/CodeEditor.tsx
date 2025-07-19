@@ -718,7 +718,7 @@ calculate-total: func [items [block!]] [
         
         {/* Code is empty state - Centered in the middle */}
         {!code.trim() && (
-          <div className="absolute inset-0 flex items-center justify-center bg-dark/80 backdrop-blur-sm z-10" style={{ paddingTop: '80px' }}>
+          <div className="absolute inset-0 flex items-center justify-center bg-dark/80 backdrop-blur-sm z-10" style={{ paddingTop: '120px' }}>
             <div className="text-center space-y-6 px-8 py-8 max-w-md mx-auto">
               <div className="space-y-4">
                 <AlertTriangle className="w-16 h-16 text-accent-yellow mx-auto animate-pulse" />
