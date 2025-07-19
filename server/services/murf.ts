@@ -22,7 +22,7 @@ export async function generateSpeech(text: string, voiceId: string, options?: {
     const response = await fetch(`${MURF_API_BASE}/speech/generate`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${MURF_API_KEY}`,
+        'api-key': MURF_API_KEY,
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
@@ -30,11 +30,11 @@ export async function generateSpeech(text: string, voiceId: string, options?: {
         text: text,
         voiceId: voiceId,
         format: (options?.format || 'MP3').toUpperCase(),
-        model: "GEN2",
-        base64: false,
+        modelVersion: "GEN2",
+        encodeAsBase64: false,
         style: "conversational",
         sampleRate: 44100,
-        channelType: "stereo"
+        channelType: "STEREO"
       }),
     });
 
@@ -51,7 +51,7 @@ export async function generateSpeech(text: string, voiceId: string, options?: {
     
     return {
       audioUrl: result.audioFile || result.audio_url || result.url,
-      duration: result.duration || 0,
+      duration: result.audioLengthInSeconds || result.duration || 0,
     };
   } catch (error) {
     console.error('Error generating speech:', error);
@@ -68,7 +68,7 @@ export async function getMurfVoices(): Promise<MurfVoice[]> {
   try {
     const response = await fetch(`${MURF_API_BASE}/speech/voices`, {
       headers: {
-        'Authorization': `Bearer ${MURF_API_KEY}`,
+        'api-key': MURF_API_KEY,
         'Accept': 'application/json',
       },
     });
