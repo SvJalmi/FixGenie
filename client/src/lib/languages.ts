@@ -422,19 +422,13 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
   { id: 'extempore', name: 'Extempore (Real-time Multimedia)', category: 'Live-Performance', extension: '.xtm', monacoId: 'lisp' },
   { id: 'tidal-cycles-performance', name: 'TidalCycles (Live Music)', category: 'Live-Performance', extension: '.tidal', monacoId: 'haskell' },
 
-  // 🧪 Emerging & Specialized Languages
-  { id: 'bosque', name: 'Bosque', category: 'Emerging & Specialized', extension: '.bsq', monacoId: 'typescript' },
-  { id: 'zig', name: 'Zig', category: 'Emerging & Specialized', extension: '.zig', monacoId: 'c' },
-  { id: 'v-lang', name: 'V', category: 'Emerging & Specialized', extension: '.v', monacoId: 'go' },
+  // 🧪 Additional Emerging Languages
   { id: 'carbon', name: 'Carbon', category: 'Emerging & Specialized', extension: '.carbon', monacoId: 'cpp' },
   { id: 'vale', name: 'Vale', category: 'Emerging & Specialized', extension: '.vale', monacoId: 'rust' },
 
   // 🧠 AI & ML-Focused Languages
   { id: 'mojo', name: 'Mojo', category: 'AI & ML-Focused', extension: '.mojo', monacoId: 'python' },
   { id: 'gen', name: 'Gen', category: 'AI & ML-Focused', extension: '.gen', monacoId: 'julia' },
-
-  // 🧬 Scientific & Mathematical Enhanced
-  { id: 'j-lang', name: 'J', category: 'Scientific & Mathematical', extension: '.ijs', monacoId: 'apl' },
 
   // 🧩 Domain-Specific & DSLs Enhanced
   { id: 'elm', name: 'Elm', category: 'Domain-Specific & DSLs', extension: '.elm', monacoId: 'elm' },
