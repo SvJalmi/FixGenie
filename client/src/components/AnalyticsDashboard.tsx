@@ -164,15 +164,15 @@ export function AnalyticsDashboard({ userId = 1 }: AnalyticsDashboardProps) {
   }
 
   return (
-    <div className="w-full space-y-6">
-      <div className="flex items-center gap-2 mb-6">
-        <Activity className="h-6 w-6 text-blue-500" />
-        <h2 className="text-2xl font-bold">Analytics Dashboard</h2>
-        <Badge variant="secondary">Premium</Badge>
+    <div className="w-full space-y-3 md:space-y-6 analytics-dashboard">
+      <div className="flex items-center gap-2 mb-3 md:mb-6 responsive-header">
+        <Activity className="h-5 w-5 md:h-6 md:w-6 text-accent-blue" />
+        <h2 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">Analytics Dashboard</h2>
+        <Badge variant="secondary" className="bg-gradient-primary text-white text-xs shadow-glow">Premium</Badge>
       </div>
 
       {/* Key Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Code Quality</CardTitle>

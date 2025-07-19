@@ -235,6 +235,57 @@
     animation: pulse-glow 2s ease-in-out infinite;
   }
 
+  /* AI Mentor Responsive Styles */
+  .ai-mentor-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .responsive-header {
+    flex-wrap: wrap;
+  }
+  
+  .skill-level-mobile .w-20 {
+    width: 3rem;
+  }
+  
+  @media (max-width: 767px) {
+    .ai-mentor-container {
+      padding: 0.5rem;
+    }
+    
+    .skill-level-mobile {
+      width: 100%;
+      justify-content: flex-start;
+    }
+    
+    .skill-level-mobile .w-20 {
+      width: 4rem;
+    }
+    
+    .analytics-dashboard {
+      padding: 0.5rem;
+    }
+    
+    .collaboration-hub {
+      padding: 0.5rem;
+    }
+    
+    .glass-card {
+      padding: 0.75rem !important;
+    }
+    
+    .responsive-header {
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    
+    /* Mobile-specific chart containers */
+    .recharts-responsive-container {
+      height: 250px !important;
+    }
+  }
+
   /* Enhanced responsive design for all screen sizes */
   
   /* Extra Large screens (1440px+) */
