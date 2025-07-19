@@ -205,21 +205,20 @@ export default function Dashboard() {
       />
       
       <div className="flex h-[calc(100vh-64px)] relative">
-        {/* Mobile Sidebar Overlay */}
+        {/* Mobile Sidebar Overlay - Only show on actual mobile devices */}
         {isMobile && isSidebarOpen && (
           <div 
-            className="sidebar-mobile-overlay"
+            className="sidebar-mobile-overlay lg:hidden"
             onClick={closeSidebar}
           />
         )}
 
-        {/* Sidebar */}
+        {/* Sidebar - Always visible on desktop, mobile overlay when open */}
         <div className={`
           ${isMobile 
             ? `sidebar-mobile ${isSidebarOpen ? 'open' : ''}`
-            : 'sidebar-desktop'
+            : 'sidebar-desktop block'
           }
-          ${!isMobile ? 'block' : 'hidden lg:block'}
         `}>
           <Sidebar
             selectedLanguage={selectedLanguage}
