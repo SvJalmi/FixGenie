@@ -24,8 +24,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Use universal error analyzer for comprehensive analysis
-      const analysis: ErrorAnalysisResult = universalErrorAnalyzer.analyzeCode(code, language);
+      // Use universal error analyzer for comprehensive analysis including logical errors
+      const analysis: ErrorAnalysisResult = await universalErrorAnalyzer.analyzeCode(code, language);
       
       // Store analysis for user history (optional)
       const userId = 1; // TODO: Get from session/auth

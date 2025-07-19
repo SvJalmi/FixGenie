@@ -6,9 +6,16 @@ FixGenie is the world's most advanced AI-powered code analysis platform that rev
 
 ## Revolutionary Unique Features (July 2025)
 
-### 🧠 AI-Powered Personal Mentor System
+### 🧠 AI-Powered Personal Mentor System with Advanced Logical Error Detection
 - **Personalized Learning Paths**: Custom-generated learning journeys based on individual coding patterns and skill assessments
 - **Intelligent Code Optimization**: Real-time performance, readability, and maintainability improvements with GPT-4o
+- **Advanced Logical Error Detection**: Revolutionary AI-powered system that detects sophisticated logical errors including:
+  - Infinite loops and unreachable code detection
+  - Assignment vs comparison operator errors (= vs ==)
+  - Array bounds violations and off-by-one errors
+  - Division by zero and mathematical logic errors
+  - Variable initialization and scope problems
+  - Algorithm correctness and control flow issues
 - **Advanced Security Auditing**: Comprehensive vulnerability detection with OWASP compliance checking and risk scoring
 - **Smart Code Suggestions**: Context-aware code completion, refactoring recommendations, and architectural pattern suggestions
 - **Natural Language to Code**: Generate production-ready code from plain English descriptions

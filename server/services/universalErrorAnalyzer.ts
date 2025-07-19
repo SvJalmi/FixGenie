@@ -2,6 +2,7 @@
 // Comprehensive error detection and analysis for 150+ programming languages
 
 import { intelligentBackend } from "./intelligentBackend";
+import { logicalErrorAnalyzer } from "./logicalErrorAnalyzer";
 
 export interface CodeError {
   type: string;
@@ -25,7 +26,7 @@ export interface ErrorAnalysisResult {
 export class UniversalErrorAnalyzer {
   
   // ========== MAIN ANALYSIS METHOD ==========
-  analyzeCode(code: string, language: string): ErrorAnalysisResult {
+  async analyzeCode(code: string, language: string): Promise<ErrorAnalysisResult> {
     const errors: CodeError[] = [];
     const suggestions: string[] = [];
     let explanation = "";
@@ -33,6 +34,31 @@ export class UniversalErrorAnalyzer {
 
     // Get language-specific analysis
     const languageAnalysis = this.getLanguageSpecificAnalysis(code, language);
+
+    // ========== NEW: ADVANCED LOGICAL ERROR DETECTION ==========
+    try {
+      // 1. AI-powered logical error analysis
+      const aiLogicalAnalysis = await logicalErrorAnalyzer.analyzeLogicalErrors(code, language);
+      errors.push(...aiLogicalAnalysis.errors);
+      suggestions.push(...aiLogicalAnalysis.suggestions);
+      
+      // 2. Pattern-based logical error detection
+      const patternLogicalErrors = logicalErrorAnalyzer.detectCommonLogicalErrors(code, language);
+      errors.push(...patternLogicalErrors);
+
+      // Enhance explanation with logical error focus
+      if (aiLogicalAnalysis.explanation) {
+        explanation = aiLogicalAnalysis.explanation;
+      }
+      
+      // Use AI-fixed code if available
+      if (aiLogicalAnalysis.fixedCode && aiLogicalAnalysis.errors.length > 0) {
+        fixedCode = aiLogicalAnalysis.fixedCode;
+      }
+    } catch (error) {
+      console.log('Logical error analysis fallback');
+      // Continue with standard analysis if AI fails
+    }
     errors.push(...languageAnalysis.errors);
     suggestions.push(...languageAnalysis.suggestions);
     
