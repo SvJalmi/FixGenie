@@ -153,7 +153,7 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
 
   // Hardware Description Languages
   { id: 'verilog-ams', name: 'Verilog-AMS', category: 'Hardware Description', extension: '.vams', monacoId: 'verilog' },
-  { id: 'vhdl-ams', name: 'VHDL-AMS', category: 'Hardware Description', extension: '.vhams', monacoId: 'vhdl' },
+  { id: 'vhdl-ams-basic', name: 'VHDL-AMS (Basic)', category: 'Hardware Description', extension: '.vhams', monacoId: 'vhdl' },
   { id: 'abel', name: 'ABEL', category: 'Hardware Description', extension: '.abl', monacoId: 'verilog' },
   { id: 'ahdl', name: 'AHDL', category: 'Hardware Description', extension: '.tdf', monacoId: 'verilog' },
   { id: 'bluespec', name: 'Bluespec', category: 'Hardware Description', extension: '.bsv', monacoId: 'verilog' },

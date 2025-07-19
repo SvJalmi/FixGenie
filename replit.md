@@ -76,7 +76,7 @@ Preferred communication style: Simple, everyday language.
 - **Real-time Generation**: On-demand audio explanation creation
 
 ### Universal Multi-Language Support  
-- **Supported Languages**: 400+ programming languages across 35+ categories
+- **Supported Languages**: 400+ programming languages across 35+ categories (Current count: 309 languages)
   - **Core Languages**: C, C++, C#, Java, Python, JavaScript, TypeScript, Go, Rust, Swift
   - **Compiled**: Fortran, ALGOL, COBOL, Visual Basic, Smalltalk, Ada, Nim
   - **Interpreted**: Ruby, Perl, Pascal, Lisp, BASIC, APL, Julia, MATLAB

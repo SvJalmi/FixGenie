@@ -419,7 +419,8 @@ export class UniversalErrorAnalyzer {
       // Hardware & Platform-Specific Languages
       case 'opencl-c': return this.analyzeOpenCLC(code);
       case 'shaderlab': return this.analyzeShaderLab(code);
-      case 'vhdl-ams': return this.analyzeVHDLAMS(code);
+      case 'vhdl-ams': 
+      case 'vhdl-ams-basic': return this.analyzeVHDLAMS(code);
       case 'systemverilog': return this.analyzeSystemVerilog(code);
       
       // Language Design & Transformation Languages
