@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -27,8 +29,12 @@ import {
   Star, 
   Trophy,
   Zap,
-  Code
+  Code,
+  ExternalLink,
+  Mail,
+  Calendar
 } from "lucide-react";
+import { apiRequest } from "@/lib/queryClient";
 
 interface UserProfileMenuProps {
   className?: string;
@@ -36,19 +42,79 @@ interface UserProfileMenuProps {
 
 export default function UserProfileMenu({ className }: UserProfileMenuProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isAccountSettingsOpen, setIsAccountSettingsOpen] = useState(false);
+  const [isUsageBillingOpen, setIsUsageBillingOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
+  const userId = 1; // In real app this would come from auth context
 
-  // Mock user data - in real app this would come from auth context
-  const userData = {
-    name: "User",
-    email: "user@fixgenie.ai",
-    plan: "Pro",
-    level: 42,
-    experience: 15840,
-    nextLevelExp: 16500,
-    achievements: 24,
-    codesSolved: 156,
-    joinDate: "March 2024"
+  // Fetch real user profile data
+  const { data: userData, isLoading } = useQuery({
+    queryKey: ["/api/user/profile", userId],
+    queryFn: async () => {
+      const response = await fetch(`/api/user/profile/${userId}`);
+      if (!response.ok) throw new Error("Failed to fetch user profile");
+      return response.json();
+    }
+  });
+
+  // Logout mutation
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest('POST', '/api/auth/logout', {});
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Logged out successfully",
+        description: "You have been signed out of your account.",
+      });
+      // In a real app, redirect to login page
+      window.location.href = '/';
+    },
+    onError: () => {
+      toast({
+        title: "Logout failed",
+        description: "There was an error signing you out.",
+        variant: "destructive",
+      });
+    }
+  });
+
+  const handleSignOut = () => {
+    logoutMutation.mutate();
   };
+
+  const handleViewProfile = () => {
+    setIsProfileOpen(true);
+  };
+
+  const handleAccountSettings = () => {
+    setIsAccountSettingsOpen(true);
+  };
+
+  const handleUsageBilling = () => {
+    setIsUsageBillingOpen(true);
+  };
+
+  const handleHelpSupport = () => {
+    setIsHelpOpen(true);
+  };
+
+  if (isLoading || !userData) {
+    return (
+      <Button variant="ghost" className={`p-0 w-8 h-8 rounded-full ${className}`}>
+        <Avatar className="w-8 h-8 shadow-glow border border-blue-500/20">
+          <AvatarFallback className="bg-gradient-primary text-white text-sm font-bold animate-pulse">
+            ...
+          </AvatarFallback>
+        </Avatar>
+      </Button>
+    );
+  }
 
   const expProgress = ((userData.experience % 1000) / 1000) * 100;
 
@@ -122,33 +188,46 @@ export default function UserProfileMenu({ className }: UserProfileMenuProps) {
           <DropdownMenuSeparator className="bg-blue-500/20" />
 
           <DropdownMenuItem 
-            onClick={() => setIsProfileOpen(true)}
-            className="flex items-center gap-3 p-3 hover:bg-blue-500/10 transition-colors"
+            onClick={handleViewProfile}
+            className="flex items-center gap-3 p-3 hover:bg-blue-500/10 transition-colors cursor-pointer"
           >
             <User className="w-4 h-4 text-accent-blue" />
             <span className="text-text-primary">View Profile</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem className="flex items-center gap-3 p-3 hover:bg-blue-500/10 transition-colors">
+          <DropdownMenuItem 
+            onClick={handleAccountSettings}
+            className="flex items-center gap-3 p-3 hover:bg-blue-500/10 transition-colors cursor-pointer"
+          >
             <Settings className="w-4 h-4 text-accent-cyan" />
             <span className="text-text-primary">Account Settings</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem className="flex items-center gap-3 p-3 hover:bg-blue-500/10 transition-colors">
+          <DropdownMenuItem 
+            onClick={handleUsageBilling}
+            className="flex items-center gap-3 p-3 hover:bg-blue-500/10 transition-colors cursor-pointer"
+          >
             <BarChart3 className="w-4 h-4 text-accent-purple" />
             <span className="text-text-primary">Usage & Billing</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem className="flex items-center gap-3 p-3 hover:bg-blue-500/10 transition-colors">
+          <DropdownMenuItem 
+            onClick={handleHelpSupport}
+            className="flex items-center gap-3 p-3 hover:bg-blue-500/10 transition-colors cursor-pointer"
+          >
             <HelpCircle className="w-4 h-4 text-accent-green" />
             <span className="text-text-primary">Help & Support</span>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator className="bg-blue-500/20" />
 
-          <DropdownMenuItem className="flex items-center gap-3 p-3 hover:bg-red-500/10 transition-colors text-red-400">
+          <DropdownMenuItem 
+            onClick={handleSignOut}
+            className="flex items-center gap-3 p-3 hover:bg-red-500/10 transition-colors text-red-400 cursor-pointer"
+            disabled={logoutMutation.isPending}
+          >
             <LogOut className="w-4 h-4" />
-            <span>Sign Out</span>
+            <span>{logoutMutation.isPending ? "Signing out..." : "Sign Out"}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -255,6 +334,184 @@ export default function UserProfileMenu({ className }: UserProfileMenuProps) {
                   <div className="w-2 h-2 bg-accent-purple rounded-full" />
                   <span className="text-text-primary">AI Collaborator - Completed 100 AI-assisted fixes</span>
                 </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Account Settings Modal */}
+      <Dialog open={isAccountSettingsOpen} onOpenChange={setIsAccountSettingsOpen}>
+        <DialogContent className="max-w-2xl bg-dark-elevated border border-blue-500/20">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3 text-text-primary">
+              <div className="p-2 bg-gradient-primary rounded-lg">
+                <Settings className="w-5 h-5 text-white" />
+              </div>
+              Account Settings
+            </DialogTitle>
+            <DialogDescription className="text-text-secondary">
+              Manage your account preferences and security settings
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-4 glass rounded-xl space-y-3">
+                <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-accent-blue" />
+                  Email & Notifications
+                </h3>
+                <p className="text-sm text-text-secondary">
+                  Current: {userData?.email}
+                </p>
+                <Button size="sm" variant="outline" className="w-full">
+                  Update Email
+                </Button>
+              </div>
+
+              <div className="p-4 glass rounded-xl space-y-3">
+                <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-accent-cyan" />
+                  Preferences
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-text-secondary">Dark Theme</span>
+                    <Badge variant="secondary">Enabled</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-text-secondary">Notifications</span>
+                    <Badge variant="secondary">On</Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Usage & Billing Modal */}
+      <Dialog open={isUsageBillingOpen} onOpenChange={setIsUsageBillingOpen}>
+        <DialogContent className="max-w-2xl bg-dark-elevated border border-blue-500/20">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3 text-text-primary">
+              <div className="p-2 bg-gradient-primary rounded-lg">
+                <BarChart3 className="w-5 h-5 text-white" />
+              </div>
+              Usage & Billing
+            </DialogTitle>
+            <DialogDescription className="text-text-secondary">
+              Your current plan usage and billing information
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6">
+            {/* Current Plan */}
+            <div className="p-4 glass rounded-xl">
+              <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2 mb-3">
+                <Crown className="w-5 h-5 text-accent-orange" />
+                Current Plan: {userData?.plan}
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center space-y-1">
+                  <div className="text-2xl font-bold text-accent-blue">2.4K</div>
+                  <div className="text-xs text-text-secondary">Characters Used</div>
+                </div>
+                <div className="text-center space-y-1">
+                  <div className="text-2xl font-bold text-accent-green">50M</div>
+                  <div className="text-xs text-text-secondary">Monthly Limit</div>
+                </div>
+                <div className="text-center space-y-1">
+                  <div className="text-2xl font-bold text-accent-purple">{userData?.totalAnalyses || 0}</div>
+                  <div className="text-xs text-text-secondary">Analyses</div>
+                </div>
+                <div className="text-center space-y-1">
+                  <div className="text-2xl font-bold text-accent-orange">{userData?.languagesUsed || 0}</div>
+                  <div className="text-xs text-text-secondary">Languages</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Billing History */}
+            <div className="p-4 glass rounded-xl space-y-3">
+              <h3 className="text-lg font-semibold text-text-primary">Recent Billing</h3>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center p-2 bg-dark/20 rounded">
+                  <span className="text-text-secondary">December 2024</span>
+                  <Badge variant="secondary">$29.99 - Paid</Badge>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-dark/20 rounded">
+                  <span className="text-text-secondary">November 2024</span>
+                  <Badge variant="secondary">$29.99 - Paid</Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Help & Support Modal */}
+      <Dialog open={isHelpOpen} onOpenChange={setIsHelpOpen}>
+        <DialogContent className="max-w-2xl bg-dark-elevated border border-blue-500/20">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3 text-text-primary">
+              <div className="p-2 bg-gradient-primary rounded-lg">
+                <HelpCircle className="w-5 h-5 text-white" />
+              </div>
+              Help & Support
+            </DialogTitle>
+            <DialogDescription className="text-text-secondary">
+              Get help with FixGenie and contact our support team
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6">
+            {/* Quick Help */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 glass rounded-xl space-y-3 cursor-pointer hover:bg-blue-500/5 transition-colors">
+                <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
+                  <ExternalLink className="w-5 h-5 text-accent-blue" />
+                  Documentation
+                </h3>
+                <p className="text-sm text-text-secondary">
+                  Learn how to use all FixGenie features
+                </p>
+              </div>
+
+              <div className="p-4 glass rounded-xl space-y-3 cursor-pointer hover:bg-blue-500/5 transition-colors">
+                <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-accent-green" />
+                  Contact Support
+                </h3>
+                <p className="text-sm text-text-secondary">
+                  Get direct help from our team
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ */}
+            <div className="p-4 glass rounded-xl space-y-3">
+              <h3 className="text-lg font-semibold text-text-primary">Frequently Asked Questions</h3>
+              <div className="space-y-2">
+                <details className="p-2 bg-dark/20 rounded cursor-pointer">
+                  <summary className="text-sm font-medium text-text-primary">How do I analyze code in different languages?</summary>
+                  <p className="text-xs text-text-secondary mt-2">
+                    Simply paste your code, select the language from the dropdown, and click "Analyze Code".
+                  </p>
+                </details>
+                <details className="p-2 bg-dark/20 rounded cursor-pointer">
+                  <summary className="text-sm font-medium text-text-primary">How does the AI mentor work?</summary>
+                  <p className="text-xs text-text-secondary mt-2">
+                    The AI mentor provides personalized guidance and suggestions based on your code patterns.
+                  </p>
+                </details>
+                <details className="p-2 bg-dark/20 rounded cursor-pointer">
+                  <summary className="text-sm font-medium text-text-primary">What languages are supported?</summary>
+                  <p className="text-xs text-text-secondary mt-2">
+                    FixGenie supports 320+ programming languages across 35+ specialized categories.
+                  </p>
+                </details>
               </div>
             </div>
           </div>

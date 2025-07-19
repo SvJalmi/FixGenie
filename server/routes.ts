@@ -392,6 +392,84 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User Profile endpoints
+  app.get("/api/user/profile/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // Get user basic info (mock for now, would come from auth system)
+      const userData = {
+        id: userId,
+        name: "FixGenie User",
+        email: "user@fixgenie.ai",
+        username: "fixgenie_user",
+        plan: "Pro",
+        level: 42,
+        experience: 15840,
+        nextLevelExp: 16500,
+        joinDate: "March 2024",
+        avatar: null,
+        preferences: {
+          theme: "dark",
+          notifications: true,
+          autoPlay: true
+        }
+      };
+
+      // Get real statistics from database
+      const recentAnalyses = await storage.getUserErrorAnalyses(userId, 1000);
+      const achievements = 24; // Could be calculated from actual achievements
+      const codesSolved = recentAnalyses.length;
+      
+      const profileData = {
+        ...userData,
+        achievements,
+        codesSolved,
+        totalAnalyses: recentAnalyses.length,
+        languagesUsed: [...new Set(recentAnalyses.map(a => a.language))].length
+      };
+
+      res.json(profileData);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to get user profile" 
+      });
+    }
+  });
+
+  app.put("/api/user/profile/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const updates = req.body;
+      
+      // In a real app, this would update the user in the database
+      // For now, we'll just return success
+      res.json({ 
+        success: true, 
+        message: "Profile updated successfully",
+        updatedFields: Object.keys(updates)
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to update profile" 
+      });
+    }
+  });
+
+  app.post("/api/auth/logout", async (req, res) => {
+    try {
+      // In a real app, this would handle session cleanup
+      res.json({ 
+        success: true, 
+        message: "Logged out successfully" 
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to logout" 
+      });
+    }
+  });
+
   app.get("/api/analytics/dashboard/:userId", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId) || 1;
