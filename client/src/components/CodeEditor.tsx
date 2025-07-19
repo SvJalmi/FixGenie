@@ -323,6 +323,279 @@ WHERE o.order_date >= '2024-01-01'
 GROUP BY c.id, c.name
 ORDER BY total_sales DESC
 -- Missing semicolon at end`,
+      // 🧪 Emerging & Specialized Languages
+      bosque: `namespace Main;
+
+entity Item {
+    field price: Float;
+}
+
+function calculateTotal(items: List[Item]): Float {
+    var total = 0.0f;
+    
+    items->foreach(fn(item) => {
+        total = total + item.price;
+    });
+    
+    if (total > 100.0f) {
+        total = total * 0.9f;
+    }
+    
+    return total;
+}`,
+
+      zig: `const std = @import("std");
+
+const Item = struct {
+    price: f64,
+};
+
+pub fn calculateTotal(items: []const Item) f64 {
+    var total: f64 = 0.0;
+    
+    for (items) |item| {
+        total += item.price;
+    }
+    
+    if (total > 100.0) {
+        total *= 0.9;
+    }
+    
+    return total;
+}
+
+pub fn main() void {
+    std.debug.print("Hello, Zig!\\n");
+}`,
+
+      'v-lang': `struct Item {
+    price f64
+}
+
+fn calculate_total(items []Item) f64 {
+    mut total := 0.0
+    
+    for item in items {
+        total += item.price
+    }
+    
+    if total > 100.0 {
+        total *= 0.9
+    }
+    
+    return total
+}
+
+fn main() {
+    println('Hello, V!')
+}`,
+
+      carbon: `package Main api;
+
+struct Item {
+    var price: f64;
+}
+
+fn CalculateTotal(items: Array(Item)) -> f64 {
+    var total: f64 = 0.0;
+    
+    for (item: Item in items) {
+        total += item.price;
+    }
+    
+    if (total > 100.0) {
+        total *= 0.9;
+    }
+    
+    return total;
+}
+
+fn Main() -> i32 {
+    return 0;
+}`,
+
+      vale: `struct Item {
+    price f64;
+}
+
+fn calculateTotal(items &[]Item) f64 {
+    total mut = 0.0;
+    
+    each item in items {
+        set total = total + item.price;
+    }
+    
+    if (total > 100.0) {
+        set total = total * 0.9;
+    }
+    
+    ret total;
+}`,
+
+      // 🧠 AI & ML-Focused Languages
+      mojo: `from memory.unsafe import DTypePointer
+
+struct Item:
+    var price: Float64
+    
+    fn __init__(inout self, price: Float64):
+        self.price = price
+
+fn calculate_total(items: List[Item]) -> Float64:
+    var total: Float64 = 0.0
+    
+    for i in range(len(items)):
+        total += items[i].price
+    
+    if total > 100.0:
+        total *= 0.9
+    
+    return total
+
+fn main():
+    print("Hello, Mojo!")`,
+
+      gen: `@gen function calculate_total(items::Vector{Item})
+    total = 0.0
+    
+    for item in items
+        total += item.price
+    end
+    
+    if total > 100.0
+        total *= 0.9
+    end
+    
+    return total
+end
+
+struct Item
+    price::Float64
+end`,
+
+      // 🧬 Scientific & Mathematical
+      'j-lang': `calculateTotal =: 3 : 0
+total =. 0
+for_i. i. # y do.
+    total =. total + i { y
+end.
+if. total > 100 do.
+    total =. total * 0.9
+end.
+total
+)`,
+
+      // 🧩 Domain-Specific & DSLs
+      elm: `module Main exposing (..)
+
+import Html exposing (text)
+
+type alias Item = 
+    { price : Float }
+
+calculateTotal : List Item -> Float
+calculateTotal items =
+    let
+        total = List.foldl (\\item acc -> acc + item.price) 0 items
+    in
+    if total > 100 then
+        total * 0.9
+    else
+        total
+
+main =
+    text "Hello, Elm!"`,
+
+      'pony-dsl': `class Item
+  let price: F64
+  
+  new create(price': F64) =>
+    price = price'
+
+actor Calculator
+  fun calculate_total(items: Array[Item] val): F64 =>
+    var total: F64 = 0.0
+    
+    for item in items.values() do
+      total = total + item.price
+    end
+    
+    if total > 100.0 then
+      total * 0.9
+    else
+      total
+    end`,
+
+      'red-dsl': `Red [
+    Title: "Calculator"
+    Purpose: "Calculate item totals"
+]
+
+item: object [
+    price: 0.0
+]
+
+calculate-total: function [items [block!]] [
+    total: 0.0
+    
+    foreach item items [
+        total: total + item/price
+    ]
+    
+    if total > 100.0 [
+        total: total * 0.9
+    ]
+    
+    total
+]`,
+
+      // 🧙‍♀️ Obscure but Intriguing
+      'loop-lang': `; LOOP language - theoretical construct
+(define calculate-total
+  (lambda (items)
+    (let ((total 0))
+      (loop for item in items do
+        (setq total (+ total (item-price item))))
+      (if (> total 100)
+          (* total 0.9)
+          total))))`,
+
+      frink: `// Frink - units of measure tracking
+calculateTotal[items] := 
+{
+   total = 0.0 dollars
+   
+   for item = items
+      total = total + item.price
+   
+   if total > 100 dollars
+      total = total * 0.9
+   
+   return total
+}`,
+
+      rebol: `REBOL [
+    Title: "Calculator"
+    Purpose: "Calculate totals with discount"
+]
+
+item: make object! [
+    price: 0.0
+]
+
+calculate-total: func [items [block!]] [
+    total: 0.0
+    
+    foreach item items [
+        total: total + item/price
+    ]
+    
+    if total > 100.0 [
+        total: total * 0.9
+    ]
+    
+    total
+]`
     };
     
     return samples[lang] || samples.javascript;

@@ -438,8 +438,8 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
 
   // 🧩 Domain-Specific & DSLs Enhanced
   { id: 'elm', name: 'Elm', category: 'Domain-Specific & DSLs', extension: '.elm', monacoId: 'elm' },
-  { id: 'pony', name: 'Pony', category: 'Domain-Specific & DSLs', extension: '.pony', monacoId: 'rust' },
-  { id: 'red', name: 'Red', category: 'Domain-Specific & DSLs', extension: '.red', monacoId: 'rebol' },
+  { id: 'pony-dsl', name: 'Pony', category: 'Domain-Specific & DSLs', extension: '.pony', monacoId: 'rust' },
+  { id: 'red-dsl', name: 'Red', category: 'Domain-Specific & DSLs', extension: '.red', monacoId: 'rebol' },
 
   // 🧙‍♀️ Obscure but Intriguing
   { id: 'loop-lang', name: 'LOOP', category: 'Obscure but Intriguing', extension: '.loop', monacoId: 'scheme' },

@@ -480,8 +480,8 @@ export class UniversalErrorAnalyzer {
 
       // 🧩 Domain-Specific & DSLs Enhanced
       case 'elm': return this.analyzeElm(code);
-      case 'pony': return this.analyzePony(code);
-      case 'red': return this.analyzeRed(code);
+      case 'pony-dsl': return this.analyzePony(code);
+      case 'red-dsl': return this.analyzeRed(code);
 
       // 🧙‍♀️ Obscure but Intriguing
       case 'loop-lang': return this.analyzeLoop(code);
