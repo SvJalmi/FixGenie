@@ -9,6 +9,7 @@ import { generatePersonalizedMentorship, generateCodeOptimization, generateSecur
 import { collaborationManager } from "./services/realTimeCollaboration";
 import { generateIntelligentSuggestions, generateSmartRefactoring, suggestArchitecturalPatterns, generateFromNaturalLanguage, generateCodeFromImage } from "./services/intelligentCodeGen";
 import { analyzeCodeMetrics, generatePersonalizedInsights, calculateSkillProgression, generateAchievements, generateVisualizationData } from "./services/analytics";
+import { intelligentBackend } from "./services/intelligentBackend";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Error analysis endpoints
