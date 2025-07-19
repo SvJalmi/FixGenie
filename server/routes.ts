@@ -93,7 +93,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const schema = z.object({
         text: z.string().min(1, "Text is required"),
-        voiceId: z.string().optional().default("voice_us_male"),
+        voiceId: z.string().optional().default("natalie"),
         speed: z.number().min(0.5).max(2).optional().default(1.0),
       });
       
@@ -156,7 +156,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // NEW: Direct TTS Generation for Error Explanations
   app.post("/api/generate-error-speech", async (req, res) => {
     try {
-      const { text, voiceId = "voice_us_male", speed = 1.0 } = req.body;
+      const { text, voiceId = "natalie", speed = 1.0 } = req.body;
       
       if (!text) {
         return res.status(400).json({ 
