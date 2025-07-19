@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Users, Video, Mic, Share2, Crown, UserPlus, Clock, Globe } from "lucide-react";
+import { Users, Video, Mic, Share2, Crown, UserPlus, Clock, Globe, VideoIcon, Phone, Monitor, Earth } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 
 interface CollaborationHubProps {
@@ -37,6 +37,14 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
   const [participantName, setParticipantName] = useState("Developer");
   const wsRef = useRef<WebSocket | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<"connecting" | "connected" | "disconnected">("disconnected");
+  
+  // Collaboration feature states
+  const [isVideoEnabled, setIsVideoEnabled] = useState(false);
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const [isGlobalAccess, setIsGlobalAccess] = useState(false);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Fetch active collaboration sessions
   const { data: sessions, isLoading: isSessionsLoading } = useQuery({
@@ -184,6 +192,82 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
     }
   };
 
+  // Collaboration Feature Functions
+  const toggleVideoChat = async () => {
+    try {
+      if (!isVideoEnabled) {
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+          video: true, 
+          audio: true 
+        });
+        setStream(mediaStream);
+        if (videoRef.current) {
+          videoRef.current.srcObject = mediaStream;
+        }
+        setIsVideoEnabled(true);
+        console.log("Video chat enabled");
+      } else {
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          setStream(null);
+        }
+        setIsVideoEnabled(false);
+        console.log("Video chat disabled");
+      }
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+      alert("Camera access denied. Please allow camera permissions for video chat.");
+    }
+  };
+
+  const toggleVoiceChat = async () => {
+    try {
+      if (!isVoiceEnabled) {
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+          audio: true 
+        });
+        setIsVoiceEnabled(true);
+        console.log("Voice chat enabled");
+        // In a real implementation, you'd connect this to WebRTC
+      } else {
+        setIsVoiceEnabled(false);
+        console.log("Voice chat disabled");
+      }
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+      alert("Microphone access denied. Please allow microphone permissions for voice chat.");
+    }
+  };
+
+  const toggleScreenShare = async () => {
+    try {
+      if (!isScreenSharing) {
+        const mediaStream = await navigator.mediaDevices.getDisplayMedia({ 
+          video: true 
+        });
+        setIsScreenSharing(true);
+        console.log("Screen sharing enabled");
+        
+        // Handle when user stops screen sharing via browser UI
+        mediaStream.getVideoTracks()[0].onended = () => {
+          setIsScreenSharing(false);
+        };
+      } else {
+        setIsScreenSharing(false);
+        console.log("Screen sharing disabled");
+      }
+    } catch (error) {
+      console.error("Error accessing screen:", error);
+      alert("Screen sharing access denied or cancelled.");
+    }
+  };
+
+  const toggleGlobalAccess = () => {
+    setIsGlobalAccess(!isGlobalAccess);
+    console.log(`Global access ${!isGlobalAccess ? 'enabled' : 'disabled'}`);
+    // In a real implementation, this would update session permissions
+  };
+
   const formatTimeAgo = (dateString: string) => {
     const now = new Date();
     const date = new Date(dateString);
@@ -200,8 +284,12 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
       if (wsRef.current) {
         wsRef.current.close();
       }
+      // Clean up media streams
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
     };
-  }, []);
+  }, [stream]);
 
   const ConnectionStatusBadge = () => (
     <Badge variant={connectionStatus === "connected" ? "default" : connectionStatus === "connecting" ? "secondary" : "destructive"}>
@@ -279,6 +367,117 @@ export function CollaborationHub({ onJoinSession }: CollaborationHubProps) {
           </Dialog>
         </div>
       </div>
+
+      {/* Collaboration Features */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-card rounded-lg border">
+        <div 
+          onClick={toggleVideoChat}
+          className={`flex flex-col items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+            isVideoEnabled 
+              ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20' 
+              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+          }`}
+        >
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+            isVideoEnabled ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+          }`}>
+            <VideoIcon className="w-6 h-6" />
+          </div>
+          <div className="text-center">
+            <h3 className="font-semibold text-sm">Video Chat</h3>
+            <p className="text-xs text-gray-500">Face-to-face collaboration</p>
+          </div>
+          {isVideoEnabled && (
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          )}
+        </div>
+
+        <div 
+          onClick={toggleVoiceChat}
+          className={`flex flex-col items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+            isVoiceEnabled 
+              ? 'border-green-500 bg-green-50 dark:bg-green-950/20' 
+              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+          }`}
+        >
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+            isVoiceEnabled ? 'bg-green-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+          }`}>
+            <Phone className="w-6 h-6" />
+          </div>
+          <div className="text-center">
+            <h3 className="font-semibold text-sm">Voice Chat</h3>
+            <p className="text-xs text-gray-500">Audio communication</p>
+          </div>
+          {isVoiceEnabled && (
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          )}
+        </div>
+
+        <div 
+          onClick={toggleScreenShare}
+          className={`flex flex-col items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+            isScreenSharing 
+              ? 'border-purple-500 bg-purple-50 dark:bg-purple-950/20' 
+              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+          }`}
+        >
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+            isScreenSharing ? 'bg-purple-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+          }`}>
+            <Monitor className="w-6 h-6" />
+          </div>
+          <div className="text-center">
+            <h3 className="font-semibold text-sm">Screen Share</h3>
+            <p className="text-xs text-gray-500">Share your screen</p>
+          </div>
+          {isScreenSharing && (
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          )}
+        </div>
+
+        <div 
+          onClick={toggleGlobalAccess}
+          className={`flex flex-col items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+            isGlobalAccess 
+              ? 'border-orange-500 bg-orange-50 dark:bg-orange-950/20' 
+              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+          }`}
+        >
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+            isGlobalAccess ? 'bg-orange-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+          }`}>
+            <Earth className="w-6 h-6" />
+          </div>
+          <div className="text-center">
+            <h3 className="font-semibold text-sm">Global Access</h3>
+            <p className="text-xs text-gray-500">Collaborate worldwide</p>
+          </div>
+          {isGlobalAccess && (
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          )}
+        </div>
+      </div>
+
+      {/* Video Chat Display */}
+      {isVideoEnabled && (
+        <div className="relative bg-black rounded-lg overflow-hidden">
+          <video 
+            ref={videoRef}
+            autoPlay 
+            muted 
+            className="w-full h-64 object-cover"
+          />
+          <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-sm">
+            You
+          </div>
+          <div className="absolute bottom-2 left-2 flex gap-2">
+            <Button size="sm" variant="outline" onClick={toggleVideoChat}>
+              End Video
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Active Sessions */}
       <div className="space-y-4">
