@@ -197,7 +197,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-white text-black">
       <Header 
         charactersUsed={charactersUsed} 
         maxCharacters={maxCharacters}

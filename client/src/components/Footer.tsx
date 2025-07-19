@@ -4,7 +4,7 @@ import { Code, Heart, Zap, Shield, Users, Target } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-elevated border-t border-border glass-card mt-8">
+    <footer className="w-full bg-white border-t border-gray-200 mt-8">
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Main Footer Content */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
@@ -15,7 +15,7 @@ export default function Footer() {
                 <Code className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-accent-purple to-accent-blue bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold text-black">
                   FixGenie
                 </h3>
                 <Badge variant="secondary" className="bg-gradient-primary text-white text-xs shadow-glow">
@@ -23,7 +23,7 @@ export default function Footer() {
                 </Badge>
               </div>
             </div>
-            <p className="text-sm text-white/80 text-center lg:text-left max-w-md">
+            <p className="text-sm text-gray-600 text-center lg:text-left max-w-md">
               The world's most advanced AI-powered code analysis platform with mentorship, 
               real-time collaboration, and intelligent code generation across 150+ programming languages.
             </p>
