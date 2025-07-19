@@ -240,27 +240,28 @@ export default function Dashboard() {
           ${isMobile && isSidebarOpen ? 'pointer-events-none' : ''}
         `}>
           {/* Tab Navigation */}
-          <div className="border-b border-border bg-elevated glass-card">
-            <div className="flex space-x-1 p-3">
+          <div className="border-b border-border bg-elevated glass-card tab-navigation">
+            <div className="tab-container flex space-x-1 p-3 lg:space-x-2">
               {[
-                { id: "code", label: "Code Editor", icon: "💻", color: "accent-purple" },
-                { id: "mentor", label: "AI Mentor", icon: "🧠", color: "accent-blue" },
-                { id: "analytics", label: "Analytics", icon: "📊", color: "accent-cyan" },
-                { id: "collaborate", label: "Collaborate", icon: "👥", color: "accent-green" }
+                { id: "code", label: "Code Editor", icon: "💻", shortLabel: "Code" },
+                { id: "mentor", label: "AI Mentor", icon: "🧠", shortLabel: "Mentor" },
+                { id: "analytics", label: "Analytics", icon: "📊", shortLabel: "Analytics" },
+                { id: "collaborate", label: "Collaborate", icon: "👥", shortLabel: "Collab" }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`
-                    px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 relative overflow-hidden
+                    tab-button px-3 py-2 md:px-6 md:py-3 rounded-xl text-sm font-medium transition-all duration-300 relative overflow-hidden
                     ${activeTab === tab.id 
                       ? 'bg-gradient-primary text-white shadow-glow transform scale-105' 
                       : 'text-secondary hover:text-primary glass hover:shadow-glow/50'
                     }
                   `}
                 >
-                  <span className="mr-2 text-base">{tab.icon}</span>
-                  <span className="font-semibold">{tab.label}</span>
+                  <span className="mr-1 md:mr-2 text-sm md:text-base">{tab.icon}</span>
+                  <span className="font-semibold hidden sm:inline">{tab.label}</span>
+                  <span className="font-semibold sm:hidden">{tab.shortLabel}</span>
                   {activeTab === tab.id && (
                     <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent animate-pulse" />
                   )}
@@ -270,13 +271,13 @@ export default function Dashboard() {
           </div>
 
           {/* Tab Content */}
-          <div className="flex-1 min-h-0">
+          <div className="flex-1 min-h-0 main-content">
             {activeTab === "code" && (
               <div className={`
-                h-full flex 
+                h-full flex editor-container
                 ${isMobile ? 'flex-col' : 'flex-row'}
               `}>
-                <div className="flex-1 min-h-0">
+                <div className="flex-1 min-h-0 code-editor-wrapper">
                   <CodeEditor
                     language={selectedLanguage}
                     code={code}
@@ -291,9 +292,9 @@ export default function Dashboard() {
                 <div className={`
                   ${isMobile 
                     ? 'error-panel-mobile border-t' 
-                    : 'flex flex-col w-96 border-l'
+                    : 'flex flex-col w-96 lg:w-[28rem] xl:w-96 border-l'
                   } 
-                  border-dark-border bg-dark-elevated
+                  border-border bg-elevated glass-card error-analysis-panel
                 `}>
                   <ErrorAnalysisPanel
                     errors={currentAnalysis?.errors || []}
@@ -312,7 +313,7 @@ export default function Dashboard() {
             )}
 
             {activeTab === "mentor" && (
-              <div className="h-full p-6 overflow-auto bg-dark">
+              <div className="h-full p-3 md:p-6 overflow-auto bg-background tab-content">
                 <AIMentor
                   code={code}
                   language={selectedLanguage}
@@ -326,13 +327,13 @@ export default function Dashboard() {
             )}
 
             {activeTab === "analytics" && (
-              <div className="h-full p-6 overflow-auto bg-dark">
+              <div className="h-full p-3 md:p-6 overflow-auto bg-background tab-content">
                 <AnalyticsDashboard userId={1} />
               </div>
             )}
 
             {activeTab === "collaborate" && (
-              <div className="h-full p-6 overflow-auto bg-dark">
+              <div className="h-full p-3 md:p-6 overflow-auto bg-background tab-content">
                 <CollaborationHub
                   onJoinSession={(sessionId) => {
                     toast({

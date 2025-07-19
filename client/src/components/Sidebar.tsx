@@ -87,19 +87,19 @@ export default function Sidebar({
         </div>
 
         {/* Programming Language Selector */}
-        <div className="mb-4">
-          <Label className="block text-xs font-medium text-text-secondary mb-2">
+        <div className="mb-4 mobile-form-group">
+          <Label className="block text-xs font-medium text-secondary mb-2">
             Programming Language
           </Label>
           <Select value={selectedLanguage} onValueChange={onLanguageChange}>
-            <SelectTrigger className="w-full bg-dark border-dark-border text-text-primary">
+            <SelectTrigger className="w-full glass border-border text-primary hover:shadow-glow/50 transition-all mobile-select">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="max-h-60">
+            <SelectContent className="max-h-60 glass-card border-border">
               {filteredLanguages.map(language => (
                 <SelectItem key={language.id} value={language.id}>
                   {language.name}
-                  <span className="ml-2 text-xs text-text-secondary">({language.category})</span>
+                  <span className="ml-2 text-xs text-secondary">({language.category})</span>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -107,15 +107,15 @@ export default function Sidebar({
         </div>
 
         {/* Voice Selection */}
-        <div className="mb-4">
-          <Label className="block text-xs font-medium text-text-secondary mb-2">
+        <div className="mb-4 mobile-form-group">
+          <Label className="block text-xs font-medium text-secondary mb-2">
             Murf Voice
           </Label>
           <Select value={selectedVoice} onValueChange={onVoiceChange}>
-            <SelectTrigger className="w-full bg-dark border-dark-border text-text-primary">
+            <SelectTrigger className="w-full glass border-border text-primary hover:shadow-glow/50 transition-all mobile-select">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="glass-card border-border">
               {voices.map(voice => (
                 <SelectItem key={voice.id} value={voice.id}>
                   {voice.name} ({voice.language}, {voice.gender})
