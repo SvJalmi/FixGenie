@@ -22,10 +22,11 @@ export function AIMentor({ code, language, onCodeSuggestion }: AIMentorProps) {
   // Mentorship query
   const mentorshipMutation = useMutation({
     mutationFn: async ({ code, language }: { code: string; language: string }) => {
-      return apiRequest("/api/ai-mentor/mentorship", {
-        method: "POST",
-        body: { code, language }
+      const response = await apiRequest('POST', '/api/ai-mentor/mentorship', {
+        code,
+        language
       });
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/analytics"] });
@@ -35,30 +36,35 @@ export function AIMentor({ code, language, onCodeSuggestion }: AIMentorProps) {
   // Code optimization query
   const optimizationMutation = useMutation({
     mutationFn: async ({ code, language, goals }: { code: string; language: string; goals: string[] }) => {
-      return apiRequest("/api/ai-mentor/optimize", {
-        method: "POST",
-        body: { code, language, goals }
+      const response = await apiRequest('POST', '/api/ai-mentor/optimize', {
+        code,
+        language,
+        goals
       });
+      return response.json();
     }
   });
 
   // Security audit query
   const securityMutation = useMutation({
     mutationFn: async ({ code, language }: { code: string; language: string }) => {
-      return apiRequest("/api/ai-mentor/security-audit", {
-        method: "POST",
-        body: { code, language }
+      const response = await apiRequest('POST', '/api/ai-mentor/security-audit', {
+        code,
+        language
       });
+      return response.json();
     }
   });
 
   // Intelligent suggestions query
   const suggestionsMutation = useMutation({
     mutationFn: async ({ code, language }: { code: string; language: string }) => {
-      return apiRequest("/api/codegen/suggestions", {
-        method: "POST",
-        body: { code, language, context: { projectType: "web", frameworks: ["react"] } }
+      const response = await apiRequest('POST', '/api/codegen/suggestions', {
+        code,
+        language,
+        context: { projectType: "web", frameworks: ["react"] }
       });
+      return response.json();
     }
   });
 
