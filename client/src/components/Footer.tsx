@@ -15,7 +15,7 @@ export default function Footer() {
                 <Code className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-accent-purple to-accent-blue bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold text-white">
                   FixGenie
                 </h3>
                 <Badge variant="secondary" className="bg-gradient-primary text-white text-xs shadow-glow">

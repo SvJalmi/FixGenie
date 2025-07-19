@@ -44,7 +44,7 @@ export default function Header({
             <div className="header-logo w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
               <Wand2 className="text-white w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4" />
             </div>
-            <h1 className="header-title text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-accent-purple to-accent-blue bg-clip-text text-transparent">
+            <h1 className="header-title text-base sm:text-lg md:text-xl font-bold text-white">
               FixGenie
             </h1>
             <Badge variant="secondary" className="bg-gradient-primary text-white text-xs shadow-glow hidden sm:inline-flex">
