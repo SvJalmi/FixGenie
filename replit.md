@@ -83,7 +83,7 @@ Preferred communication style: Simple, everyday language.
 - **Real-time Generation**: On-demand audio explanation creation
 
 ### Universal Multi-Language Support  
-- **Supported Languages**: 400+ programming languages across 35+ categories (Current count: 309 languages)
+- **Supported Languages**: 400+ programming languages across 35+ categories (Current count: 323 languages)
   - **Core Languages**: C, C++, C#, Java, Python, JavaScript, TypeScript, Go, Rust, Swift
   - **Compiled**: Fortran, ALGOL, COBOL, Visual Basic, Smalltalk, Ada, Nim
   - **Interpreted**: Ruby, Perl, Pascal, Lisp, BASIC, APL, Julia, MATLAB
@@ -91,10 +91,13 @@ Preferred communication style: Simple, everyday language.
   - **Markup & Data**: HTML, XML, YAML, JSON, TOML, CSS, SCSS, Less
   - **Functional**: Haskell, Scala, Clojure, Erlang, Elixir, F#, Racket
   - **🧪 Esoteric**: Brainfuck, LOLCODE, Whitespace, Malbolge, Befunge, INTERCAL, Ook!, Piet
-  - **🧬 Scientific**: J, IDL, GAMS, Mathematica/Wolfram, Scilab, GNU Octave, SageMath
+  - **🧬 Scientific**: J, IDL, GAMS, Mathematica/Wolfram, Scilab, GNU Octave, SageMath, Modelica
   - **🧙‍♂️ Blockchain**: Solidity, Vyper, Move, Cairo, Scilla, Michelson, Clarity
   - **🧰 Configuration**: Makefile, HCL, Gradle DSL, CMake, Bazel/Starlark, Nix, Dockerfile, Ansible
-  - **🧩 Emerging**: Zig, Crystal, Bosque, V, Odin, Red, Pony, Grain
+  - **🧩 Emerging & Specialized**: Zig, Crystal, Bosque, V, Odin, Red, Pony, Grain, Carbon, Vale
+  - **🧠 AI & ML-Focused**: Mojo, Gen
+  - **🧩 Domain-Specific**: Elm, Pony, Red
+  - **🧙‍♀️ Obscure but Intriguing**: LOOP, Frink, Rebol
   - **🧠 Metaprogramming**: Racket, Elixir, Nim, Hy, Template Haskell, Rust Macros
   - **🧑‍🏫 Educational**: Kalaam (Hindi), Citrine, Hedy, Kojo, Snap!, TurtleStitch, Quorum, Greenfoot
   - **Hardware Description**: Verilog, VHDL, ABEL, AHDL, Bluespec, Lava

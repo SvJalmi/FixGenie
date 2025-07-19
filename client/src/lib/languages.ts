@@ -421,6 +421,30 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
   { id: 'impromptu-performance', name: 'Impromptu (Performance)', category: 'Live-Performance', extension: '.scm', monacoId: 'scheme' },
   { id: 'extempore', name: 'Extempore (Real-time Multimedia)', category: 'Live-Performance', extension: '.xtm', monacoId: 'lisp' },
   { id: 'tidal-cycles-performance', name: 'TidalCycles (Live Music)', category: 'Live-Performance', extension: '.tidal', monacoId: 'haskell' },
+
+  // 🧪 Emerging & Specialized Languages
+  { id: 'bosque', name: 'Bosque', category: 'Emerging & Specialized', extension: '.bsq', monacoId: 'typescript' },
+  { id: 'zig', name: 'Zig', category: 'Emerging & Specialized', extension: '.zig', monacoId: 'c' },
+  { id: 'v-lang', name: 'V', category: 'Emerging & Specialized', extension: '.v', monacoId: 'go' },
+  { id: 'carbon', name: 'Carbon', category: 'Emerging & Specialized', extension: '.carbon', monacoId: 'cpp' },
+  { id: 'vale', name: 'Vale', category: 'Emerging & Specialized', extension: '.vale', monacoId: 'rust' },
+
+  // 🧠 AI & ML-Focused Languages
+  { id: 'mojo', name: 'Mojo', category: 'AI & ML-Focused', extension: '.mojo', monacoId: 'python' },
+  { id: 'gen', name: 'Gen', category: 'AI & ML-Focused', extension: '.gen', monacoId: 'julia' },
+
+  // 🧬 Scientific & Mathematical Enhanced
+  { id: 'j-lang', name: 'J', category: 'Scientific & Mathematical', extension: '.ijs', monacoId: 'apl' },
+
+  // 🧩 Domain-Specific & DSLs Enhanced
+  { id: 'elm', name: 'Elm', category: 'Domain-Specific & DSLs', extension: '.elm', monacoId: 'elm' },
+  { id: 'pony', name: 'Pony', category: 'Domain-Specific & DSLs', extension: '.pony', monacoId: 'rust' },
+  { id: 'red', name: 'Red', category: 'Domain-Specific & DSLs', extension: '.red', monacoId: 'rebol' },
+
+  // 🧙‍♀️ Obscure but Intriguing
+  { id: 'loop-lang', name: 'LOOP', category: 'Obscure but Intriguing', extension: '.loop', monacoId: 'scheme' },
+  { id: 'frink', name: 'Frink', category: 'Obscure but Intriguing', extension: '.frink', monacoId: 'java' },
+  { id: 'rebol', name: 'Rebol', category: 'Obscure but Intriguing', extension: '.r', monacoId: 'rebol' },
 ];
 
 export const getLanguageByCategory = (category: string): ProgrammingLanguage[] => {

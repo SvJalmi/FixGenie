@@ -463,6 +463,30 @@ export class UniversalErrorAnalyzer {
       case 'impromptu-performance': return this.analyzeImpromptuPerformance(code);
       case 'extempore': return this.analyzeExtempore(code);
       case 'tidal-cycles-performance': return this.analyzeTidalCyclesPerformance(code);
+
+      // 🧪 Emerging & Specialized Languages
+      case 'bosque': return this.analyzeBosque(code);
+      case 'zig': return this.analyzeZig(code);
+      case 'v-lang': return this.analyzeV(code);
+      case 'carbon': return this.analyzeCarbon(code);
+      case 'vale': return this.analyzeVale(code);
+
+      // 🧠 AI & ML-Focused Languages
+      case 'mojo': return this.analyzeMojo(code);
+      case 'gen': return this.analyzeGen(code);
+
+      // 🧬 Scientific & Mathematical Enhanced
+      case 'j-lang': return this.analyzeJ(code);
+
+      // 🧩 Domain-Specific & DSLs Enhanced
+      case 'elm': return this.analyzeElm(code);
+      case 'pony': return this.analyzePony(code);
+      case 'red': return this.analyzeRed(code);
+
+      // 🧙‍♀️ Obscure but Intriguing
+      case 'loop-lang': return this.analyzeLoop(code);
+      case 'frink': return this.analyzeFrink(code);
+      case 'rebol': return this.analyzeRebol(code);
       
       default:
         return this.analyzeGeneric(code, language);
@@ -2305,6 +2329,219 @@ export class UniversalErrorAnalyzer {
   private analyzeTidalCyclesPerformance(code: string) {
     const errors: CodeError[] = [];
     const suggestions = ['TidalCycles for live music coding', 'Use pattern-based composition', 'Algorithmic music performance'];
+    return { errors, suggestions };
+  }
+
+  // ========== NEW EMERGING & SPECIALIZED LANGUAGES ==========
+  
+  // 🧪 Emerging & Specialized Languages
+  private analyzeBosque(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Bosque eliminates complexity sources', 'No mutable state or loops', 'Microsoft research language'];
+    
+    if (code.includes('while') || code.includes('for')) {
+      errors.push({
+        type: 'Loop Not Allowed',
+        severity: 'error',
+        message: 'Bosque eliminates loops to reduce complexity',
+        line: 1,
+        column: 1,
+        suggestion: 'Use functional programming patterns instead of loops',
+        category: 'logical'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeZig(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Zig aims to replace C', 'Focus on safety and performance', 'Manual memory management with safety'];
+    
+    if (!code.includes('const') && !code.includes('var')) {
+      errors.push({
+        type: 'Missing Variable Declaration',
+        severity: 'warning',
+        message: 'Zig requires explicit variable declarations',
+        line: 1,
+        column: 1,
+        suggestion: 'Use const or var for variable declarations',
+        category: 'syntax'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeV(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['V is simple, fast, and safe', 'Building maintainable software', 'Compiled language with Go-like syntax'];
+    
+    if (code.includes('mut ') && !code.includes('// mutable')) {
+      errors.push({
+        type: 'Mutable Variable Warning',
+        severity: 'info',
+        message: 'Consider if mutable variable is necessary',
+        line: 1,
+        column: 1,
+        suggestion: 'V prefers immutable variables when possible',
+        category: 'style'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeCarbon(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Carbon is experimental C++ successor', 'Google-proposed language', 'Focus on performance and safety'];
+    
+    if (!code.includes('fn ') && code.length > 10) {
+      errors.push({
+        type: 'Missing Function Declaration',
+        severity: 'warning',
+        message: 'Carbon uses fn for function declarations',
+        line: 1,
+        column: 1,
+        suggestion: 'Define functions with fn keyword',
+        category: 'syntax'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeVale(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Vale provides memory safety', 'Region-based memory management', 'Systems programming language'];
+    
+    return { errors, suggestions };
+  }
+
+  // 🧠 AI & ML-Focused Languages
+  private analyzeMojo(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Mojo for high-performance AI', 'Python syntax with systems speed', 'Designed for AI workloads'];
+    
+    if (code.includes('def ') && !code.includes('@register_passable')) {
+      errors.push({
+        type: 'Performance Optimization Available',
+        severity: 'info',
+        message: 'Consider using @register_passable for performance',
+        line: 1,
+        column: 1,
+        suggestion: 'Use Mojo decorators for AI optimization',
+        category: 'performance'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeGen(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Gen for probabilistic programming', 'Built on Julia for statistical modeling', 'Advanced ML inference'];
+    
+    if (!code.includes('@gen') && code.includes('function')) {
+      errors.push({
+        type: 'Missing Gen Decorator',
+        severity: 'warning',
+        message: 'Gen functions typically use @gen decorator',
+        line: 1,
+        column: 1,
+        suggestion: 'Add @gen decorator for probabilistic functions',
+        category: 'syntax'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  // 🧬 Scientific & Mathematical Enhanced
+  private analyzeJ(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['J is descendant of APL', 'Mathematical and statistical computing', 'Array-oriented programming'];
+    
+    return { errors, suggestions };
+  }
+
+  // 🧩 Domain-Specific & DSLs Enhanced
+  private analyzeElm(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Elm for front-end web development', 'Functional language with no runtime exceptions', 'Strong guarantees'];
+    
+    if (!code.includes('module ') && code.length > 20) {
+      errors.push({
+        type: 'Missing Module Declaration',
+        severity: 'error',
+        message: 'Elm files must start with module declaration',
+        line: 1,
+        column: 1,
+        suggestion: 'Add module declaration at the top',
+        category: 'syntax'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzePony(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Pony for safe concurrent programming', 'Actor-model based language', 'Memory safety guarantees'];
+    
+    if (code.includes('class ') && !code.includes('actor ')) {
+      errors.push({
+        type: 'Consider Actor Model',
+        severity: 'info',
+        message: 'Pony emphasizes actor-based programming',
+        line: 1,
+        column: 1,
+        suggestion: 'Consider using actor instead of class for concurrency',
+        category: 'style'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeRed(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Red inspired by Rebol', 'Full-stack language for scripting and GUI', 'Expressive syntax'];
+    
+    return { errors, suggestions };
+  }
+
+  // 🧙‍♀️ Obscure but Intriguing
+  private analyzeLoop(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['LOOP for computability studies', 'Theoretical language', 'Used in complexity theory'];
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeFrink(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Frink tracks units of measure', 'Great for physics and engineering', 'Dimensional analysis built-in'];
+    
+    if (!code.includes('unit') && code.includes('*') || code.includes('/')) {
+      errors.push({
+        type: 'Consider Unit Tracking',
+        severity: 'info',
+        message: 'Frink excels at unit tracking for calculations',
+        line: 1,
+        column: 1,
+        suggestion: 'Add unit declarations for dimensional analysis',
+        category: 'style'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeRebol(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Rebol lightweight scripting language', 'Expressive syntax with GUI support', 'Messaging and data exchange'];
+    
     return { errors, suggestions };
   }
   
