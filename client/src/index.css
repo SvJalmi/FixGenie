@@ -1,0 +1,432 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+
+  /* FixGenie custom colors */
+  --dark: hsl(213, 23%, 6%);
+  --dark-elevated: hsl(218, 22%, 9%);
+  --dark-border: hsl(215, 14%, 19%);
+  --primary-blue: hsl(207, 90%, 54%);
+  --success: hsl(130, 59%, 64%);
+  --warning: hsl(44, 87%, 58%);
+  --error: hsl(4, 90%, 64%);
+  --text-primary: hsl(213, 31%, 95%);
+  --text-secondary: hsl(217, 10%, 55%);
+}
+
+.dark {
+  --background: hsl(213, 23%, 6%);
+  --foreground: hsl(213, 31%, 95%);
+  --muted: hsl(218, 22%, 9%);
+  --muted-foreground: hsl(217, 10%, 55%);
+  --popover: hsl(218, 22%, 9%);
+  --popover-foreground: hsl(213, 31%, 95%);
+  --card: hsl(218, 22%, 9%);
+  --card-foreground: hsl(213, 31%, 95%);
+  --border: hsl(215, 14%, 19%);
+  --input: hsl(215, 14%, 19%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(218, 22%, 9%);
+  --secondary-foreground: hsl(213, 31%, 95%);
+  --accent: hsl(218, 22%, 9%);
+  --accent-foreground: hsl(213, 31%, 95%);
+  --destructive: hsl(4, 90%, 64%);
+  --destructive-foreground: hsl(213, 31%, 95%);
+  --ring: hsl(217, 10%, 55%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--dark));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--dark-border));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--text-secondary));
+  }
+
+  /* Monaco Editor custom styles */
+  .monaco-editor {
+    font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', 'SF Mono', Monaco, 'Cascadia Mono', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+  }
+
+  .monaco-editor .margin {
+    background-color: hsl(var(--dark-elevated)) !important;
+  }
+
+  .monaco-editor .monaco-editor-background {
+    background-color: hsl(var(--dark)) !important;
+  }
+
+  /* Custom classes for FixGenie components */
+  .dark {
+    color-scheme: dark;
+  }
+
+  .text-text-primary {
+    color: hsl(var(--text-primary));
+  }
+
+  .text-text-secondary {
+    color: hsl(var(--text-secondary));
+  }
+
+  .bg-dark {
+    background-color: hsl(var(--dark));
+  }
+
+  .bg-dark-elevated {
+    background-color: hsl(var(--dark-elevated));
+  }
+
+  .border-dark-border {
+    border-color: hsl(var(--dark-border));
+  }
+
+  .bg-primary-blue {
+    background-color: hsl(var(--primary-blue));
+  }
+
+  .text-primary-blue {
+    color: hsl(var(--primary-blue));
+  }
+
+  .bg-success {
+    background-color: hsl(var(--success));
+  }
+
+  .text-success {
+    color: hsl(var(--success));
+  }
+
+  .bg-warning {
+    background-color: hsl(var(--warning));
+  }
+
+  .text-warning {
+    color: hsl(var(--warning));
+  }
+
+  .bg-error {
+    background-color: hsl(var(--error));
+  }
+
+  .text-error {
+    color: hsl(var(--error));
+  }
+
+  /* Animations */
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 8px hsl(var(--success));
+    }
+    50% {
+      opacity: 0.8;
+      box-shadow: 0 0 16px hsl(var(--success));
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1280px) {
+    .w-80 {
+      width: 18rem;
+    }
+    
+    .w-96 {
+      width: 22rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .w-80 {
+      width: 16rem;
+    }
+    
+    .w-96 {
+      width: 20rem;
+    }
+    
+    /* Hide sidebar on tablet */
+    .sidebar-mobile-hidden {
+      display: none;
+    }
+    
+    /* Floating sidebar overlay */
+    .sidebar-mobile-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 50;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .sidebar-mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20rem;
+      height: 100vh;
+      z-index: 51;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .sidebar-mobile.open {
+      transform: translateX(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    /* Mobile-first responsive design */
+    .header-mobile {
+      padding: 1rem;
+    }
+    
+    .header-title {
+      font-size: 1.125rem;
+    }
+    
+    /* Stack error panel below editor on mobile */
+    .editor-container {
+      flex-direction: column;
+    }
+    
+    .error-panel-mobile {
+      width: 100%;
+      max-height: 40vh;
+      overflow-y: auto;
+    }
+    
+    /* Compact floating action button */
+    .fab-mobile {
+      bottom: 1rem;
+      right: 1rem;
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+    
+    /* Mobile code editor adjustments */
+    .monaco-editor {
+      font-size: 12px !important;
+    }
+    
+    /* Touch-friendly controls */
+    .mobile-touch-friendly {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Hide non-essential elements on mobile */
+    .mobile-hidden {
+      display: none !important;
+    }
+    
+    /* Compact sidebar sections */
+    .sidebar-section {
+      padding: 0.75rem;
+    }
+    
+    .sidebar-section h3 {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Extra small mobile devices */
+    .container {
+      padding: 0.5rem;
+    }
+    
+    .header-mobile {
+      padding: 0.75rem;
+    }
+    
+    .sidebar-mobile {
+      width: 100vw;
+    }
+    
+    /* Reduce Monaco editor font size further */
+    .monaco-editor {
+      font-size: 11px !important;
+    }
+    
+    /* Compact controls */
+    .button-sm-mobile {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  /* Dark mode specific responsive adjustments */
+  @media (prefers-color-scheme: dark) {
+    .sidebar-mobile-overlay {
+      background: rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  /* High DPI displays */
+  @media (min-resolution: 2dppx) {
+    .monaco-editor {
+      font-feature-settings: "liga" 0;
+    }
+  }
+
+  /* Landscape orientation optimizations */
+  @media (orientation: landscape) and (max-height: 600px) {
+    .header-mobile {
+      padding: 0.5rem 1rem;
+    }
+    
+    .sidebar-section {
+      padding: 0.5rem;
+    }
+  }
+
+  /* Desktop sidebar styling */
+  .sidebar-desktop {
+    width: 20rem;
+    background: hsl(var(--background-elevated));
+    border-right: 1px solid hsl(var(--border));
+    overflow-y: auto;
+  }
+
+  /* Mobile sidebar improvements */
+  .sidebar-mobile {
+    background: hsl(var(--background-elevated));
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Error panel mobile specific styling */
+  .error-panel-mobile {
+    min-height: 200px;
+    max-height: 50vh;
+  }
+
+  /* Enhanced touch targets for mobile */
+  @media (max-width: 768px) {
+    button, [role="button"], select, input {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Improve select dropdown on mobile */
+    select {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Better focus indicators for mobile */
+    button:focus-visible,
+    [role="button"]:focus-visible {
+      outline: 2px solid hsl(var(--primary));
+      outline-offset: 2px;
+    }
+  }
+
+  /* Floating action button enhancements */
+  .fab-mobile {
+    position: fixed;
+    z-index: 40;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Monaco Editor mobile optimizations */
+  @media (max-width: 768px) {
+    .monaco-editor .editor-scrollable {
+      overflow-x: auto !important;
+    }
+    
+    .monaco-editor .view-lines {
+      white-space: nowrap !important;
+    }
+    
+    /* Better line numbers on mobile */
+    .monaco-editor .margin-view-overlays .line-numbers {
+      font-size: 10px !important;
+    }
+  }
+
+  /* Responsive grid for error items */
+  .error-grid-mobile {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .error-grid-mobile {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Accessibility improvements */
+  @media (prefers-reduced-motion: reduce) {
+    .sidebar-mobile {
+      transition: none;
+    }
+    
+    .animate-pulse-glow {
+      animation: none;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .border-dark-border {
+      border-color: hsl(var(--foreground)) !important;
+    }
+    
+    .bg-dark-elevated {
+      border: 1px solid hsl(var(--foreground));
+    }
+  }
+}
