@@ -1,6 +1,6 @@
 import type { MurfVoice } from "@shared/schema";
 
-const MURF_API_KEY = process.env.MURF_API_KEY || process.env.MURF_API_KEY_ENV_VAR || "default_key";
+const MURF_API_KEY = process.env.MURF_API_KEY;
 const MURF_API_BASE = "https://api.murf.ai/v1";
 
 export async function generateSpeech(text: string, voiceId: string, options?: {
@@ -8,30 +8,49 @@ export async function generateSpeech(text: string, voiceId: string, options?: {
   pitch?: number;
   format?: string;
 }): Promise<{ audioUrl: string; duration: number }> {
+  if (!MURF_API_KEY) {
+    throw new Error("MURF_API_KEY environment variable is not set");
+  }
+
+  console.log('Murf API Request:', {
+    text: text.substring(0, 100) + '...',
+    voiceId,
+    options
+  });
+
   try {
     const response = await fetch(`${MURF_API_BASE}/speech/generate`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${MURF_API_KEY}`,
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
       body: JSON.stringify({
-        text,
-        voice_id: voiceId,
-        speed: options?.speed || 1.0,
-        pitch: options?.pitch || 0,
-        format: options?.format || 'mp3',
-        quality: 'high',
+        text: text,
+        voiceId: voiceId,
+        format: (options?.format || 'MP3').toUpperCase(),
+        model: "GEN2",
+        base64: false,
+        style: "conversational",
+        sampleRate: 44100,
+        channelType: "stereo"
       }),
     });
 
+    console.log('Murf API Response Status:', response.status);
+
     if (!response.ok) {
-      throw new Error(`Murf API error: ${response.status} ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('Murf API Error Response:', errorText);
+      throw new Error(`Murf API error: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     const result = await response.json();
+    console.log('Murf API Success:', result);
+    
     return {
-      audioUrl: result.audio_url,
+      audioUrl: result.audioFile || result.audio_url || result.url,
       duration: result.duration || 0,
     };
   } catch (error) {
@@ -41,35 +60,56 @@ export async function generateSpeech(text: string, voiceId: string, options?: {
 }
 
 export async function getMurfVoices(): Promise<MurfVoice[]> {
+  if (!MURF_API_KEY) {
+    console.log('No Murf API key, returning fallback voices');
+    return getFallbackVoices();
+  }
+
   try {
-    const response = await fetch(`${MURF_API_BASE}/voices`, {
+    const response = await fetch(`${MURF_API_BASE}/speech/voices`, {
       headers: {
         'Authorization': `Bearer ${MURF_API_KEY}`,
+        'Accept': 'application/json',
       },
     });
 
     if (!response.ok) {
-      throw new Error(`Murf API error: ${response.status} ${response.statusText}`);
+      console.error(`Murf voices API error: ${response.status}`);
+      return getFallbackVoices();
     }
 
     const result = await response.json();
-    return result.voices || [];
+    console.log('Murf voices fetched successfully');
+    
+    // Transform Murf API response to our format
+    const voices = (result.voices || result.data || []).map((voice: any) => ({
+      id: voice.voiceId || voice.id,
+      name: voice.name,
+      language: voice.locale || voice.language,
+      gender: voice.gender,
+      accent: voice.accent
+    }));
+
+    return voices.length > 0 ? voices : getFallbackVoices();
   } catch (error) {
     console.error('Error fetching voices:', error);
-    // Return a fallback list of common voices
-    return [
-      { id: 'voice_us_male', name: 'US Male', language: 'en-US', gender: 'male' },
-      { id: 'voice_us_female', name: 'US Female', language: 'en-US', gender: 'female' },
-      { id: 'voice_uk_male', name: 'UK Male', language: 'en-UK', gender: 'male' },
-      { id: 'voice_uk_female', name: 'UK Female', language: 'en-UK', gender: 'female' },
-      { id: 'voice_au_male', name: 'AU Male', language: 'en-AU', gender: 'male' },
-      { id: 'voice_au_female', name: 'AU Female', language: 'en-AU', gender: 'female' },
-      { id: 'voice_ca_male', name: 'CA Male', language: 'en-CA', gender: 'male' },
-      { id: 'voice_ca_female', name: 'CA Female', language: 'en-CA', gender: 'female' },
-      { id: 'voice_in_male', name: 'IN Male', language: 'en-IN', gender: 'male' },
-      { id: 'voice_in_female', name: 'IN Female', language: 'en-IN', gender: 'female' },
-    ];
+    return getFallbackVoices();
   }
+}
+
+function getFallbackVoices(): MurfVoice[] {
+  return [
+    { id: 'natalie', name: 'Natalie (US Female)', language: 'en-US', gender: 'female' },
+    { id: 'ryan', name: 'Ryan (US Male)', language: 'en-US', gender: 'male' },
+    { id: 'sarah', name: 'Sarah (US Female)', language: 'en-US', gender: 'female' },
+    { id: 'kevin', name: 'Kevin (US Male)', language: 'en-US', gender: 'male' },
+    { id: 'aditi', name: 'Aditi (IN Female)', language: 'en-IN', gender: 'female' },
+    { id: 'ravi', name: 'Ravi (IN Male)', language: 'en-IN', gender: 'male' },
+    { id: 'olivia', name: 'Olivia (UK Female)', language: 'en-GB', gender: 'female' },
+    { id: 'peter', name: 'Peter (UK Male)', language: 'en-GB', gender: 'male' },
+    { id: 'emily', name: 'Emily (AU Female)', language: 'en-AU', gender: 'female' },
+    { id: 'daniel', name: 'Daniel (AU Male)', language: 'en-AU', gender: 'male' },
+  ];
 }
 
 export async function translateText(text: string, targetLanguage: string): Promise<string> {

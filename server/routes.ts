@@ -101,22 +101,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log('Generating voice for text:', text.substring(0, 100) + '...');
       
-      // Skip Murf for now and use browser TTS directly due to API issues
-      console.log('Using browser TTS directly for reliability');
-      
-      const cleanText = text.replace(/\s+/g, ' ').trim();
-      
-      res.json({
-        success: true,
-        audioUrl: null, // Browser will handle TTS
-        duration: Math.ceil(cleanText.length / 10), // Estimate: 10 chars per second
-        provider: 'browser',
-        text: cleanText,
-        voiceId,
-        speed,
-        fallback: true,
-        message: 'Using browser text-to-speech'
-      });
+      try {
+        // Use Murf TTS with updated API key
+        console.log('Attempting Murf TTS generation...');
+        const { audioUrl, duration } = await generateSpeech(text, voiceId, {
+          speed,
+          format: 'mp3',
+        });
+        
+        console.log('Murf TTS successful:', audioUrl);
+        
+        res.json({
+          success: true,
+          audioUrl,
+          duration,
+          provider: 'murf',
+          text: text.substring(0, 200) + (text.length > 200 ? '...' : ''),
+          voiceId,
+          speed
+        });
+      } catch (murfError) {
+        console.error('Murf TTS failed:', murfError);
+        res.status(500).json({ 
+          success: false,
+          message: `Murf TTS failed: ${murfError.message}`,
+          error: 'MURF_API_ERROR'
+        });
+      }
     } catch (validationError) {
       console.error('Voice generation validation error:', validationError);
       res.status(400).json({ 

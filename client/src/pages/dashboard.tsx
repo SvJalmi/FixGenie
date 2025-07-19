@@ -212,83 +212,22 @@ export default function Dashboard() {
       return response.json();
     },
     onSuccess: (voiceGeneration: any) => {
-      console.log('Voice generation successful:', voiceGeneration);
+      console.log('Murf voice generation successful:', voiceGeneration);
       
-      if (voiceGeneration.success) {
-        if (voiceGeneration.audioUrl) {
-          // External TTS success
-          setCurrentAudioUrl(voiceGeneration.audioUrl);
-          setIsVoicePlayerVisible(true);
-          toast({
-            title: "Voice Generated",
-            description: `Audio explanation ready (${voiceGeneration.provider})`,
-          });
-        } else {
-          // Browser TTS (this is our primary method now)
-          console.log('Using browser TTS for:', voiceGeneration.text);
-          
-          // Stop any currently speaking speech
-          speechSynthesis.cancel();
-          
-          // Wait a moment for speechSynthesis to be ready
-          setTimeout(() => {
-            const utterance = new SpeechSynthesisUtterance(voiceGeneration.text);
-            
-            // Set speech parameters
-            utterance.rate = Math.min(Math.max(voiceGeneration.speed || 1.0, 0.1), 10);
-            utterance.volume = 0.9;
-            utterance.pitch = 1.0;
-            
-            // Try to find a matching voice
-            const voices = speechSynthesis.getVoices();
-            if (voices.length > 0) {
-              // Map our voice IDs to browser voices
-              const voiceMap: Record<string, string> = {
-                'voice_us_male': 'Google US English',
-                'voice_us_female': 'Google US English',
-                'voice_uk_male': 'Google UK English Male',
-                'voice_uk_female': 'Google UK English Female',
-                'voice_in_female': 'Google हिन्दी',
-                'voice_in_male': 'Google हिन्दी'
-              };
-              
-              const targetVoiceName = voiceMap[voiceGeneration.voiceId];
-              const selectedVoice = voices.find(voice => 
-                voice.name.includes(targetVoiceName?.split(' ')[1] || 'English') ||
-                voice.lang.startsWith('en')
-              );
-              
-              if (selectedVoice) {
-                utterance.voice = selectedVoice;
-                console.log('Using voice:', selectedVoice.name);
-              }
-            }
-            
-            utterance.onstart = () => {
-              console.log('Browser TTS started');
-              toast({
-                title: "🔊 Voice Explanation",
-                description: "Playing error explanation...",
-              });
-            };
-            
-            utterance.onend = () => {
-              console.log('Browser TTS finished');
-            };
-            
-            utterance.onerror = (event) => {
-              console.error('Browser TTS error:', event);
-              toast({
-                title: "Speech Error",
-                description: "Failed to play voice explanation",
-                variant: "destructive",
-              });
-            };
-            
-            // Start speaking
-            speechSynthesis.speak(utterance);
-          }, 100);
-        }
+      if (voiceGeneration.success && voiceGeneration.audioUrl) {
+        // Murf TTS success - set up audio player
+        setCurrentAudioUrl(voiceGeneration.audioUrl);
+        setIsVoicePlayerVisible(true);
+        toast({
+          title: "Voice Generated",
+          description: `Professional voice explanation ready (${voiceGeneration.provider})`,
+        });
+      } else {
+        toast({
+          title: "Voice Generation Error",
+          description: "Failed to generate voice with Murf TTS",
+          variant: "destructive",
+        });
       }
     },
     onError: (error: Error) => {
