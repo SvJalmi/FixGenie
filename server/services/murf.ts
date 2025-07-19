@@ -58,11 +58,16 @@ export async function getMurfVoices(): Promise<MurfVoice[]> {
     console.error('Error fetching voices:', error);
     // Return a fallback list of common voices
     return [
-      { id: 'matthew', name: 'Matthew', language: 'en-US', gender: 'male' },
-      { id: 'sarah', name: 'Sarah', language: 'en-US', gender: 'female' },
-      { id: 'oliver', name: 'Oliver', language: 'en-UK', gender: 'male' },
-      { id: 'emma', name: 'Emma', language: 'en-UK', gender: 'female' },
-      { id: 'raj', name: 'Raj', language: 'en-IN', gender: 'male' },
+      { id: 'voice_us_male', name: 'US Male', language: 'en-US', gender: 'male' },
+      { id: 'voice_us_female', name: 'US Female', language: 'en-US', gender: 'female' },
+      { id: 'voice_uk_male', name: 'UK Male', language: 'en-UK', gender: 'male' },
+      { id: 'voice_uk_female', name: 'UK Female', language: 'en-UK', gender: 'female' },
+      { id: 'voice_au_male', name: 'AU Male', language: 'en-AU', gender: 'male' },
+      { id: 'voice_au_female', name: 'AU Female', language: 'en-AU', gender: 'female' },
+      { id: 'voice_ca_male', name: 'CA Male', language: 'en-CA', gender: 'male' },
+      { id: 'voice_ca_female', name: 'CA Female', language: 'en-CA', gender: 'female' },
+      { id: 'voice_in_male', name: 'IN Male', language: 'en-IN', gender: 'male' },
+      { id: 'voice_in_female', name: 'IN Female', language: 'en-IN', gender: 'female' },
     ];
   }
 }

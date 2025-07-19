@@ -72,12 +72,12 @@ export default function Header({
           </div>
           
           {/* User Menu */}
-          <div className="flex items-center space-x-2 md:space-x-3">
-            <Button variant="ghost" size="sm" className="mobile-touch-friendly">
-              <Settings className="w-3 h-3 md:w-4 md:h-4 text-text-secondary" />
+          <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
+            <Button variant="ghost" size="sm" className="mobile-touch-friendly glass hover:shadow-glow/50 transition-all">
+              <Settings className="w-3 h-3 md:w-4 md:h-4 text-secondary" />
             </Button>
-            <Avatar className="w-6 h-6 md:w-8 md:h-8">
-              <AvatarFallback className="bg-primary-blue text-white text-xs md:text-sm">
+            <Avatar className="w-6 h-6 md:w-8 md:h-8 shadow-glow">
+              <AvatarFallback className="bg-gradient-primary text-white text-xs md:text-sm">
                 U
               </AvatarFallback>
             </Avatar>

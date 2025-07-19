@@ -16,7 +16,7 @@ import type { ErrorAnalysis, MurfVoice, VoiceGeneration } from "@shared/schema";
 
 export default function Dashboard() {
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
-  const [selectedVoice, setSelectedVoice] = useState("matthew");
+  const [selectedVoice, setSelectedVoice] = useState("voice_us_male");
   const [speechSpeed, setSpeechSpeed] = useState(1.0);
   const [code, setCode] = useState("");
   const [currentAnalysis, setCurrentAnalysis] = useState<ErrorAnalysis | null>(null);

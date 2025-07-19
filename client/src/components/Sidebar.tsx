@@ -118,7 +118,7 @@ export default function Sidebar({
             <SelectContent className="glass-card border-border">
               {voices.map(voice => (
                 <SelectItem key={voice.id} value={voice.id}>
-                  {voice.name} ({voice.language}, {voice.gender})
+                  {voice.language.toUpperCase()} - {voice.gender.charAt(0).toUpperCase() + voice.gender.slice(1)}
                 </SelectItem>
               ))}
             </SelectContent>
