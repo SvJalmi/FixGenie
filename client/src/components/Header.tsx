@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { BarChart3, Settings, Wand2, Menu, X } from "lucide-react";
 import { useMobile } from "@/hooks/use-mobile";
+import SettingsModal from "./SettingsModal";
+import UserProfileMenu from "./UserProfileMenu";
+import UsageModal from "./UsageModal";
+import TTSStatusToggle from "./TTSStatusToggle";
 
 interface HeaderProps {
   charactersUsed: number;
@@ -19,6 +23,10 @@ export default function Header({
 }: HeaderProps) {
   const isMobile = useMobile();
   const usagePercentage = (charactersUsed / maxCharacters) * 100;
+  
+  // Modal states
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isUsageOpen, setIsUsageOpen] = useState(false);
 
   return (
     <header className="bg-elevated border-b border-border px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 glass-card header-mobile">
@@ -54,14 +62,16 @@ export default function Header({
         </div>
         
         <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-4">
-          {/* Voice Status Indicator - Hidden on small screens */}
-          <div className="hidden lg:flex items-center space-x-2 glass rounded-lg px-3 py-2 shadow-success">
-            <div className="w-2 h-2 bg-accent-green rounded-full animate-pulse"></div>
-            <span className="text-sm text-secondary">Murf TTS Ready</span>
-          </div>
+          {/* TTS Status Toggle */}
+          <TTSStatusToggle className="hidden lg:flex" />
           
-          {/* API Usage - Responsive sizing */}
-          <div className="flex items-center space-x-1 md:space-x-2 text-secondary glass rounded-lg px-2 py-1">
+          {/* API Usage - Clickable */}
+          <Button
+            variant="ghost" 
+            size="sm"
+            onClick={() => setIsUsageOpen(true)}
+            className="flex items-center space-x-1 md:space-x-2 text-secondary glass rounded-lg px-2 py-1 hover:shadow-glow/50 transition-all hover:scale-105"
+          >
             <BarChart3 className="w-3 h-3 md:w-4 md:h-4 text-accent-cyan" />
             <span className="text-xs md:text-sm">
               {isMobile 
@@ -69,21 +79,34 @@ export default function Header({
                 : `${(charactersUsed / 1000).toFixed(1)}K / ${(maxCharacters / 1000000).toFixed(0)}M chars`
               }
             </span>
-          </div>
+          </Button>
           
-          {/* User Menu */}
+          {/* Settings and User Menu */}
           <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
-            <Button variant="ghost" size="sm" className="mobile-touch-friendly glass hover:shadow-glow/50 transition-all">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setIsSettingsOpen(true)}
+              className="mobile-touch-friendly glass hover:shadow-glow/50 transition-all hover:scale-105"
+            >
               <Settings className="w-3 h-3 md:w-4 md:h-4 text-secondary" />
             </Button>
-            <Avatar className="w-6 h-6 md:w-8 md:h-8 shadow-glow">
-              <AvatarFallback className="bg-gradient-primary text-white text-xs md:text-sm">
-                U
-              </AvatarFallback>
-            </Avatar>
+            <UserProfileMenu className="mobile-touch-friendly" />
           </div>
         </div>
       </div>
+      
+      {/* Modals */}
+      <SettingsModal 
+        isOpen={isSettingsOpen} 
+        onClose={() => setIsSettingsOpen(false)} 
+      />
+      <UsageModal
+        isOpen={isUsageOpen}
+        onClose={() => setIsUsageOpen(false)}
+        charactersUsed={charactersUsed}
+        maxCharacters={maxCharacters}
+      />
     </header>
   );
 }
