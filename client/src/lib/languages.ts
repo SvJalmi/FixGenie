@@ -253,7 +253,7 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
   // 🧠 Metaprogramming & Macro Languages
   { id: 'racket', name: 'Racket', category: 'Metaprogramming', extension: '.rkt', monacoId: 'racket' },
   { id: 'elixir', name: 'Elixir', category: 'Metaprogramming', extension: '.ex', monacoId: 'elixir' },
-  { id: 'nim', name: 'Nim', category: 'Metaprogramming', extension: '.nim', monacoId: 'nim' },
+  { id: 'nim-meta', name: 'Nim (Metaprogramming)', category: 'Metaprogramming', extension: '.nim', monacoId: 'nim' },
   { id: 'hy', name: 'Hy', category: 'Metaprogramming', extension: '.hy', monacoId: 'lisp' },
   { id: 'clojure-macros', name: 'Clojure (with macros)', category: 'Metaprogramming', extension: '.clj', monacoId: 'clojure' },
   { id: 'template-haskell', name: 'Template Haskell', category: 'Metaprogramming', extension: '.hs', monacoId: 'haskell' },
@@ -268,6 +268,64 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
   { id: 'turtlestitch', name: 'TurtleStitch', category: 'Educational', extension: '.xml', monacoId: 'xml' },
   { id: 'quorum', name: 'Quorum', category: 'Educational', extension: '.quorum', monacoId: 'java' },
   { id: 'greenfoot', name: 'Greenfoot Java', category: 'Educational', extension: '.java', monacoId: 'java' },
+
+  // 🧠 Esoteric & Artistic Languages
+  { id: 'piet-art', name: 'Piet (Visual Art Programming)', category: 'Artistic', extension: '.piet', monacoId: 'plaintext' },
+  { id: 'shakespeare', name: 'Shakespeare Programming Language', category: 'Artistic', extension: '.spl', monacoId: 'plaintext' },
+  { id: 'chef', name: 'Chef', category: 'Artistic', extension: '.chef', monacoId: 'plaintext' },
+  { id: 'velato', name: 'Velato', category: 'Artistic', extension: '.mid', monacoId: 'plaintext' },
+  { id: 'taxi', name: 'Taxi', category: 'Artistic', extension: '.taxi', monacoId: 'plaintext' },
+
+  // 🧬 Mathematical & Modeling Languages
+  { id: 'modelica', name: 'Modelica', category: 'Mathematical', extension: '.mo', monacoId: 'pascal' },
+  { id: 'ampl', name: 'AMPL', category: 'Mathematical', extension: '.mod', monacoId: 'plaintext' },
+  { id: 'z3-smt', name: 'Z3 SMT-LIB', category: 'Mathematical', extension: '.smt2', monacoId: 'lisp' },
+  { id: 'maple', name: 'Maple', category: 'Mathematical', extension: '.mpl', monacoId: 'mathematica' },
+  { id: 'maxima', name: 'Maxima', category: 'Mathematical', extension: '.mac', monacoId: 'lisp' },
+  { id: 'gap', name: 'GAP (Groups, Algorithms, Programming)', category: 'Mathematical', extension: '.g', monacoId: 'pascal' },
+
+  // 🧙‍♀️ AI & Knowledge Representation Languages
+  { id: 'cycl', name: 'CycL', category: 'AI', extension: '.cyc', monacoId: 'lisp' },
+  { id: 'atomese', name: 'OpenCog Atomese', category: 'AI', extension: '.scm', monacoId: 'scheme' },
+  { id: 'clips', name: 'CLIPS', category: 'AI', extension: '.clp', monacoId: 'lisp' },
+  { id: 'drools', name: 'Drools Rule Language', category: 'AI', extension: '.drl', monacoId: 'java' },
+  { id: 'swrl', name: 'SWRL (Semantic Web Rule Language)', category: 'AI', extension: '.swrl', monacoId: 'xml' },
+  { id: 'jess', name: 'Jess', category: 'AI', extension: '.clp', monacoId: 'lisp' },
+
+  // 🧩 Robotics & Embedded Systems Languages
+  { id: 'urbi', name: 'URBI', category: 'Robotics', extension: '.u', monacoId: 'cpp' },
+  { id: 'nqc', name: 'NQC (Not Quite C)', category: 'Robotics', extension: '.nqc', monacoId: 'c' },
+  { id: 'ch', name: 'Ch (C/C++ Interpreter)', category: 'Robotics', extension: '.ch', monacoId: 'c' },
+  { id: 'robocode', name: 'Robocode', category: 'Robotics', extension: '.java', monacoId: 'java' },
+  { id: 'ros-launch', name: 'ROS Launch XML', category: 'Robotics', extension: '.launch', monacoId: 'xml' },
+  { id: 'arduino', name: 'Arduino (C/C++)', category: 'Robotics', extension: '.ino', monacoId: 'cpp' },
+
+  // 🧑‍🎨 Creative Coding & Multimedia Languages
+  { id: 'processing', name: 'Processing', category: 'Creative', extension: '.pde', monacoId: 'java' },
+  { id: 'openframeworks', name: 'openFrameworks', category: 'Creative', extension: '.cpp', monacoId: 'cpp' },
+  { id: 'pure-data', name: 'Pure Data (Pd)', category: 'Creative', extension: '.pd', monacoId: 'plaintext' },
+  { id: 'supercollider', name: 'SuperCollider', category: 'Creative', extension: '.sc', monacoId: 'javascript' },
+  { id: 'chuck', name: 'ChucK', category: 'Creative', extension: '.ck', monacoId: 'c' },
+  { id: 'p5js', name: 'p5.js', category: 'Creative', extension: '.js', monacoId: 'javascript' },
+  { id: 'cinder', name: 'Cinder', category: 'Creative', extension: '.cpp', monacoId: 'cpp' },
+
+  // 🧑‍🔬 Bioinformatics & Scientific Computing Languages
+  { id: 'bioperl', name: 'BioPerl', category: 'Bioinformatics', extension: '.pl', monacoId: 'perl' },
+  { id: 'bioconductor', name: 'Bioconductor (R)', category: 'Bioinformatics', extension: '.R', monacoId: 'r' },
+  { id: 'cellml', name: 'CellML', category: 'Bioinformatics', extension: '.cellml', monacoId: 'xml' },
+  { id: 'biopython', name: 'BioPython', category: 'Bioinformatics', extension: '.py', monacoId: 'python' },
+  { id: 'biojava', name: 'BioJava', category: 'Bioinformatics', extension: '.java', monacoId: 'java' },
+  { id: 'emboss', name: 'EMBOSS', category: 'Bioinformatics', extension: '.acd', monacoId: 'plaintext' },
+  { id: 'phylip', name: 'PHYLIP', category: 'Bioinformatics', extension: '.phy', monacoId: 'plaintext' },
+
+  // 🧰 Infrastructure & DevOps DSLs
+  { id: 'starlark', name: 'Starlark (Bazel)', category: 'Infrastructure', extension: '.bzl', monacoId: 'python' },
+  { id: 'dhall', name: 'Dhall', category: 'Infrastructure', extension: '.dhall', monacoId: 'haskell' },
+  { id: 'cue-lang', name: 'CUE', category: 'Infrastructure', extension: '.cue', monacoId: 'json' },
+  { id: 'jsonnet', name: 'Jsonnet', category: 'Infrastructure', extension: '.jsonnet', monacoId: 'json' },
+  { id: 'pulumi', name: 'Pulumi (Infrastructure as Code)', category: 'Infrastructure', extension: '.ts', monacoId: 'typescript' },
+  { id: 'helm', name: 'Helm Templates', category: 'Infrastructure', extension: '.tpl', monacoId: 'yaml' },
+  { id: 'kustomize', name: 'Kustomize', category: 'Infrastructure', extension: '.yaml', monacoId: 'yaml' },
 ];
 
 export const getLanguageByCategory = (category: string): ProgrammingLanguage[] => {

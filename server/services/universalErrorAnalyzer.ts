@@ -267,7 +267,8 @@ export class UniversalErrorAnalyzer {
       // Metaprogramming & Macro Languages
       case 'racket': return this.analyzeRacket(code);
       case 'elixir': return this.analyzeElixir(code);
-      case 'nim': return this.analyzeNim(code);
+      case 'nim': 
+      case 'nim-meta': return this.analyzeNim(code);
       case 'hy': return this.analyzeHy(code);
       case 'clojure-macros': return this.analyzeClojureMacros(code);
       case 'template-haskell': return this.analyzeTemplateHaskell(code);
@@ -282,6 +283,64 @@ export class UniversalErrorAnalyzer {
       case 'turtlestitch': return this.analyzeTurtleStitch(code);
       case 'quorum': return this.analyzeQuorum(code);
       case 'greenfoot': return this.analyzeGreenfoot(code);
+      
+      // Esoteric & Artistic Languages
+      case 'piet-art': return this.analyzePietArt(code);
+      case 'shakespeare': return this.analyzeShakespeare(code);
+      case 'chef': return this.analyzeChef(code);
+      case 'velato': return this.analyzeVelato(code);
+      case 'taxi': return this.analyzeTaxi(code);
+      
+      // Mathematical & Modeling Languages
+      case 'modelica': return this.analyzeModelica(code);
+      case 'ampl': return this.analyzeAMPL(code);
+      case 'z3-smt': return this.analyzeZ3SMT(code);
+      case 'maple': return this.analyzeMaple(code);
+      case 'maxima': return this.analyzeMaxima(code);
+      case 'gap': return this.analyzeGAP(code);
+      
+      // AI & Knowledge Representation Languages
+      case 'cycl': return this.analyzeCycL(code);
+      case 'atomese': return this.analyzeAtomese(code);
+      case 'clips': return this.analyzeCLIPS(code);
+      case 'drools': return this.analyzeDrools(code);
+      case 'swrl': return this.analyzeSWRL(code);
+      case 'jess': return this.analyzeJess(code);
+      
+      // Robotics & Embedded Systems Languages
+      case 'urbi': return this.analyzeURBI(code);
+      case 'nqc': return this.analyzeNQC(code);
+      case 'ch': return this.analyzeCh(code);
+      case 'robocode': return this.analyzeRobocode(code);
+      case 'ros-launch': return this.analyzeROSLaunch(code);
+      case 'arduino': return this.analyzeArduino(code);
+      
+      // Creative Coding & Multimedia Languages
+      case 'processing': return this.analyzeProcessing(code);
+      case 'openframeworks': return this.analyzeOpenFrameworks(code);
+      case 'pure-data': return this.analyzePureData(code);
+      case 'supercollider': return this.analyzeSuperCollider(code);
+      case 'chuck': return this.analyzeChucK(code);
+      case 'p5js': return this.analyzeP5js(code);
+      case 'cinder': return this.analyzeCinder(code);
+      
+      // Bioinformatics & Scientific Computing Languages
+      case 'bioperl': return this.analyzeBioPerl(code);
+      case 'bioconductor': return this.analyzeBioconductor(code);
+      case 'cellml': return this.analyzeCellML(code);
+      case 'biopython': return this.analyzeBioPython(code);
+      case 'biojava': return this.analyzeBioJava(code);
+      case 'emboss': return this.analyzeEMBOSS(code);
+      case 'phylip': return this.analyzePHYLIP(code);
+      
+      // Infrastructure & DevOps DSLs
+      case 'starlark': return this.analyzeStarlark(code);
+      case 'dhall': return this.analyzeDhall(code);
+      case 'cue-lang': return this.analyzeCUE(code);
+      case 'jsonnet': return this.analyzeJsonnet(code);
+      case 'pulumi': return this.analyzePulumi(code);
+      case 'helm': return this.analyzeHelm(code);
+      case 'kustomize': return this.analyzeKustomize(code);
       
       default:
         return this.analyzeGeneric(code, language);
@@ -1337,6 +1396,351 @@ export class UniversalErrorAnalyzer {
   private analyzeGreenfoot(code: string) {
     const errors: CodeError[] = [];
     const suggestions = ['Greenfoot is educational Java', 'Use proper actor-based programming'];
+    return { errors, suggestions };
+  }
+
+  // ========== SPECIALIZED LANGUAGE ANALYZERS ==========
+  
+  // Esoteric & Artistic Languages
+  private analyzePietArt(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Piet programs are abstract art images', 'Use color transitions to represent operations', 'Test with Piet interpreters'];
+    return { errors, suggestions };
+  }
+
+  private analyzeShakespeare(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Write code like a dramatic play', 'Use character names as variables', 'Follow Shakespearean language patterns'];
+    
+    if (!code.includes('Romeo') && !code.includes('Juliet')) {
+      suggestions.push('Consider using classic character names like Romeo and Juliet');
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeChef(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Write programs as cooking recipes', 'Use cooking terminology for operations', 'Include ingredients and method steps'];
+    
+    if (!code.includes('Ingredients') && !code.includes('Method')) {
+      errors.push({
+        type: 'Missing Recipe Structure',
+        severity: 'warning',
+        message: 'Chef programs should have Ingredients and Method sections',
+        line: 1,
+        column: 0,
+        suggestion: 'Add Ingredients: and Method: sections',
+        category: 'structure'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeVelato(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Velato uses MIDI music files as source code', 'Program logic encoded in musical notes', 'Use MIDI editors for development'];
+    return { errors, suggestions };
+  }
+
+  private analyzeTaxi(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Taxi uses city metaphors for programming', 'Variables are passengers', 'Operations are destinations'];
+    return { errors, suggestions };
+  }
+
+  // Mathematical & Modeling Languages
+  private analyzeModelica(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Modelica is for physical system modeling', 'Use proper equation-based modeling', 'Define components and connections'];
+    
+    if (!code.includes('model') && !code.includes('class')) {
+      errors.push({
+        type: 'Missing Model Definition',
+        severity: 'warning',
+        message: 'Modelica code should define models or classes',
+        line: 1,
+        column: 0,
+        suggestion: 'Add model or class definition',
+        category: 'structure'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeAMPL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['AMPL is for mathematical optimization', 'Define sets, parameters, variables, and constraints', 'Use proper optimization syntax'];
+    return { errors, suggestions };
+  }
+
+  private analyzeZ3SMT(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Z3 SMT-LIB is for theorem proving', 'Use proper SMT-LIB syntax', 'Define assertions and check satisfiability'];
+    
+    if (!code.includes('(assert') && !code.includes('(check-sat')) {
+      suggestions.push('Consider adding assertions and satisfiability checks');
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeMaple(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Maple is for symbolic mathematics', 'Use proper mathematical notation', 'Leverage symbolic computation features'];
+    return { errors, suggestions };
+  }
+
+  private analyzeMaxima(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Maxima is for symbolic computation', 'Use Lisp-like syntax', 'Leverage computer algebra features'];
+    return { errors, suggestions };
+  }
+
+  private analyzeGAP(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['GAP is for computational group theory', 'Use proper group-theoretic functions', 'Follow GAP syntax conventions'];
+    return { errors, suggestions };
+  }
+
+  // AI & Knowledge Representation Languages
+  private analyzeCycL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['CycL represents human knowledge', 'Use proper ontological structures', 'Follow Cyc knowledge base conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeAtomese(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Atomese is for cognitive architectures', 'Use hypergraph-based knowledge representation', 'Follow OpenCog conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCLIPS(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['CLIPS is for expert systems', 'Use rule-based programming', 'Define facts and rules properly'];
+    
+    if (!code.includes('(defrule') && !code.includes('(deffacts')) {
+      suggestions.push('Consider defining rules with (defrule) and facts with (deffacts)');
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeDrools(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Drools is for business rules', 'Use when-then syntax', 'Follow business rule patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSWRL(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['SWRL extends OWL with rules', 'Use semantic web rule language syntax', 'Define proper ontological rules'];
+    return { errors, suggestions };
+  }
+
+  private analyzeJess(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Jess is Java-based expert system', 'Use rule-based programming', 'Follow Jess syntax patterns'];
+    return { errors, suggestions };
+  }
+
+  // Robotics & Embedded Systems Languages
+  private analyzeURBI(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['URBI is for robotics programming', 'Use event-driven scripting', 'Follow robotics control patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeNQC(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['NQC is for Lego Mindstorms', 'Use C-like syntax for robotics', 'Define proper robot behaviors'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCh(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Ch is embeddable C/C++', 'Use for scripting and embedded systems', 'Follow C/C++ conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeRobocode(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Robocode is for robot battle programming', 'Extend Robot or AdvancedRobot classes', 'Implement robot AI strategies'];
+    return { errors, suggestions };
+  }
+
+  private analyzeROSLaunch(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['ROS Launch uses XML configuration', 'Define nodes, parameters, and topics', 'Follow ROS conventions'];
+    
+    if (!code.includes('<launch>') || !code.includes('</launch>')) {
+      errors.push({
+        type: 'Missing Launch Tags',
+        severity: 'error',
+        message: 'ROS launch files need <launch> tags',
+        line: 1,
+        column: 0,
+        suggestion: 'Wrap content in <launch></launch> tags',
+        category: 'structure'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeArduino(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Arduino uses C/C++ for microcontrollers', 'Include setup() and loop() functions', 'Use Arduino libraries and functions'];
+    
+    if (!code.includes('void setup()') || !code.includes('void loop()')) {
+      errors.push({
+        type: 'Missing Arduino Functions',
+        severity: 'error',
+        message: 'Arduino sketches need setup() and loop() functions',
+        line: 1,
+        column: 0,
+        suggestion: 'Add void setup() and void loop() functions',
+        category: 'structure'
+      });
+    }
+    
+    return { errors, suggestions };
+  }
+
+  // Creative Coding & Multimedia Languages
+  private analyzeProcessing(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Processing is for visual arts programming', 'Use setup() and draw() functions', 'Leverage creative coding features'];
+    
+    if (!code.includes('void setup()') && !code.includes('void draw()')) {
+      suggestions.push('Consider adding setup() and draw() functions for Processing sketches');
+    }
+    
+    return { errors, suggestions };
+  }
+
+  private analyzeOpenFrameworks(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['openFrameworks is C++ for creative coding', 'Use ofApp class structure', 'Leverage multimedia capabilities'];
+    return { errors, suggestions };
+  }
+
+  private analyzePureData(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Pure Data is visual programming for audio', 'Connect objects with patch cords', 'Use proper signal flow'];
+    return { errors, suggestions };
+  }
+
+  private analyzeSuperCollider(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['SuperCollider is for audio synthesis', 'Use Server and language features', 'Follow audio programming patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeChucK(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['ChucK is for real-time audio programming', 'Use time-based programming concepts', 'Follow ChucK syntax patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeP5js(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['p5.js is JavaScript for creative coding', 'Use setup() and draw() functions', 'Leverage web-based creative features'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCinder(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Cinder is C++ for creative coding', 'Use proper app structure', 'Leverage graphics and multimedia features'];
+    return { errors, suggestions };
+  }
+
+  // Bioinformatics & Scientific Computing Languages
+  private analyzeBioPerl(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['BioPerl is for biological data processing', 'Use Bio:: modules', 'Follow bioinformatics best practices'];
+    return { errors, suggestions };
+  }
+
+  private analyzeBioconductor(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Bioconductor uses R for genomics', 'Use proper R/Bioconductor packages', 'Follow genomic analysis workflows'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCellML(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['CellML models biological processes', 'Use proper XML structure', 'Define mathematical models of cells'];
+    return { errors, suggestions };
+  }
+
+  private analyzeBioPython(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['BioPython extends Python for biology', 'Use Bio modules and classes', 'Follow bioinformatics conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeBioJava(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['BioJava extends Java for biology', 'Use org.biojava packages', 'Follow bioinformatics patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeEMBOSS(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['EMBOSS is for sequence analysis', 'Use proper application definitions', 'Follow bioinformatics standards'];
+    return { errors, suggestions };
+  }
+
+  private analyzePHYLIP(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['PHYLIP is for phylogenetic analysis', 'Use proper data formats', 'Follow phylogenetic conventions'];
+    return { errors, suggestions };
+  }
+
+  // Infrastructure & DevOps DSLs
+  private analyzeStarlark(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Starlark is Python-like for Bazel', 'Use proper build rule definitions', 'Follow Bazel conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeDhall(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Dhall is strongly-typed configuration', 'Use proper type annotations', 'Leverage functional programming features'];
+    return { errors, suggestions };
+  }
+
+  private analyzeCUE(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['CUE is for data validation and configuration', 'Use proper schema definitions', 'Follow CUE syntax patterns'];
+    return { errors, suggestions };
+  }
+
+  private analyzeJsonnet(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Jsonnet extends JSON with programming', 'Use proper templating features', 'Follow Jsonnet conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzePulumi(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Pulumi is infrastructure as code', 'Use proper cloud resource definitions', 'Follow IaC best practices'];
+    return { errors, suggestions };
+  }
+
+  private analyzeHelm(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Helm uses Go templating for Kubernetes', 'Use proper chart structure', 'Follow Kubernetes conventions'];
+    return { errors, suggestions };
+  }
+
+  private analyzeKustomize(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Kustomize customizes Kubernetes YAML', 'Use proper overlay structure', 'Follow GitOps patterns'];
     return { errors, suggestions };
   }
   

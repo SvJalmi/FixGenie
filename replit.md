@@ -75,8 +75,8 @@ Preferred communication style: Simple, everyday language.
 - **Audio Controls**: Playback speed, volume, and download functionality
 - **Real-time Generation**: On-demand audio explanation creation
 
-### Universal Multi-Language Support
-- **Supported Languages**: 270+ programming languages across 20+ categories
+### Universal Multi-Language Support  
+- **Supported Languages**: 300+ programming languages across 25+ categories
   - **Core Languages**: C, C++, C#, Java, Python, JavaScript, TypeScript, Go, Rust, Swift
   - **Compiled**: Fortran, ALGOL, COBOL, Visual Basic, Smalltalk, Ada, Nim
   - **Interpreted**: Ruby, Perl, Pascal, Lisp, BASIC, APL, Julia, MATLAB
@@ -95,6 +95,13 @@ Preferred communication style: Simple, everyday language.
   - **Logic Programming**: Prolog, ALF, Alma-0, Fril, Janus
   - **Visual/Educational**: Scratch, Logo, Alice, Blockly, Karel
   - **Non-English**: Chinese BASIC, Fjölnir (Icelandic), LSE (French), Lexico (Spanish), Rapira (Russian), ChaScript (Bengali), ezhil (Tamil)
+  - **🧠 Artistic**: Piet (Visual Art), Shakespeare Programming Language, Chef, Velato, Taxi
+  - **🧬 Mathematical**: Modelica, AMPL, Z3 SMT-LIB, Maple, Maxima, GAP
+  - **🧙‍♀️ AI/Knowledge**: CycL, OpenCog Atomese, CLIPS, Drools, SWRL, Jess
+  - **🧩 Robotics**: URBI, NQC (Lego Mindstorms), Ch, Robocode, ROS Launch, Arduino
+  - **🧑‍🎨 Creative**: Processing, openFrameworks, Pure Data, SuperCollider, ChucK, p5.js, Cinder
+  - **🧑‍🔬 Bioinformatics**: BioPerl, Bioconductor, CellML, BioPython, BioJava, EMBOSS, PHYLIP
+  - **🧰 Infrastructure**: Starlark, Dhall, CUE, Jsonnet, Pulumi, Helm, Kustomize
 - **Monaco Integration**: Language-specific syntax highlighting and IntelliSense
 
 ### User Interface Components
