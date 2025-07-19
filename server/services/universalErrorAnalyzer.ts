@@ -254,6 +254,7 @@ export class UniversalErrorAnalyzer {
       
       // Scientific & Analytical Languages
       case 'j-lang': return this.analyzeJ(code);
+      case 'nial': return this.analyzeNial(code);
       case 'idl': return this.analyzeIDL(code);
       case 'gams': return this.analyzeGAMS(code);
       case 'mathematica': return this.analyzeMathematica(code);
@@ -1237,6 +1238,12 @@ export class UniversalErrorAnalyzer {
   private analyzeJ(code: string) {
     const errors: CodeError[] = [];
     const suggestions = ['J is array-oriented like APL', 'Use J-specific operators and syntax'];
+    return { errors, suggestions };
+  }
+
+  private analyzeNial(code: string) {
+    const errors: CodeError[] = [];
+    const suggestions = ['Nial is nested array language', 'Combines functional and array programming', 'Use Nial array operations and transformations'];
     return { errors, suggestions };
   }
 

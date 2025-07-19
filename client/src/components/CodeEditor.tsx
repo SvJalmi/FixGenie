@@ -485,6 +485,22 @@ end.
 total
 )`,
 
+      nial: `# Nial - Nested Interactive Array Language
+calculateTotal is operation items {
+    total := 0.0;
+    for item in items do
+        total := total + price item;
+    endfor;
+    if total > 100.0 then
+        total := total * 0.9;
+    endif;
+    total
+}
+
+price is operation item {
+    item@1  # Access price field (assuming second element)
+}`,
+
       // 🧩 Domain-Specific & DSLs
       elm: `module Main exposing (..)
 

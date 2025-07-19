@@ -214,6 +214,7 @@ export const PROGRAMMING_LANGUAGES: ProgrammingLanguage[] = [
 
   // 🧬 Scientific & Analytical Languages
   { id: 'j-lang', name: 'J', category: 'Scientific', extension: '.ijs', monacoId: 'apl' },
+  { id: 'nial', name: 'Nial', category: 'Scientific', extension: '.ndf', monacoId: 'apl' },
   { id: 'idl', name: 'IDL (Interactive Data Language)', category: 'Scientific', extension: '.pro', monacoId: 'matlab' },
   { id: 'gams', name: 'GAMS', category: 'Scientific', extension: '.gms', monacoId: 'plaintext' },
   { id: 'mathematica', name: 'Mathematica/Wolfram Language', category: 'Scientific', extension: '.m', monacoId: 'mathematica' },
