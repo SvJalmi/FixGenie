@@ -34,7 +34,9 @@ export async function generateSpeech(text: string, voiceId: string, options?: {
         encodeAsBase64: false,
         style: "conversational",
         sampleRate: 44100,
-        channelType: "STEREO"
+        channelType: "STEREO",
+        speed: options?.speed || 1.0,
+        pitch: options?.pitch || 0
       }),
     });
 
