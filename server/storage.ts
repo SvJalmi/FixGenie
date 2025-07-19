@@ -8,6 +8,7 @@ export interface IStorage {
   createErrorAnalysis(analysis: InsertErrorAnalysis & { userId: number }): Promise<ErrorAnalysis>;
   getErrorAnalysis(id: number): Promise<ErrorAnalysis | undefined>;
   getUserErrorAnalyses(userId: number, limit?: number): Promise<ErrorAnalysis[]>;
+  getRecentAnalyses(userId: number, limit?: number): Promise<ErrorAnalysis[]>;
   
   createVoiceGeneration(generation: InsertVoiceGeneration): Promise<VoiceGeneration>;
   getVoiceGeneration(id: number): Promise<VoiceGeneration | undefined>;
@@ -68,6 +69,10 @@ export class MemStorage implements IStorage {
       .filter(analysis => analysis.userId === userId)
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, limit);
+  }
+
+  async getRecentAnalyses(userId: number, limit: number = 50): Promise<ErrorAnalysis[]> {
+    return this.getUserErrorAnalyses(userId, limit);
   }
 
   async createVoiceGeneration(generation: InsertVoiceGeneration): Promise<VoiceGeneration> {

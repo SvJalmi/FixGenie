@@ -8,6 +8,9 @@ import CodeEditor from "@/components/CodeEditor";
 import ErrorAnalysisPanel from "@/components/ErrorAnalysisPanel";
 import VoicePlayer from "@/components/VoicePlayer";
 import FloatingActionButton from "@/components/FloatingActionButton";
+import { AIMentor } from "@/components/AIMentor";
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
+import { CollaborationHub } from "@/components/CollaborationHub";
 import { apiRequest } from "@/lib/queryClient";
 import type { ErrorAnalysis, MurfVoice, VoiceGeneration } from "@shared/schema";
 
@@ -22,6 +25,7 @@ export default function Dashboard() {
   const [charactersUsed] = useState(2400);
   const [maxCharacters] = useState(50000000);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("code");
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -230,43 +234,112 @@ export default function Dashboard() {
           />
         </div>
         
-        {/* Main Content */}
+        {/* Main Content with Advanced Features */}
         <div className={`
-          flex-1 flex 
-          ${isMobile ? 'flex-col' : 'flex-row'}
+          flex-1 flex flex-col
           ${isMobile && isSidebarOpen ? 'pointer-events-none' : ''}
         `}>
-          <div className="flex-1 min-h-0">
-            <CodeEditor
-              language={selectedLanguage}
-              code={code}
-              onCodeChange={setCode}
-              errors={currentAnalysis?.errors || []}
-              onAnalyze={handleAnalyzeCode}
-              onExplainErrors={handleExplainErrors}
-              isAnalyzing={analyzeCodeMutation.isPending}
-            />
+          {/* Tab Navigation */}
+          <div className="border-b border-dark-border bg-dark-elevated">
+            <div className="flex space-x-1 p-2">
+              {[
+                { id: "code", label: "Code Editor", icon: "💻" },
+                { id: "mentor", label: "AI Mentor", icon: "🧠" },
+                { id: "analytics", label: "Analytics", icon: "📊" },
+                { id: "collaborate", label: "Collaborate", icon: "👥" }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`
+                    px-4 py-2 rounded-lg text-sm font-medium transition-colors
+                    ${activeTab === tab.id 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'text-text-secondary hover:text-text-primary hover:bg-dark-muted'
+                    }
+                  `}
+                >
+                  <span className="mr-2">{tab.icon}</span>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
-          
-          <div className={`
-            ${isMobile 
-              ? 'error-panel-mobile border-t' 
-              : 'flex flex-col w-96 border-l'
-            } 
-            border-dark-border bg-dark-elevated
-          `}>
-            <ErrorAnalysisPanel
-              errors={currentAnalysis?.errors || []}
-              onGenerateVoice={handleGenerateVoice}
-              onApplyFix={handleApplyFix}
-              isGeneratingVoice={generateVoiceMutation.isPending}
-            />
-            
-            <VoicePlayer
-              audioUrl={currentAudioUrl}
-              title="Error Explanation"
-              isVisible={isVoicePlayerVisible}
-            />
+
+          {/* Tab Content */}
+          <div className="flex-1 min-h-0">
+            {activeTab === "code" && (
+              <div className={`
+                h-full flex 
+                ${isMobile ? 'flex-col' : 'flex-row'}
+              `}>
+                <div className="flex-1 min-h-0">
+                  <CodeEditor
+                    language={selectedLanguage}
+                    code={code}
+                    onCodeChange={setCode}
+                    errors={currentAnalysis?.errors || []}
+                    onAnalyze={handleAnalyzeCode}
+                    onExplainErrors={handleExplainErrors}
+                    isAnalyzing={analyzeCodeMutation.isPending}
+                  />
+                </div>
+                
+                <div className={`
+                  ${isMobile 
+                    ? 'error-panel-mobile border-t' 
+                    : 'flex flex-col w-96 border-l'
+                  } 
+                  border-dark-border bg-dark-elevated
+                `}>
+                  <ErrorAnalysisPanel
+                    errors={currentAnalysis?.errors || []}
+                    onGenerateVoice={handleGenerateVoice}
+                    onApplyFix={handleApplyFix}
+                    isGeneratingVoice={generateVoiceMutation.isPending}
+                  />
+                  
+                  <VoicePlayer
+                    audioUrl={currentAudioUrl}
+                    title="Error Explanation"
+                    isVisible={isVoicePlayerVisible}
+                  />
+                </div>
+              </div>
+            )}
+
+            {activeTab === "mentor" && (
+              <div className="h-full p-6 overflow-auto bg-dark">
+                <AIMentor
+                  code={code}
+                  language={selectedLanguage}
+                  onCodeSuggestion={(suggestion) => {
+                    if (suggestion.suggestedCode) {
+                      setCode(suggestion.suggestedCode);
+                    }
+                  }}
+                />
+              </div>
+            )}
+
+            {activeTab === "analytics" && (
+              <div className="h-full p-6 overflow-auto bg-dark">
+                <AnalyticsDashboard userId={1} />
+              </div>
+            )}
+
+            {activeTab === "collaborate" && (
+              <div className="h-full p-6 overflow-auto bg-dark">
+                <CollaborationHub
+                  onJoinSession={(sessionId) => {
+                    toast({
+                      title: "Joined Collaboration Session",
+                      description: `Connected to session: ${sessionId}`,
+                    });
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

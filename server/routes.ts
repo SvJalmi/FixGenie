@@ -5,6 +5,10 @@ import { storage } from "./storage";
 import { errorAnalyzer } from "./services/errorAnalyzer";
 import { getMurfVoices } from "./services/murf";
 import { insertErrorAnalysisSchema } from "@shared/schema";
+import { generatePersonalizedMentorship, generateCodeOptimization, generateSecurityAudit } from "./services/aiMentor";
+import { collaborationManager } from "./services/realTimeCollaboration";
+import { generateIntelligentSuggestions, generateSmartRefactoring, suggestArchitecturalPatterns, generateFromNaturalLanguage, generateCodeFromImage } from "./services/intelligentCodeGen";
+import { analyzeCodeMetrics, generatePersonalizedInsights, calculateSkillProgression, generateAchievements, generateVisualizationData } from "./services/analytics";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Error analysis endpoints
@@ -121,6 +125,216 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Advanced AI Mentor endpoints
+  app.post("/api/ai-mentor/mentorship", async (req, res) => {
+    try {
+      const { code, language } = req.body;
+      const userId = 1; // TODO: Get from session/auth
+      const userHistory = await storage.getRecentAnalyses(userId, 20);
+      
+      const mentorship = await generatePersonalizedMentorship(code, language, userHistory);
+      res.json(mentorship);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate mentorship" 
+      });
+    }
+  });
+
+  app.post("/api/ai-mentor/optimize", async (req, res) => {
+    try {
+      const { code, language, goals } = req.body;
+      const optimization = await generateCodeOptimization(code, language, goals || ['performance', 'readability']);
+      res.json(optimization);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate optimization" 
+      });
+    }
+  });
+
+  app.post("/api/ai-mentor/security-audit", async (req, res) => {
+    try {
+      const { code, language } = req.body;
+      const audit = await generateSecurityAudit(code, language);
+      res.json(audit);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate security audit" 
+      });
+    }
+  });
+
+  // Intelligent Code Generation endpoints
+  app.post("/api/codegen/suggestions", async (req, res) => {
+    try {
+      const { code, language, context } = req.body;
+      const suggestions = await generateIntelligentSuggestions(code, language, context);
+      res.json(suggestions);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate suggestions" 
+      });
+    }
+  });
+
+  app.post("/api/codegen/refactor", async (req, res) => {
+    try {
+      const { code, language, goals } = req.body;
+      const refactorings = await generateSmartRefactoring(code, language, goals || ['maintainability', 'performance']);
+      res.json(refactorings);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate refactoring suggestions" 
+      });
+    }
+  });
+
+  app.post("/api/codegen/patterns", async (req, res) => {
+    try {
+      const { codebase, language, requirements } = req.body;
+      const patterns = await suggestArchitecturalPatterns(codebase, language, requirements);
+      res.json(patterns);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to suggest patterns" 
+      });
+    }
+  });
+
+  app.post("/api/codegen/from-text", async (req, res) => {
+    try {
+      const { description, language, style } = req.body;
+      const generated = await generateFromNaturalLanguage(description, language, style);
+      res.json(generated);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate code from description" 
+      });
+    }
+  });
+
+  app.post("/api/codegen/from-image", async (req, res) => {
+    try {
+      const { imageBase64, language } = req.body;
+      const generated = await generateCodeFromImage(imageBase64, language);
+      res.json(generated);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate code from image" 
+      });
+    }
+  });
+
+  // Analytics and Progress Tracking endpoints
+  app.post("/api/analytics/metrics", async (req, res) => {
+    try {
+      const { code, language } = req.body;
+      const metrics = await analyzeCodeMetrics(code, language);
+      res.json(metrics);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to analyze metrics" 
+      });
+    }
+  });
+
+  app.get("/api/analytics/insights/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId) || 1;
+      const userHistory = await storage.getRecentAnalyses(userId, 50);
+      
+      // Mock metrics data for now
+      const codeMetrics: any[] = [];
+      const languageUsage = userHistory.reduce((acc: any, h: any) => {
+        acc[h.language] = (acc[h.language] || 0) + 1;
+        return acc;
+      }, {});
+      
+      const insights = await generatePersonalizedInsights(userHistory, codeMetrics, languageUsage);
+      res.json(insights);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate insights" 
+      });
+    }
+  });
+
+  app.get("/api/analytics/progress/:userId/:language", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId) || 1;
+      const language = req.params.language;
+      const userHistory = await storage.getRecentAnalyses(userId, 100);
+      
+      const progression = calculateSkillProgression(userHistory, language);
+      res.json(progression);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to calculate progression" 
+      });
+    }
+  });
+
+  app.get("/api/analytics/achievements/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId) || 1;
+      const userHistory = await storage.getRecentAnalyses(userId, 100);
+      
+      const achievements = generateAchievements(userHistory, []);
+      res.json(achievements);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate achievements" 
+      });
+    }
+  });
+
+  app.get("/api/analytics/dashboard/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId) || 1;
+      const userHistory = await storage.getRecentAnalyses(userId, 100);
+      
+      const visualizationData = generateVisualizationData(userHistory, []);
+      res.json(visualizationData);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate dashboard data" 
+      });
+    }
+  });
+
+  // Real-time Collaboration endpoints
+  app.get("/api/collaboration/sessions", async (req, res) => {
+    try {
+      const sessions = collaborationManager.getAllSessions();
+      res.json(sessions);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to get collaboration sessions" 
+      });
+    }
+  });
+
+  app.get("/api/collaboration/session/:id", async (req, res) => {
+    try {
+      const sessionId = req.params.id;
+      const session = collaborationManager.getSession(sessionId);
+      
+      if (!session) {
+        return res.status(404).json({ message: "Session not found" });
+      }
+      
+      res.json(session);
+    } catch (error) {
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to get session" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
+  
+  // Initialize real-time collaboration
+  collaborationManager.initialize(httpServer);
   return httpServer;
 }
