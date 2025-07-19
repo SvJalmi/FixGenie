@@ -2705,14 +2705,121 @@ export class UniversalErrorAnalyzer {
     return fixedCode;
   }
 
-  // ========== SAMPLE CODE GENERATION FOR ALL 320 LANGUAGES ==========
+  // ========== COMPREHENSIVE SAMPLE CODE GENERATION FOR ALL 320 LANGUAGES ==========
   generateSampleCode(language: string): string {
     const lang = language.toLowerCase();
     
-    // Return comprehensive boilerplate for all supported languages
-    switch (lang) {
-      // Core Programming Languages
-      case 'javascript': return `function calculateTotal(items) {
+    // Get language info to determine category and characteristics
+    const languageInfo = this.getLanguageInfo(lang);
+    
+    // Generate language-specific boilerplate based on category and syntax
+    return this.generateLanguageSpecificSample(lang, languageInfo);
+  }
+
+  private getLanguageInfo(lang: string): { category: string; syntax: string; paradigm: string } {
+    const languageMap: Record<string, { category: string; syntax: string; paradigm: string }> = {
+      // Compiled Languages
+      'c': { category: 'compiled', syntax: 'c-like', paradigm: 'procedural' },
+      'cpp': { category: 'compiled', syntax: 'c-like', paradigm: 'oop' },
+      'csharp': { category: 'compiled', syntax: 'c-like', paradigm: 'oop' },
+      'java': { category: 'compiled', syntax: 'c-like', paradigm: 'oop' },
+      'go': { category: 'compiled', syntax: 'c-like', paradigm: 'procedural' },
+      'rust': { category: 'compiled', syntax: 'c-like', paradigm: 'systems' },
+      'swift': { category: 'compiled', syntax: 'swift', paradigm: 'oop' },
+      
+      // Interpreted Languages  
+      'python': { category: 'interpreted', syntax: 'python', paradigm: 'multi' },
+      'ruby': { category: 'interpreted', syntax: 'ruby', paradigm: 'oop' },
+      'javascript': { category: 'interpreted', syntax: 'javascript', paradigm: 'functional' },
+      'typescript': { category: 'interpreted', syntax: 'javascript', paradigm: 'functional' },
+      'php': { category: 'interpreted', syntax: 'php', paradigm: 'procedural' },
+      
+      // Functional Languages
+      'haskell': { category: 'functional', syntax: 'haskell', paradigm: 'pure-functional' },
+      'lisp': { category: 'functional', syntax: 'lisp', paradigm: 'functional' },
+      'clojure': { category: 'functional', syntax: 'lisp', paradigm: 'functional' },
+      'erlang': { category: 'functional', syntax: 'erlang', paradigm: 'functional' },
+      'elixir': { category: 'functional', syntax: 'ruby', paradigm: 'functional' },
+      'scala': { category: 'functional', syntax: 'scala', paradigm: 'functional' },
+      'fsharp': { category: 'functional', syntax: 'ml', paradigm: 'functional' },
+      
+      // Esoteric Languages
+      'brainfuck': { category: 'esoteric', syntax: 'symbolic', paradigm: 'imperative' },
+      'whitespace': { category: 'esoteric', syntax: 'whitespace', paradigm: 'stack' },
+      'lolcode': { category: 'esoteric', syntax: 'english', paradigm: 'procedural' },
+      'malbolge': { category: 'esoteric', syntax: 'symbolic', paradigm: 'functional' },
+      'befunge': { category: 'esoteric', syntax: 'symbolic', paradigm: '2d' },
+      'ook': { category: 'esoteric', syntax: 'ook', paradigm: 'brainfuck' },
+      'piet': { category: 'esoteric', syntax: 'visual', paradigm: 'stack' },
+      
+      // Blockchain Languages
+      'solidity': { category: 'blockchain', syntax: 'javascript', paradigm: 'contract' },
+      'vyper': { category: 'blockchain', syntax: 'python', paradigm: 'contract' },
+      'move': { category: 'blockchain', syntax: 'rust', paradigm: 'resource' },
+      
+      // Scientific Languages
+      'matlab': { category: 'scientific', syntax: 'matlab', paradigm: 'numerical' },
+      'r': { category: 'scientific', syntax: 'r', paradigm: 'statistical' },
+      'julia': { category: 'scientific', syntax: 'julia', paradigm: 'numerical' },
+      'mathematica': { category: 'scientific', syntax: 'mathematica', paradigm: 'symbolic' },
+      'octave': { category: 'scientific', syntax: 'matlab', paradigm: 'numerical' },
+      
+      // Assembly Languages  
+      'assembly': { category: 'assembly', syntax: 'assembly', paradigm: 'low-level' },
+      'nasm': { category: 'assembly', syntax: 'assembly', paradigm: 'low-level' },
+      'masm': { category: 'assembly', syntax: 'assembly', paradigm: 'low-level' },
+      
+      // Markup Languages
+      'html': { category: 'markup', syntax: 'xml', paradigm: 'declarative' },
+      'xml': { category: 'markup', syntax: 'xml', paradigm: 'declarative' },
+      'yaml': { category: 'markup', syntax: 'yaml', paradigm: 'declarative' },
+      'json': { category: 'markup', syntax: 'json', paradigm: 'data' },
+      'toml': { category: 'markup', syntax: 'ini', paradigm: 'config' },
+      
+      // Query Languages
+      'sql': { category: 'query', syntax: 'sql', paradigm: 'declarative' },
+      'cypher': { category: 'query', syntax: 'sql', paradigm: 'graph' },
+      'sparql': { category: 'query', syntax: 'sql', paradigm: 'rdf' },
+      
+      // Emerging Languages
+      'zig': { category: 'systems', syntax: 'c-like', paradigm: 'systems' },
+      'crystal': { category: 'compiled', syntax: 'ruby', paradigm: 'oop' },
+      'nim': { category: 'compiled', syntax: 'python', paradigm: 'meta' },
+      'carbon': { category: 'systems', syntax: 'c-like', paradigm: 'systems' },
+      'vale': { category: 'systems', syntax: 'c-like', paradigm: 'memory-safe' }
+    };
+    
+    return languageMap[lang] || { category: 'generic', syntax: 'c-like', paradigm: 'procedural' };
+  }
+
+  private generateLanguageSpecificSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    // Generate different types of samples based on language characteristics
+    switch (info.category) {
+      case 'esoteric':
+        return this.generateEsotericSample(lang, info);
+      case 'blockchain':
+        return this.generateBlockchainSample(lang, info);
+      case 'functional':
+        return this.generateFunctionalSample(lang, info);
+      case 'scientific':
+        return this.generateScientificSample(lang, info);
+      case 'markup':
+        return this.generateMarkupSample(lang, info);
+      case 'query':
+        return this.generateQuerySample(lang, info);
+      case 'assembly':
+        return this.generateAssemblySample(lang, info);
+      case 'systems':
+        return this.generateSystemsSample(lang, info);
+      default:
+        return this.generateStandardSample(lang, info);
+    }
+  }
+
+  private generateStandardSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    // Standard imperative/OOP languages
+    const templates: Record<string, string> = {
+      javascript: `function calculateTotal(items) {
     let total = 0;
     for (let i = 0; i < items.length; i++) {
         total += items[i].price;
@@ -2721,17 +2828,17 @@ export class UniversalErrorAnalyzer {
         total = total * 0.9; // 10% discount
     }
     return total.toFixed(2);
-}`;
+}`,
       
-      case 'python': return `def calculate_total(items):
+      python: `def calculate_total(items):
     total = 0
     for item in items:
         total += item['price']
     if total > 100:
         total = total * 0.9  # 10% discount
-    return f"$" + str(round(total, 2))`;
-      
-      case 'java': return `public class Calculator {
+    return f"$" + str(round(total, 2))`,
+
+      java: `public class Calculator {
     public static double calculateTotal(Item[] items) {
         double total = 0;
         for (int i = 0; i < items.length; i++) {
@@ -2742,9 +2849,9 @@ export class UniversalErrorAnalyzer {
         }
         return total;
     }
-}`;
-      
-      case 'c': return `#include <stdio.h>
+}`,
+
+      c: `#include <stdio.h>
 
 double calculateTotal(double prices[], int count) {
     double total = 0.0;
@@ -2762,9 +2869,9 @@ int main() {
     double result = calculateTotal(prices, 3);
     printf("Total: %.2f\\n", result);
     return 0;
-}`;
+}`,
 
-      case 'cpp': case 'c++': return `#include <iostream>
+      cpp: `#include <iostream>
 #include <vector>
 
 class Calculator {
@@ -2775,7 +2882,7 @@ public:
             total += price;
         }
         if (total > 100.0) {
-            total *= 0.9;
+            total *= 0.9; // Apply discount
         }
         return total;
     }
@@ -2784,131 +2891,493 @@ public:
 int main() {
     std::vector<double> prices = {10.5, 25.0, 15.75};
     double result = Calculator::calculateTotal(prices);
-    std::cout << "Total: " << result << std::endl;
+    std::cout << "Total: $" << result << std::endl;
     return 0;
-}`;
+}`,
 
-      case 'csharp': case 'c#': return `using System;
+      csharp: `using System;
+using System.Collections.Generic;
 using System.Linq;
 
-public class Calculator
+public class Calculator 
 {
-    public static double CalculateTotal(double[] prices)
+    public static decimal CalculateTotal(IEnumerable<decimal> prices) 
     {
-        double total = prices.Sum();
-        if (total > 100)
+        decimal total = prices.Sum();
+        
+        if (total > 100) 
         {
-            total *= 0.9;
+            total = total * 0.9m; // Apply 10% discount
         }
-        return total;
+        
+        return Math.Round(total, 2);
     }
-
-    public static void Main()
+    
+    static void Main(string[] args) 
     {
-        double[] prices = {10.5, 25.0, 15.75};
-        double result = CalculateTotal(prices);
-        Console.WriteLine($"Total: {result:F2}");
+        decimal[] prices = {10.5m, 25.0m, 15.75m};
+        decimal result = CalculateTotal(prices);
+        Console.WriteLine($"Total: ${result}");
     }
-}`;
+}`,
 
-      case 'rust': return `fn calculate_total(prices: &[f64]) -> f64 {
-    let total: f64 = prices.iter().sum();
+      go: `package main
+
+import (
+    "fmt"
+)
+
+type Item struct {
+    Name  string
+    Price float64
+}
+
+func calculateTotal(items []Item) float64 {
+    var total float64
+    
+    for _, item := range items {
+        total += item.Price
+    }
+    
     if total > 100.0 {
-        total * 0.9
+        total = total * 0.9 // Apply 10% discount
+    }
+    
+    return total
+}
+
+func main() {
+    items := []Item{
+        {"Widget A", 10.5},
+        {"Widget B", 25.0},
+        {"Widget C", 15.75},
+    }
+    
+    result := calculateTotal(items)
+    fmt.Printf("Total: $%.2f\\n", result)
+}`,
+
+      rust: `#[derive(Debug)]
+struct Item {
+    name: String,
+    price: f64,
+}
+
+impl Item {
+    fn new(name: &str, price: f64) -> Self {
+        Item {
+            name: name.to_string(),
+            price,
+        }
+    }
+}
+
+fn calculate_total(items: &[Item]) -> f64 {
+    let total: f64 = items.iter().map(|item| item.price).sum();
+    
+    if total > 100.0 {
+        total * 0.9 // Apply 10% discount
     } else {
         total
     }
 }
 
 fn main() {
-    let prices = vec![10.5, 25.0, 15.75];
-    let result = calculate_total(&prices);
+    let items = vec![
+        Item::new("Widget A", 10.5),
+        Item::new("Widget B", 25.0),
+        Item::new("Widget C", 15.75),
+    ];
+    
+    let result = calculate_total(&items);
     println!("Total: {:.2}", result);
-}`;
+}`,
 
-      case 'go': return `package main
-
-import "fmt"
-
-func calculateTotal(prices []float64) float64 {
-    var total float64
-    for _, price := range prices {
-        total += price
+      php: `<?php
+class Calculator {
+    public static function calculateTotal($items) {
+        $total = 0;
+        
+        foreach ($items as $item) {
+            $total += $item['price'];
+        }
+        
+        if ($total > 100) {
+            $total = $total * 0.9; // Apply 10% discount
+        }
+        
+        return round($total, 2);
     }
-    if total > 100 {
-        total = total * 0.9
-    }
-    return total
 }
 
-func main() {
-    prices := []float64{10.5, 25.0, 15.75}
-    result := calculateTotal(prices)
-    fmt.Printf("Total: %.2f\\n", result)
-}`;
+$items = [
+    ['name' => 'Widget A', 'price' => 10.5],
+    ['name' => 'Widget B', 'price' => 25.0],
+    ['name' => 'Widget C', 'price' => 15.75]
+];
 
-      case 'swift': return `import Foundation
+$result = Calculator::calculateTotal($items);
+echo "Total: $" . $result . PHP_EOL;
+?>`,
 
-func calculateTotal(_ prices: [Double]) -> Double {
-    let total = prices.reduce(0, +)
-    return total > 100 ? total * 0.9 : total
+      ruby: `class Calculator
+  def self.calculate_total(items)
+    total = items.sum { |item| item[:price] }
+    
+    if total > 100
+      total * 0.9  # Apply 10% discount
+    else
+      total
+    end
+  end
+end
+
+items = [
+  { name: 'Widget A', price: 10.5 },
+  { name: 'Widget B', price: 25.0 },
+  { name: 'Widget C', price: 15.75 }
+]
+
+result = Calculator.calculate_total(items)
+puts "Total: $#{sprintf('%.2f', result)}"`,
+
+      swift: `import Foundation
+
+struct Item {
+    let name: String
+    let price: Double
 }
 
-let prices = [10.5, 25.0, 15.75]
-let result = calculateTotal(prices)
-print(String(format: "Total: %.2f", result))`;
+class Calculator {
+    static func calculateTotal(items: [Item]) -> Double {
+        let total = items.reduce(0) { $0 + $1.price }
+        
+        if total > 100 {
+            return total * 0.9  // Apply 10% discount
+        } else {
+            return total
+        }
+    }
+}
 
-      case 'kotlin': return `fun calculateTotal(prices: DoubleArray): Double {
-    val total = prices.sum()
-    return if (total > 100) total * 0.9 else total
+let items = [
+    Item(name: "Widget A", price: 10.5),
+    Item(name: "Widget B", price: 25.0),
+    Item(name: "Widget C", price: 15.75)
+]
+
+let result = Calculator.calculateTotal(items: items)
+print(String(format: "Total: $%.2f", result))`,
+
+      kotlin: `data class Item(val name: String, val price: Double)
+
+class Calculator {
+    companion object {
+        fun calculateTotal(items: List<Item>): Double {
+            val total = items.sumOf { it.price }
+            
+            return if (total > 100) {
+                total * 0.9  // Apply 10% discount
+            } else {
+                total
+            }
+        }
+    }
 }
 
 fun main() {
-    val prices = doubleArrayOf(10.5, 25.0, 15.75)
-    val result = calculateTotal(prices)
-    println("Total: " + "%.2f".format(result))
-}`;
+    val items = listOf(
+        Item("Widget A", 10.5),
+        Item("Widget B", 25.0),
+        Item("Widget C", 15.75)
+    )
+    
+    val result = Calculator.calculateTotal(items)
+    println("Total: ${'$'}%.2f".format(result))
+}`,
 
-      case 'php': return `<?php
-function calculateTotal($prices) {
-    $total = array_sum($prices);
-    if ($total > 100) {
-        $total = $total * 0.9;
+      typescript: `interface Item {
+    name: string;
+    price: number;
+}
+
+class Calculator {
+    static calculateTotal(items: Item[]): number {
+        const total = items.reduce((sum, item) => sum + item.price, 0);
+        
+        if (total > 100) {
+            return total * 0.9; // Apply 10% discount
+        }
+        
+        return Math.round(total * 100) / 100;
     }
-    return round($total, 2);
 }
 
-$prices = [10.5, 25.0, 15.75];
-$result = calculateTotal($prices);
-echo "Total: $result\\n";
-?>`;
+const items: Item[] = [
+    { name: 'Widget A', price: 10.5 },
+    { name: 'Widget B', price: 25.0 },
+    { name: 'Widget C', price: 15.75 }
+];
 
-      case 'ruby': return `def calculate_total(prices)
-  total = prices.sum
-  total > 100 ? total * 0.9 : total
-end
+const result = Calculator.calculateTotal(items);
+console.log(\`Total: $\${result.toFixed(2)}\`);`
+    };
 
-prices = [10.5, 25.0, 15.75]
-result = calculate_total(prices)
-puts "Total: #{sprintf('%.2f', result)}"`;
+    return templates[lang] || this.generateGenericStandardSample(lang, info);
+  }
 
-      case 'perl': return `#!/usr/bin/perl
-use strict;
-use warnings;
+  private generateEsotericSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    const esotericTemplates: Record<string, string> = {
+      brainfuck: `++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.`,
+      
+      whitespace: `   \t  \t  
+   \t \t\t  
+   \t\t  \t 
+\t
 
-sub calculate_total {
-    my @prices = @_;
-    my $total = 0;
-    $total += $_ for @prices;
-    return $total > 100 ? $total * 0.9 : $total;
-}
+ \t
 
-my @prices = (10.5, 25.0, 15.75);
-my $result = calculate_total(@prices);
-printf "Total: %.2f\\n", $result;`;
 
-      // Functional Languages
-      case 'haskell': return `calculateTotal :: [Double] -> Double
+   \t\t    
+\t
+
+ \t
+
+
+   \t\t   \t
+\t
+
+ \t
+
+
+\t
+\t 
+
+
+`,
+
+      lolcode: `HAI 1.2
+    I HAS A total ITZ 0
+    I HAS A items ITZ A BUKKIT
+    items HAS A SRS 0 ITZ 10.5
+    items HAS A SRS 1 ITZ 25.0
+    items HAS A SRS 2 ITZ 15.75
+    
+    IM IN YR loop UPPIN YR i WILE DIFFRINT i AN 3
+        total R SUM OF total AN items'Z SRS i
+    IM OUTTA YR loop
+    
+    BOTH SAEM total AN BIGGR OF total AN 100, O RLY?
+        YA RLY
+            total R PRODUKT OF total AN "0.9"
+    OIC
+    
+    VISIBLE "Total: " total
+KTHXBYE`,
+
+      malbolge: "(=<#9]~6ZY32Vx/4Rs+0No-&Jk)\"Fh}|Bcy?*z]Kw%oG4UUS0/@-ejc(:'8dc",
+
+      befunge: `"!dlroW ,olleH">:#,_@`,
+
+      ook: `Ook. Ook? Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook! Ook? Ook? Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook? Ook! Ook! Ook? Ook! Ook? Ook.
+Ook! Ook. Ook. Ook? Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.`,
+
+      piet: `# Piet program (visual representation)
+# Red: Push 1   Yellow: Push 2   Blue: Add
+# Green: Duplicate   Purple: Output number
+# This is a textual representation of what would be colored blocks`,
+
+      intercal: `DO ,1 <- #13
+PLEASE DO ,1 SUB #1 <- #238
+DO ,1 SUB #2 <- #108
+DO ,1 SUB #3 <- #112
+DO ,1 SUB #4 <- #0
+DO ,1 SUB #5 <- #64
+DO ,1 SUB #6 <- #194
+PLEASE DO ,1 SUB #7 <- #48
+DO ,1 SUB #8 <- #22
+DO ,1 SUB #9 <- #248
+DO ,1 SUB #10 <- #168
+DO ,1 SUB #11 <- #24
+DO ,1 SUB #12 <- #16
+DO ,1 SUB #13 <- #162
+PLEASE READ OUT ,1
+PLEASE GIVE UP`,
+
+      shakespeare: `The Infamous Hello World Program.
+
+Romeo, a young man with a remarkable patience.
+Juliet, a likewise young woman of remarkable grace.
+Ophelia, a remarkable woman much in love with the letter O.
+Hamlet, the flatterer of Andersen Insulting A/S.
+
+                    Act I: Hamlet's insults and flattery.
+                    
+                    Scene I: The insulting of Romeo.`,
+
+      chef: `Hello World Souffle.
+
+This recipe prints the immortal words "Hello world!", in a basically brute force way. It also makes a lot of food for one person.
+
+Ingredients.
+72 g haricot beans
+101 eggs
+108 g lard
+111 cups oil
+32 zucchinis
+119 ml water
+114 g red salmon
+100 g dijon mustard
+33 potatoes
+
+Method.
+Put potatoes into the mixing bowl. Put dijon mustard into the mixing bowl. Put lard into the mixing bowl. Put red salmon into the mixing bowl. Put oil into the mixing bowl. Put water into the mixing bowl. Put zucchinis into the mixing bowl. Put oil into the mixing bowl. Put lard into the mixing bowl. Put lard into the mixing bowl. Put eggs into the mixing bowl. Put haricot beans into the mixing bowl. Liquefy contents of the mixing bowl. Pour contents of the mixing bowl into the baking dish.
+
+Serves 1.`
+    };
+
+    return esotericTemplates[lang] || `// ${lang.toUpperCase()} - Esoteric Programming Language
+# This language uses unique syntax patterns
+# Sample: Basic computation example
+${lang} specific syntax here`;
+  }
+
+  private generateBlockchainSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    const blockchainTemplates: Record<string, string> = {
+      solidity: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ShoppingCart {
+    struct Item {
+        string name;
+        uint256 price;
+    }
+    
+    Item[] public items;
+    uint256 public discountThreshold = 100;
+    
+    function addItem(string memory _name, uint256 _price) public {
+        items.push(Item(_name, _price));
+    }
+    
+    function calculateTotal() public view returns (uint256) {
+        uint256 total = 0;
+        
+        for (uint256 i = 0; i < items.length; i++) {
+            total += items[i].price;
+        }
+        
+        if (total > discountThreshold) {
+            total = (total * 9) / 10; // 10% discount
+        }
+        
+        return total;
+    }
+    
+    function getItemCount() public view returns (uint256) {
+        return items.length;
+    }
+}`,
+
+      vyper: `# @version ^0.3.0
+
+struct Item:
+    name: String[50]
+    price: uint256
+
+items: public(DynArray[Item, 100])
+discount_threshold: public(uint256)
+
+@external
+def __init__():
+    self.discount_threshold = 100
+
+@external
+def add_item(_name: String[50], _price: uint256):
+    self.items.append(Item({name: _name, price: _price}))
+
+@external
+@view
+def calculate_total() -> uint256:
+    total: uint256 = 0
+    
+    for item in self.items:
+        total += item.price
+    
+    if total > self.discount_threshold:
+        total = total * 9 / 10  # 10% discount
+    
+    return total
+
+@external
+@view
+def get_item_count() -> uint256:
+    return len(self.items)`,
+
+      move: `module ShoppingCart {
+    use std::vector;
+
+    struct Item has store, drop {
+        name: vector<u8>,
+        price: u64,
+    }
+
+    struct Cart has key {
+        items: vector<Item>,
+        discount_threshold: u64,
+    }
+
+    public fun create_cart(account: &signer) {
+        let cart = Cart {
+            items: vector::empty<Item>(),
+            discount_threshold: 100,
+        };
+        move_to(account, cart);
+    }
+
+    public fun add_item(cart: &mut Cart, name: vector<u8>, price: u64) {
+        let item = Item { name, price };
+        vector::push_back(&mut cart.items, item);
+    }
+
+    public fun calculate_total(cart: &Cart): u64 {
+        let total = 0u64;
+        let i = 0;
+        
+        while (i < vector::length(&cart.items)) {
+            let item = vector::borrow(&cart.items, i);
+            total = total + item.price;
+            i = i + 1;
+        };
+        
+        if (total > cart.discount_threshold) {
+            total = total * 9 / 10  // 10% discount
+        };
+        
+        total
+    }
+}`
+    };
+
+    return blockchainTemplates[lang] || `// ${lang.toUpperCase()} - Blockchain Smart Contract
+contract Calculator {
+    uint256 public total;
+    
+    function calculateTotal(uint256[] memory items) public pure returns (uint256) {
+        uint256 sum = 0;
+        for (uint256 i = 0; i < items.length; i++) {
+            sum += items[i];
+        }
+        return sum;
+    }
+}`;
+  }
+
+  private generateFunctionalSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    const functionalTemplates: Record<string, string> = {
+      haskell: `calculateTotal :: [Double] -> Double
 calculateTotal prices = 
     let total = sum prices
     in if total > 100 then total * 0.9 else total
@@ -2917,9 +3386,19 @@ main :: IO ()
 main = do
     let prices = [10.5, 25.0, 15.75]
     let result = calculateTotal prices
-    putStrLn $ "Total: " ++ show result`;
+    putStrLn $ "Total: " ++ show result`,
 
-      case 'scala': return `object Calculator {
+      clojure: `(defn calculate-total [prices]
+  (let [total (reduce + prices)]
+    (if (> total 100)
+      (* total 0.9)
+      total)))
+
+(def prices [10.5 25.0 15.75])
+(def result (calculate-total prices))
+(println "Total:" result)`,
+
+      scala: `object Calculator {
   def calculateTotal(prices: List[Double]): Double = {
     val total = prices.sum
     if (total > 100) total * 0.9 else total
@@ -2930,31 +3409,35 @@ main = do
     val result = calculateTotal(prices)
     println(f"Total: $result%.2f")
   }
-}`;
+}`,
 
-      case 'clojure': return `(defn calculate-total [prices]
-  (let [total (reduce + prices)]
+      lisp: `(defun calculate-total (prices)
+  (let ((total (apply '+ prices)))
     (if (> total 100)
-      (* total 0.9)
-      total)))
+        (* total 0.9)
+        total)))
 
-(let [prices [10.5 25.0 15.75]
-      result (calculate-total prices)]
-  (println (format "Total: %.2f" result)))`;
+(setq prices '(10.5 25.0 15.75))
+(setq result (calculate-total prices))
+(format t "Total: ~2,2f~%" result)`,
 
-      case 'erlang': return `calculate_total(Prices) ->
+      erlang: `-module(calculator).
+-export([calculate_total/1, main/0]).
+
+calculate_total(Prices) ->
     Total = lists:sum(Prices),
-    case Total > 100 of
-        true -> Total * 0.9;
-        false -> Total
+    if Total > 100 ->
+           Total * 0.9;
+       true ->
+           Total
     end.
 
 main() ->
     Prices = [10.5, 25.0, 15.75],
     Result = calculate_total(Prices),
-    io:format("Total: ~.2f~n", [Result]).`;
+    io:format("Total: ~.2f~n", [Result]).`,
 
-      case 'elixir': return `defmodule Calculator do
+      elixir: `defmodule Calculator do
   def calculate_total(prices) do
     total = Enum.sum(prices)
     if total > 100, do: total * 0.9, else: total
@@ -2963,317 +3446,502 @@ end
 
 prices = [10.5, 25.0, 15.75]
 result = Calculator.calculate_total(prices)
-IO.puts("Total: #{:io_lib.format('~.2f', [result])}")`;
+IO.puts("Total: #{:io_lib.format('~.2f', [result])}")`,
 
-      // Scientific & Mathematical Languages
-      case 'matlab': return `function total = calculateTotal(prices)
+      fsharp: `let calculateTotal prices =
+    let total = List.sum prices
+    if total > 100.0 then total * 0.9 else total
+
+let prices = [10.5; 25.0; 15.75]
+let result = calculateTotal prices
+printfn "Total: %.2f" result`
+    };
+
+    return functionalTemplates[lang] || `-- ${lang.toUpperCase()} Functional Programming Sample
+calculateTotal :: [Double] -> Double
+calculateTotal xs = foldr (+) 0 xs`;
+  }
+
+  private generateScientificSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    const scientificTemplates: Record<string, string> = {
+      matlab: `function total = calculateTotal(prices)
     total = sum(prices);
     if total > 100
-        total = total * 0.9;
+        total = total * 0.9;  % 10% discount
     end
 end
 
+% Example usage
 prices = [10.5, 25.0, 15.75];
 result = calculateTotal(prices);
-fprintf('Total: %.2f\\n', result);`;
+fprintf('Total: %.2f\\n', result);`,
 
-      case 'r': return `calculate_total <- function(prices) {
+      r: `calculateTotal <- function(prices) {
   total <- sum(prices)
   if (total > 100) {
-    total <- total * 0.9
+    total <- total * 0.9  # 10% discount
   }
   return(total)
 }
 
+# Example usage  
 prices <- c(10.5, 25.0, 15.75)
-result <- calculate_total(prices)
-cat(sprintf("Total: %.2f\\n", result))`;
+result <- calculateTotal(prices)
+cat("Total:", sprintf("%.2f", result), "\\n")`,
 
-      case 'julia': return `function calculate_total(prices::Vector{Float64})::Float64
+      julia: `function calculateTotal(prices::Vector{Float64})
     total = sum(prices)
     return total > 100 ? total * 0.9 : total
 end
 
+# Example usage
 prices = [10.5, 25.0, 15.75]
-result = calculate_total(prices)
-println("Total: ", round(result, digits=2))`;
+result = calculateTotal(prices)
+println("Total: ", round(result, digits=2))`,
 
-      case 'nial': return `calculateTotal is operation items {
-    total := 0.0;
-    for i with tell shape items do
-        total := total + (i pick items);
-    endfor;
-    if total > 100.0 then
-        total := total * 0.9;
-    endif;
-    total
-}
+      mathematica: `calculateTotal[prices_List] := Module[{total},
+  total = Total[prices];
+  If[total > 100, total * 0.9, total]
+]
 
-items := 10.5 25.0 15.75;
-result := calculateTotal items;
-write 'Total: ' (2 2 format result)`;
+(* Example usage *)
+prices = {10.5, 25.0, 15.75};
+result = calculateTotal[prices];
+Print["Total: ", NumberForm[result, 2]]`,
 
-      // Blockchain Languages
-      case 'solidity': return `// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+      octave: `function total = calculateTotal(prices)
+  total = sum(prices);
+  if total > 100
+    total = total * 0.9;  % 10% discount
+  endif
+endfunction
 
-contract Calculator {
-    function calculateTotal(uint256[] memory prices) public pure returns (uint256) {
-        uint256 total = 0;
-        for (uint256 i = 0; i < prices.length; i++) {
-            total += prices[i];
-        }
-        if (total > 100) {
-            total = (total * 9) / 10; // 10% discount
-        }
-        return total;
+% Example usage
+prices = [10.5, 25.0, 15.75];
+result = calculateTotal(prices);
+printf('Total: %.2f\\n', result);`
+    };
+
+    return scientificTemplates[lang] || `% ${lang.toUpperCase()} Scientific Computing Sample
+function result = calculateTotal(data)
+    result = sum(data);
+end`;
+  }
+
+  private generateMarkupSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    const markupTemplates: Record<string, string> = {
+      html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart Calculator</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        <div id="items">
+            <div class="item">
+                <span class="name">Widget A</span>
+                <span class="price">$10.50</span>
+            </div>
+            <div class="item">
+                <span class="name">Widget B</span>
+                <span class="price">$25.00</span>
+            </div>
+        </div>
+        <div class="total">
+            <strong>Total: $35.50</strong>
+        </div>
+    </div>
+</body>
+</html>`,
+
+      xml: `<?xml version="1.0" encoding="UTF-8"?>
+<shoppingCart>
+    <items>
+        <item id="1">
+            <name>Widget A</name>
+            <price>10.50</price>
+        </item>
+        <item id="2">
+            <name>Widget B</name>
+            <price>25.00</price>
+        </item>
+    </items>
+    <calculation>
+        <subtotal>35.50</subtotal>
+        <discount>0.00</discount>
+        <total>35.50</total>
+    </calculation>
+</shoppingCart>`,
+
+      yaml: `shopping_cart:
+  items:
+    - name: "Widget A"
+      price: 10.50
+      quantity: 1
+    - name: "Widget B"
+      price: 25.00
+      quantity: 1
+  
+  calculation:
+    subtotal: 35.50
+    discount_rate: 0.10
+    discount_threshold: 100.00
+    final_total: 35.50`,
+
+      json: `{
+  "shoppingCart": {
+    "items": [
+      {
+        "id": 1,
+        "name": "Widget A",
+        "price": 10.50,
+        "quantity": 1
+      },
+      {
+        "id": 2,
+        "name": "Widget B", 
+        "price": 25.00,
+        "quantity": 1
+      }
+    ],
+    "calculation": {
+      "subtotal": 35.50,
+      "discountRate": 0.10,
+      "discountThreshold": 100.00,
+      "finalTotal": 35.50
     }
-}`;
+  }
+}`,
 
-      case 'vyper': return `@external
-@view
-def calculate_total(prices: uint256[10]) -> uint256:
-    total: uint256 = 0
-    for i in range(10):
-        if prices[i] == 0:
-            break
-        total += prices[i]
+      toml: `[shopping_cart]
+discount_threshold = 100.0
+discount_rate = 0.10
+
+[[shopping_cart.items]]
+name = "Widget A"
+price = 10.50
+quantity = 1
+
+[[shopping_cart.items]]
+name = "Widget B"
+price = 25.00
+quantity = 1
+
+[shopping_cart.calculation]
+subtotal = 35.50
+final_total = 35.50`
+    };
+
+    return markupTemplates[lang] || `<!-- ${lang.toUpperCase()} Markup Sample -->
+<document>
+    <data>Sample content</data>
+</document>`;
+  }
+
+  private generateQuerySample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    const queryTemplates: Record<string, string> = {
+      sql: `CREATE TABLE items (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    category VARCHAR(50)
+);
+
+INSERT INTO items (name, price, category) VALUES 
+('Widget A', 10.50, 'Electronics'),
+('Widget B', 25.00, 'Electronics'),
+('Widget C', 15.75, 'Home');
+
+SELECT 
+    SUM(price) as subtotal,
+    CASE 
+        WHEN SUM(price) > 100 THEN SUM(price) * 0.9
+        ELSE SUM(price)
+    END as final_total
+FROM items;`,
+
+      cypher: `CREATE (a:Item {name: 'Widget A', price: 10.50, category: 'Electronics'})
+CREATE (b:Item {name: 'Widget B', price: 25.00, category: 'Electronics'})
+CREATE (c:Item {name: 'Widget C', price: 15.75, category: 'Home'})
+
+MATCH (item:Item)
+WITH SUM(item.price) as subtotal
+RETURN subtotal,
+       CASE WHEN subtotal > 100 THEN subtotal * 0.9 ELSE subtotal END as final_total`,
+
+      sparql: `PREFIX shop: <http://example.org/shop#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?total WHERE {
+  {
+    SELECT (SUM(?price) as ?subtotal) WHERE {
+      ?item rdf:type shop:Item ;
+            shop:price ?price .
+    }
+  }
+  BIND(IF(?subtotal > 100, ?subtotal * 0.9, ?subtotal) as ?total)
+}`
+    };
+
+    return queryTemplates[lang] || `-- ${lang.toUpperCase()} Query Language Sample
+SELECT * FROM data WHERE value > 0;`;
+  }
+
+  private generateAssemblySample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    const assemblyTemplates: Record<string, string> = {
+      assembly: `section .data
+    prices dd 10.5, 25.0, 15.75, 0
+    result dd 0
+    hundred dd 100.0
+    discount dd 0.9
     
-    if total > 100:
-        total = total * 9 / 10
+section .text
+    global _start
     
-    return total`;
-
-      // Esoteric Languages
-      case 'brainfuck': return `++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.`;
-
-      case 'lolcode': return `HAI 1.2
-    I HAS A prices ITZ A BUKKIT
-    prices HAS A 0 ITZ 10
-    prices HAS A 1 ITZ 25
-    prices HAS A 2 ITZ 15
+_start:
+    xor eax, eax        ; clear accumulator
+    mov esi, prices     ; point to prices array
     
-    I HAS A total ITZ 0
-    IM IN YR loop UPPIN YR i TIL BOTH SAEM i AN 3
-        total R SUM OF total AN prices'Z SRS i
-    IM OUTTA YR loop
+sum_loop:
+    fld dword [esi]     ; load price into FPU
+    fcomp dword [hundred] ; compare with zero
+    fstsw ax            ; store FPU status
+    sahf                ; transfer to CPU flags
+    jz done             ; if zero, we're done
     
-    BOTH SAEM BIGGR OF total AN 100 AN total, O RLY?
-        YA RLY
-            total R PRODUKT OF total AN 0.9
-        OIC
+    fadd                ; add to running total
+    add esi, 4          ; next price
+    jmp sum_loop
     
-    VISIBLE SMOOSH "Total: " AN total MKAY
-KTHXBYE`;
+done:
+    fst dword [result]  ; store result
+    
+    ; Exit system call
+    mov eax, 1          ; sys_exit
+    xor ebx, ebx        ; exit status
+    int 0x80`,
 
-      case 'whitespace': return `   \t  \t  \n   \t \t\t  \n   \t\t  \t \n\t\n \t\n\n\n   \t\t    \n\t\n \t\n\n\n   \t\t   \t\n\t\n \t\n\n\n\t\n\t \n\n\n`;
+      nasm: `section .data
+    msg db 'Total: ', 0
+    newline db 10, 0
+    
+section .bss
+    total resd 1
+    
+section .text
+    global _start
+    
+_start:
+    ; Initialize total to 0
+    mov eax, 0
+    mov [total], eax
+    
+    ; Add prices (simplified)
+    add eax, 1050   ; 10.50 * 100 for integer math
+    add eax, 2500   ; 25.00 * 100
+    add eax, 1575   ; 15.75 * 100
+    
+    ; Store result
+    mov [total], eax
+    
+    ; Exit
+    mov eax, 1      ; sys_exit
+    xor ebx, ebx    ; exit status  
+    int 0x80`,
 
-      // Modern/Emerging Languages  
-      case 'zig': return `const std = @import("std");
+      masm: `.386
+.model flat, stdcall
 
-fn calculateTotal(prices: []f64) f64 {
+.data
+    prices REAL4 10.5, 25.0, 15.75, 0.0
+    total REAL4 ?
+    hundred REAL4 100.0
+    discount REAL4 0.9
+    
+.code
+start:
+    finit                   ; initialize FPU
+    fldz                   ; load 0.0
+    
+    mov esi, OFFSET prices
+    
+sum_loop:
+    fld REAL4 PTR [esi]    ; load price
+    fcomp hundred          ; compare with 0
+    fstsw ax
+    sahf
+    jz done
+    
+    fadd                   ; add to total
+    add esi, 4
+    jmp sum_loop
+    
+done:
+    fstp total             ; store total
+    
+end start`
+    };
+
+    return assemblyTemplates[lang] || `; ${lang.toUpperCase()} Assembly Language Sample
+section .text
+    global _start
+    
+_start:
+    mov eax, 1      ; system call number for sys_exit
+    int 0x80        ; call kernel`;
+  }
+
+  private generateSystemsSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    const systemsTemplates: Record<string, string> = {
+      zig: `const std = @import("std");
+const print = std.debug.print;
+
+const Item = struct {
+    name: []const u8,
+    price: f64,
+};
+
+fn calculateTotal(items: []const Item) f64 {
     var total: f64 = 0.0;
-    for (prices) |price| {
-        total += price;
+    
+    for (items) |item| {
+        total += item.price;
     }
+    
     if (total > 100.0) {
-        total *= 0.9;
+        total *= 0.9; // Apply 10% discount
     }
+    
     return total;
 }
 
-pub fn main() void {
-    const prices = [_]f64{ 10.5, 25.0, 15.75 };
-    const result = calculateTotal(prices[0..]);
-    std.debug.print("Total: {d}\\n", .{result});
-}`;
+pub fn main() !void {
+    const items = [_]Item{
+        Item{ .name = "Widget A", .price = 10.5 },
+        Item{ .name = "Widget B", .price = 25.0 },
+        Item{ .name = "Widget C", .price = 15.75 },
+    };
+    
+    const result = calculateTotal(&items);
+    print("Total: {d:.2}\\n", .{result});
+}`,
 
-      case 'crystal': return `def calculate_total(prices : Array(Float64)) : Float64
-  total = prices.sum
-  total > 100 ? total * 0.9 : total
-end
+      carbon: `package Main api;
 
-prices = [10.5, 25.0, 15.75]
-result = calculate_total(prices)
-puts "Total: #{result.round(2)}"`;
-
-      case 'nim': return `proc calculateTotal(prices: seq[float]): float =
-  let total = prices.sum()
-  if total > 100:
-    total * 0.9
-  else:
-    total
-
-let prices = @[10.5, 25.0, 15.75]
-let result = calculateTotal(prices)
-echo "Total: ", result.formatFloat(ffDecimal, 2)`;
-
-      case 'v': return `fn calculate_total(prices []f64) f64 {
-    mut total := 0.0
-    for price in prices {
-        total += price
-    }
-    if total > 100 {
-        total *= 0.9
-    }
-    return total
+struct Item {
+    var name: String;
+    var price: f64;
 }
 
+fn CalculateTotal(items: Array(Item)) -> f64 {
+    var total: f64 = 0.0;
+    
+    for (item: Item in items) {
+        total += item.price;
+    }
+    
+    if (total > 100.0) {
+        total *= 0.9;  // Apply 10% discount
+    }
+    
+    return total;
+}
+
+fn Main() -> i32 {
+    var items: Array(Item) = (
+        {.name = "Widget A", .price = 10.5},
+        {.name = "Widget B", .price = 25.0},
+        {.name = "Widget C", .price = 15.75}
+    );
+    
+    var result: f64 = CalculateTotal(items);
+    Print("Total: {0}", result);
+    return 0;
+}`,
+
+      vale: `struct Item {
+    name str;
+    price f64;
+}
+
+fn calculateTotal(items &[]Item) f64 {
+    total mut = 0.0;
+    
+    each item in items {
+        set total = total + item.price;
+    }
+    
+    if (total > 100.0) {
+        set total = total * 0.9;  // Apply 10% discount
+    }
+    
+    ret total;
+}
+
+exported fn main() int {
+    items = [
+        Item("Widget A", 10.5),
+        Item("Widget B", 25.0),  
+        Item("Widget C", 15.75)
+    ];
+    
+    result = calculateTotal(&items);
+    println("Total: " + result);
+    ret 0;
+}`
+    };
+
+    return systemsTemplates[lang] || `// ${lang.toUpperCase()} Systems Programming Sample  
 fn main() {
-    prices := [10.5, 25.0, 15.75]
-    result := calculate_total(prices)
-    println('Total: ' + result.toString())
+    // Sample systems programming code
+    let result = calculate_total(&[10.5, 25.0, 15.75]);
+    println!("Total: {:.2}", result);
 }`;
-
-      case 'odin': return `package main
-
-import "core:fmt"
-
-calculate_total :: proc(prices: []f64) -> f64 {
-    total: f64 = 0
-    for price in prices {
-        total += price
-    }
-    if total > 100 {
-        total *= 0.9
-    }
-    return total
-}
-
-main :: proc() {
-    prices := []f64{10.5, 25.0, 15.75}
-    result := calculate_total(prices)
-    fmt.printf("Total: %.2f\\n", result)
-}`;
-
-      // Assembly Languages
-      case 'x86': case 'assembly': return `.section .data
-prices: .float 10.5, 25.0, 15.75
-count: .long 3
-result: .float 0.0
-
-.section .text
-.globl _start
-
-_start:
-    # Load prices and calculate total
-    flds prices        # Load first price
-    flds prices+4      # Load second price
-    faddp             # Add them
-    flds prices+8      # Load third price
-    faddp             # Add to total
-    
-    # Check if > 100
-    fld1
-    mov $100, %eax
-    pushl %eax
-    filds (%esp)
-    fcompp
-    
-    # Apply discount if needed
-    fstsw %ax
-    sahf
-    jbe skip_discount
-    
-    fld1
-    mov $9, %eax
-    pushl %eax
-    filds (%esp)
-    fmulp
-    mov $10, %eax
-    pushl %eax
-    filds (%esp)
-    fdivp
-
-skip_discount:
-    fsts result
-    
-    # Exit
-    mov $1, %eax
-    mov $0, %ebx
-    int $0x80`;
-
-      // Shell Scripting
-      case 'bash': return `#!/bin/bash
-
-calculate_total() {
-    local prices=("$@")
-    local total=0
-    
-    for price in "\${prices[@]}"; do
-        total=$(echo "$total + $price" | bc -l)
-    done
-    
-    if (( $(echo "$total > 100" | bc -l) )); then
-        total=$(echo "$total * 0.9" | bc -l)
-    fi
-    
-    echo "$total"
-}
-
-prices=(10.5 25.0 15.75)
-result=$(calculate_total "\${prices[@]}")
-printf "Total: %.2f\\n" "$result"`;
-
-      case 'powershell': return `function Calculate-Total {
-    param([double[]]$Prices)
-    
-    $total = ($Prices | Measure-Object -Sum).Sum
-    
-    if ($total -gt 100) {
-        $total = $total * 0.9
-    }
-    
-    return $total
-}
-
-$prices = @(10.5, 25.0, 15.75)
-$result = Calculate-Total -Prices $prices
-Write-Output "Total: " + \$result.ToString('F2')`;
-
-      // Default case for unsupported languages
-      default: return this.generateGenericSample(lang);
-    }
   }
 
-  private generateGenericSample(language: string): string {
-    // Generic boilerplate for any programming language
-    const samples = [
-      `// ${language.toUpperCase()} Sample Code
+  private generateGenericStandardSample(lang: string, info: { category: string; syntax: string; paradigm: string }): string {
+    // Generic templates based on syntax patterns
+    if (info.syntax === 'python' || info.syntax === 'ruby') {
+      return `# ${lang.toUpperCase()} Sample Code
+def calculate_total(items):
+    total = 0
+    for item in items:
+        total += item
+    if total > 100:
+        total = total * 0.9  # Apply discount
+    return total`;
+    } else if (info.syntax === 'c-like') {
+      return `// ${lang.toUpperCase()} Sample Code  
+#include <stdio.h>
+
+double calculateTotal(double items[], int count) {
+    double total = 0.0;
+    for (int i = 0; i < count; i++) {
+        total += items[i];
+    }
+    if (total > 100.0) {
+        total = total * 0.9;  // Apply discount
+    }
+    return total;
+}`;
+    } else {
+      return `// ${lang.toUpperCase()} Sample Code
 function calculateTotal(items) {
     let total = 0;
     for (let i = 0; i < items.length; i++) {
         total += items[i];
     }
+    if (total > 100) {
+        total = total * 0.9;  // Apply discount
+    }  
     return total;
-}`,
-      `# ${language.toUpperCase()} Sample Code
-def calculate_total(items):
-    total = 0
-    for item in items:
-        total += item
-    return total`,
-      `/* ${language.toUpperCase()} Sample Code */
-class Calculator {
-    public static double calculateTotal(double[] items) {
-        double total = 0;
-        for (int i = 0; i < items.length; i++) {
-            total += items[i];
-        }
-        return total;
-    }
-}`
-    ];
-    
-    // Return appropriate sample based on language characteristics
-    if (language.includes('python') || language.includes('ruby')) {
-      return samples[1];
-    } else if (language.includes('java') || language.includes('c#') || language.includes('c++')) {
-      return samples[2];
-    } else {
-      return samples[0];
+}`;
     }
   }
+
 }
 
 export const universalErrorAnalyzer = new UniversalErrorAnalyzer();
