@@ -1,0 +1,313 @@
+1. Compiled Languages
+A compiled language is a programming language in which we use a compiler to compile and execute our code. the compilers are generally translators that generate machine level code from our written source code. 
+Example:
+
+C
+C++
+C#
+ALGOL
+Cobol
+Fortran
+Java
+Visual Basic
+Smalltalk
+2. Interpreted Languages
+An interpreted language is a programming language in which without compiling a program into machine-language instructions we can execute instructions directly and freely. The interpreter executes the program line by line.InRubyterpreted a language gives many additional flexibility over compiled implementations like, platform independence, dynamic scoping, dynamic typing etc. 
+Example: 
+
+Python
+Ruby
+Perl
+Pascal
+Lisp
+BASIC
+APL
+3. Scripting Languages 
+Scripting languages are programming languages that control an application. Scripts which can be executed independently over any other application. They are widely used in the application that they control and are used in automation. 
+Example:
+
+PHP
+VBScript
+Windows PowerShell
+F-Script
+BeanShell
+AutoIt
+R
+Game Maker Language
+4. Markup Languages 
+A markup language is an artificial language that used for annotating a document so that it is syntactically distinguishable from the text, the text that define how the text is to be displayed. 
+Example: 
+
+HTML
+XML
+XHTML
+SGML
+Curl
+5. Procedural Languages 
+Procedural (imperative) programming implies specifying the steps that the programs should take to reach to an intended state. A procedure is nothing but a set of instructions that can be referenced through a procedure call. this help in the reuse of code. This type of programming makes the programs structured and easily traceable for program flow. 
+Example:
+
+HyperTalk
+Go
+PL/C
+PL/I
+Curl
+Mathematical
+MATLAB
+6. Functional Languages
+Functional programming languages define every computation as a mathematical evaluation. They focus on the application of functions.Some of the functional programming languages are pure functional language but many so-called functional languages are impure, containing imperative features, they are not pure function languages. 
+Example:
+
+Pure Functional
+AgdaSAC
+SASL
+Cuneiform
+Curry
+Futhark
+Haskell
+7. Impure Functional Languages
+APL
+C++ (since C++11)
+C#
+VB.NET
+Ceylon
+Kotlin
+LISP
+Closure
+Javascript
+PHP
+Python
+8. Logic-based Programming Languages
+Logic programming is a type of programming paradigm which is largely based on formal logic. logic -based programming are set of sentences in logical form, which express facts and rules about a problem domain. 
+Example: 
+
+Prolog
+ROOP
+ALF
+Alma-0
+Curry
+Fril
+Janus
+9. Object-Oriented Languages
+Object-oriented programming (OOP) is a high-level programming paradigm based on the concept of “objects”, which may contain data, in the form of fields, often known as attributes. In OOP, computer programs binds related data and functions into an object and implements objects and their associated procedures to create software programs. 
+Example:
+
+Scala
+C++
+Java
+Python
+C#
+Ruby
+10. Dataflow Languages 
+Dataflow programming languages rely on representing the flow of data. In a dataflow language, a stream of data gets passed from instruction to instruction for execution. The Conditional execution jumps the data and in procedure calls, it routes the data to a different location. 
+Examples: 
+
+Analytica
+BMDFM
+Hartmann pipelines
+Lucid
+Max
+Oz
+Prograph
+Pure Data
+11. Embeddable Languages
+It is mainly dynamic scripting and programming language. it can be also used as a platform-independent general-purpose programming language. Embedded languages are of two types:
+
+Server Side
+Client Side
+Server-side
+
+PHP
+VBScript
+SMX
+Tcl
+WebDNA
+Client side 
+
+ActionScript
+JavaScript
+VBScript
+12. Machine Languages
+These languages are directly executable by a compute Central Processing Unit. Machine languages are typically coded in bit patterns, represented in octal or hexadecimal forms. 
+Example: 
+
+ARM
+DEC
+x86
+IBM System/360
+MIPS
+Sun, Oracle SPARC
+13. System Languages
+These are for low-level languages used in memory management or task management. A system programming language generally used for system programming, for example, languages designed for writing system software, usually require different approaches of development compared to application software. 
+Example: 
+
+Ada
+Nim
+Rust
+Swift
+ESPOL
+14. Concurrent Languages
+These languages are constructed for concurrency in Message passing languages. For example, Java shows shared-memory concurrency. 
+Example: 
+
+Go
+Java
+Julia
+Closure
+Scala
+15. Multiparadigm Languages
+These types of languages support more than one programming languages or programming paradigm. Multiparadigm languages allow using more than one programming style. No specific language solves all the problems in the easiest or efficient that's why we use Multiparadigm languages. 
+Example: 
+
+Ada
+APL
+BETA
+C++
+C#
+Cobra
+16. Extension Languages
+These languages are used as an extension to other languages. Extension programming languages are embedded into another program and used to harness its features in extension scripts. 
+Example: 
+
+AutoLISP
+BeanShell
+Perl
+Pike
+Ruby
+17. Iterative Languages  
+These languages are built around or offering generators. 
+Example: 
+
+Aldor
+Alphard
+PHP
+CLU
+Cobra
+18. Hardware description Languages
+These programming languages are used in electronics, a hardware description language or HDL is used to describe the structure, design, and operation of electronic circuits or digital logic circuits. Among various most popular and well-supported HDL varieties used in industry are Verilog and VHDL. 
+Example: 
+
+Analog circuit's HDLs:
+Verilog-AMS
+VHDL-AMS
+Digital circuit's HDLs
+Advanced Boolean Expression Language(ABEL)
+Altera Hardware Description Language(AHDL)
+Bluespec
+Lava
+ELLA
+19. Visual Languages
+In Visual Languages users can specify programs in a 2-D or more way instead one-dimensional (text strings) in visual languages we use graphical elements and figures to develop a program. 
+Example: 
+
+Analytica
+Blockly
+DRAKON
+Fabrik
+Scratch
+Simulink
+Spreadsheets
+20. List-based Languages
+List-based languages are based on the list data structure. 
+Example: 
+
+Lisp
+Arc
+Clojure
+R
+Dylan
+Joy
+21. Synchronous Languages
+These programming languages are used in programming reactive systems. A programming reactive systems is the systems which gets interrupted and respond instantly. some of these systems are also called real-time systems and are used widely. 
+Example: 
+
+Argus
+Averest
+Esterel
+Lustre
+Signal
+22. Macro Languages
+These languages are used to transform one source code file into another. Macro is a short piece of text which can expands into a larger one. Macro languages are often used to preprocess the source code. Preprocessors supply facilities like file inclusion etc. 
+Example: 
+
+cpp (the C preprocessor)
+m4
+ML/I (general purpose macro processor)
+23. Query Languages
+These languages are used in databases and information systems to make queries. 
+Example: 
+
+SQL
+XPath
+AQL
+PQL
+XQuery
+24. Metaprogramming Languages
+Metaprogramming is the writing of programs that write or manipulate other programs, including themselves, as their data or that do part of the work that is otherwise done at run time during compile time. 
+Example: 
+
+C++
+CWIC
+Curl
+D
+eC
+Emacs Lisp3
+Elixir
+F#
+25. Rule-based Languages
+Rule-based languages instantiate rules when activated by conditions in a set of data. Some set which gets selected and the statements which belonged to those rules get executed. 
+Example: 
+
+awk
+CLIPS
+Constraint Handling Rules
+Drools
+Jess
+OPS5
+Prolog
+26. Numerical analysis Languages
+In Numerical analysis we analyzes and implements algorithms for numerical solutions to solve huge problems of realistic mathematical models involving continuous variables. we use the following programming languages in Numerical Analysis. 
+Example: 
+
+Mathematical
+MATLAB
+PROSE
+R
+27. Syntax handling Languages
+These languages assist with generating lexical analyzers and parsers for context-free grammars.
+Example: 
+
+ANTLR
+Coco/R (EBNF with semantics)
+GNU bison (FSF's version of Yacc)
+GNU Flex (FSF version of Lex)
+lex (Lexical Analysis, from Bell Labs)
+Parsing expression grammar (PEG)
+28. Non-English-based Languages
+There are several programming languages which are developed in different language other than the English language. language is not a barrier in this case. 
+
+Chinese BASIC – Chinese
+Fjölnir – Icelandic
+Language Symbolique d'Enseignement – French
+Lexico – Spanish
+Rapira – Russian
+ChaScript-Bengali
+ezhil-Tamil
+29. XML-based Languages
+These languages are used to transfer XML documents to into human readable format. 
+
+Ant
+C?
+XPath
+XQuery
+XProc
+30. Educational Languages
+These languages are created to help beginners learn programming concepts. They are often simplified and come with visual environments or clear syntax.
+
+Examples:
+
+Logo – Famous for turtle graphics
+Scratch – Block-based visual programming
+Alice – 3D programming for animations and storytelling
+Blockly – Web-based visual language
+Karel – Robot programming for learning control structures
