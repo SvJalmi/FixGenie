@@ -11,6 +11,7 @@ import FloatingActionButton from "@/components/FloatingActionButton";
 import { AIMentor } from "@/components/AIMentor";
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
 import { CollaborationHub } from "@/components/CollaborationHub";
+import Footer from "@/components/Footer";
 import { apiRequest } from "@/lib/queryClient";
 import type { ErrorAnalysis, MurfVoice, VoiceGeneration } from "@shared/schema";
 
@@ -355,6 +356,9 @@ export default function Dashboard() {
         isAnalyzing={analyzeCodeMutation.isPending}
         hasAudio={!!currentAudioUrl}
       />
+      
+      {/* Footer with FixGenie Branding */}
+      <Footer />
     </div>
   );
 }
