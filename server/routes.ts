@@ -35,9 +35,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           language,
           code,
           errors: analysis.errors.map(e => ({
-            type: e.type,
-            severity: e.severity,
             message: e.message,
+            type: e.type as "syntax" | "logical" | "runtime" | "semantic",
+            severity: e.severity,
             line: e.line,
             column: e.column,
             suggestion: e.suggestion
@@ -124,7 +124,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error('Murf TTS failed:', murfError);
         res.status(500).json({ 
           success: false,
-          message: `Murf TTS failed: ${murfError.message}`,
+          message: `Murf TTS failed: ${murfError instanceof Error ? murfError.message : 'Unknown error'}`,
           error: 'MURF_API_ERROR'
         });
       }
@@ -180,7 +180,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       } catch (murfError) {
         // Fallback: Return text and mock audio response
-        console.log('Murf TTS failed, providing fallback response:', murfError.message);
+        console.log('Murf TTS failed, providing fallback response:', murfError instanceof Error ? murfError.message : 'Unknown error');
         
         res.json({
           success: true,
@@ -426,7 +426,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         achievements,
         codesSolved,
         totalAnalyses: recentAnalyses.length,
-        languagesUsed: [...new Set(recentAnalyses.map(a => a.language))].length
+        languagesUsed: Array.from(new Set(recentAnalyses.map(a => a.language))).length
       };
 
       res.json(profileData);
