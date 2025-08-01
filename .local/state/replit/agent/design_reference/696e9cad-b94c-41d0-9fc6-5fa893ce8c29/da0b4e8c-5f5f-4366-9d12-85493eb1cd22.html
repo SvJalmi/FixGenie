@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixGenie - AI-Powered Code Error Analysis with Voice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        'primary': '#0066CC',
+                        'secondary': '#6B7280',
+                        'success': '#10B981',
+                        'error': '#EF4444',
+                        'warning': '#F59E0B',
+                        'dark': '#1F2937',
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-magic text-2xl text-primary"></i>
+                        <h1 class="text-xl font-bold text-gray-900">FixGenie</h1>
+                        <span class="bg-primary text-white text-xs px-2 py-1 rounded-full">AI</span>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors">Dashboard</a>
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors">History</a>
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors">Settings</a>
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-user mr-2"></i>Account
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex h-screen pt-16">
+        <!-- Sidebar -->
+        <aside class="w-80 bg-white border-r border-gray-200 overflow-y-auto">
+            <div class="p-6">
+                <!-- Language Selection -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Programming Language</label>
+                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option>Python</option>
+                        <option>JavaScript</option>
+                        <option>Java</option>
+                        <option>C++</option>
+                        <option>C#</option>
+                        <option>Go</option>
+                        <option>Rust</option>
+                        <option>TypeScript</option>
+                    </select>
+                </div>
+
+                <!-- Voice Settings -->
+                <div class="mb-6">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-volume-up mr-2"></i>Voice Settings
+                    </h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Voice</label>
+                            <select class="w-full border border-gray-300 rounded px-2 py-1 text-sm">
+                                <option>Sarah (US English)</option>
+                                <option>James (UK English)</option>
+                                <option>Emma (Australian)</option>
+                                <option>Alex (Canadian)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Speed</label>
+                            <input type="range" min="0.5" max="2" step="0.1" value="1" class="w-full">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Pitch</label>
+                            <input type="range" min="-10" max="10" step="1" value="0" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mb-6">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">Quick Actions</h3>
+                    <div class="space-y-2">
+                        <button class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm flex items-center">
+                            <i class="fas fa-file-import mr-2 text-primary"></i>Import from file
+                        </button>
+                        <button class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm flex items-center">
+                            <i class="fas fa-clipboard mr-2 text-primary"></i>Paste from clipboard
+                        </button>
+                        <button class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm flex items-center">
+                            <i class="fas fa-history mr-2 text-primary"></i>View history
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Errors -->
+                <div>
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">Recent Errors</h3>
+                    <div class="space-y-2">
+                        <div class="p-3 bg-red-50 rounded-lg border-l-4 border-error">
+                            <div class="text-xs font-medium text-error">SyntaxError</div>
+                            <div class="text-xs text-gray-600 truncate">Invalid syntax in line 23</div>
+                            <div class="text-xs text-gray-500 mt-1">2 mins ago</div>
+                        </div>
+                        <div class="p-3 bg-yellow-50 rounded-lg border-l-4 border-warning">
+                            <div class="text-xs font-medium text-warning">TypeError</div>
+                            <div class="text-xs text-gray-600 truncate">String index out of range</div>
+                            <div class="text-xs text-gray-500 mt-1">5 mins ago</div>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-primary">
+                            <div class="text-xs font-medium text-primary">ImportError</div>
+                            <div class="text-xs text-gray-600 truncate">Module not found</div>
+                            <div class="text-xs text-gray-500 mt-1">12 mins ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="p-6">
+                <!-- Action Bar -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-4">
+                        <button id="analyzeBtn" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                            <i class="fas fa-search mr-2"></i>Analyze Code
+                        </button>
+                        <button class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center">
+                            <i class="fas fa-broom mr-2"></i>Clear
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2">
+                        <button id="playBtn" class="bg-success text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center">
+                            <i class="fas fa-play mr-2"></i>Play Audio
+                        </button>
+                        <button class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <!-- Code Input Section -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                        <div class="border-b border-gray-200 p-4">
+                            <h2 class="font-semibold text-gray-900 flex items-center">
+                                <i class="fas fa-code mr-2 text-primary"></i>Code Input
+                            </h2>
+                        </div>
+                        <div class="p-0">
+                            <div class="bg-dark text-gray-100 rounded-b-xl overflow-hidden">
+                                <div class="flex items-center justify-between px-4 py-2 bg-gray-800 text-sm">
+                                    <span class="text-gray-300">main.py</span>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-400">Python</span>
+                                        <i class="fab fa-python text-yellow-400"></i>
+                                    </div>
+                                </div>
+                                <textarea 
+                                    class="w-full h-80 bg-dark text-gray-100 p-4 font-mono text-sm resize-none focus:outline-none"
+                                    placeholder="Paste your code here..."
+                                    data-mock="true">def calculate_average(numbers):
+    total = 0
+    count = 0
+    
+    for num in numbers:
+        total += num
+        count += 1
+    
+    # Error: Division by zero potential
+    average = total / count
+    return average
+
+# Error: Calling with empty list
+result = calculate_average([])
+print(f"Average: {result}")
+
+# Error: Missing import
+data = json.loads('{"name": "test"}')
+print(data)</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error Analysis Section -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                        <div class="border-b border-gray-200 p-4">
+                            <h2 class="font-semibold text-gray-900 flex items-center">
+                                <i class="fas fa-bug mr-2 text-error"></i>Error Analysis
+                                <span class="ml-2 bg-error text-white text-xs px-2 py-1 rounded-full">3 Issues Found</span>
+                            </h2>
+                        </div>
+                        <div class="p-4 space-y-4 max-h-80 overflow-y-auto">
+                            <!-- Error 1 -->
+                            <div class="border border-error rounded-lg p-4 bg-red-50">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-exclamation-triangle text-error"></i>
+                                        <span class="font-medium text-error">ZeroDivisionError</span>
+                                        <span class="bg-error text-white text-xs px-2 py-1 rounded">Line 9</span>
+                                    </div>
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-700 mb-2">Division by zero will occur when an empty list is passed to the function.</p>
+                                <div class="text-xs text-gray-600">
+                                    <strong>Severity:</strong> High | <strong>Type:</strong> Runtime Error
+                                </div>
+                            </div>
+
+                            <!-- Error 2 -->
+                            <div class="border border-warning rounded-lg p-4 bg-yellow-50">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-exclamation-circle text-warning"></i>
+                                        <span class="font-medium text-warning">Logic Error</span>
+                                        <span class="bg-warning text-white text-xs px-2 py-1 rounded">Line 12</span>
+                                    </div>
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-700 mb-2">Function called with empty list which will cause ZeroDivisionError.</p>
+                                <div class="text-xs text-gray-600">
+                                    <strong>Severity:</strong> High | <strong>Type:</strong> Logic Error
+                                </div>
+                            </div>
+
+                            <!-- Error 3 -->
+                            <div class="border border-blue-500 rounded-lg p-4 bg-blue-50">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-info-circle text-blue-500"></i>
+                                        <span class="font-medium text-blue-500">ImportError</span>
+                                        <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded">Line 15</span>
+                                    </div>
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-700 mb-2">Missing import statement for 'json' module.</p>
+                                <div class="text-xs text-gray-600">
+                                    <strong>Severity:</strong> Medium | <strong>Type:</strong> Import Error
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solutions Section -->
+                <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-200">
+                    <div class="border-b border-gray-200 p-4 flex items-center justify-between">
+                        <h2 class="font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-lightbulb mr-2 text-success"></i>AI-Generated Solutions
+                        </h2>
+                        <button class="text-primary hover:text-blue-700 flex items-center text-sm">
+                            <i class="fas fa-volume-up mr-2"></i>Play All Solutions
+                        </button>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <!-- Solution 1 -->
+                        <div class="border border-success rounded-lg p-4 bg-green-50">
+                            <div class="flex items-start justify-between mb-3">
+                                <h3 class="font-medium text-success flex items-center">
+                                    <i class="fas fa-check-circle mr-2"></i>Fix for ZeroDivisionError
+                                </h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-700 mb-3">Add validation to check if the list is empty before performing division.</p>
+                            <div class="bg-dark rounded-lg p-3">
+                                <pre class="text-gray-100 font-mono text-sm overflow-x-auto"><code>def calculate_average(numbers):
+    if not numbers:  # Check if list is empty
+        raise ValueError("Cannot calculate average of empty list")
+    
+    total = sum(numbers)  # More pythonic
+    count = len(numbers)
+    
+    average = total / count
+    return average</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Solution 2 -->
+                        <div class="border border-success rounded-lg p-4 bg-green-50">
+                            <div class="flex items-start justify-between mb-3">
+                                <h3 class="font-medium text-success flex items-center">
+                                    <i class="fas fa-check-circle mr-2"></i>Fix for ImportError
+                                </h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-700 mb-3">Add the missing import statement at the top of your file.</p>
+                            <div class="bg-dark rounded-lg p-3">
+                                <pre class="text-gray-100 font-mono text-sm overflow-x-auto"><code>import json  # Add this import
+
+# Now json.loads will work
+data = json.loads('{"name": "test"}')
+print(data)</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Complete Solution -->
+                        <div class="border border-primary rounded-lg p-4 bg-blue-50">
+                            <div class="flex items-start justify-between mb-3">
+                                <h3 class="font-medium text-primary flex items-center">
+                                    <i class="fas fa-magic mr-2"></i>Complete Fixed Code
+                                </h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="text-primary hover:text-blue-700">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bg-dark rounded-lg p-3">
+                                <pre class="text-gray-100 font-mono text-sm overflow-x-auto"><code>import json
+
+def calculate_average(numbers):
+    if not numbers:
+        raise ValueError("Cannot calculate average of empty list")
+    
+    total = sum(numbers)
+    count = len(numbers)
+    
+    average = total / count
+    return average
+
+# Safe usage with error handling
+try:
+    result = calculate_average([1, 2, 3, 4, 5])  # Valid input
+    print(f"Average: {result}")
+    
+    data = json.loads('{"name": "test"}')
+    print(data)
+except ValueError as e:
+    print(f"Error: {e}")
+except json.JSONDecodeError as e:
+    print(f"JSON Error: {e}")</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio Player Section -->
+                <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-200">
+                    <div class="border-b border-gray-200 p-4">
+                        <h2 class="font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-headphones mr-2 text-primary"></i>Audio Player
+                        </h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <button class="bg-success text-white p-3 rounded-full hover:bg-green-600 transition-colors">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="bg-gray-500 text-white p-2 rounded-full hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                            <button class="bg-gray-500 text-white p-2 rounded-full hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-stop"></i>
+                            </button>
+                            
+                            <div class="flex-1">
+                                <div class="bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full w-1/3"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-600 mt-1">
+                                    <span>0:32</span>
+                                    <span>1:45</span>
+                                </div>
+                            </div>
+                            
+                            <button class="text-gray-600 hover:text-primary">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <button class="text-gray-600 hover:text-primary">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="text-sm text-gray-600">
+                            <strong>Currently Playing:</strong> ZeroDivisionError explanation and solution
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Powered by Murf -->
+                <div class="mt-8 text-center">
+                    <div class="inline-flex items-center space-x-2 text-sm text-gray-600">
+                        <span>Powered by</span>
+                        <i class="fas fa-volume-up text-primary"></i>
+                        <span class="font-semibold text-primary">Murf AI</span>
+                        <span class="bg-primary text-white text-xs px-2 py-1 rounded-full">99.38% Accuracy</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-sm mx-4">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-4 border-primary border-t-transparent mx-auto mb-4"></div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Analyzing Your Code</h3>
+                <p class="text-gray-600 text-sm">AI is detecting errors and generating solutions...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // TODO: Implement actual Murf TTS API integration
+            // TODO: Add real error detection using AI/LLM services
+            // TODO: Implement code syntax highlighting
+            // TODO: Add file upload functionality
+            
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const playBtn = document.getElementById('playBtn');
+            const loadingModal = document.getElementById('loadingModal');
+
+            analyzeBtn.addEventListener('click', function() {
+                loadingModal.classList.remove('hidden');
+                
+                // Simulate analysis
+                setTimeout(() => {
+                    loadingModal.classList.add('hidden');
+                }, 2000);
+            });
+
+            playBtn.addEventListener('click', function() {
+                // TODO: Integrate with Murf TTS API to convert error text to speech
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-play');
+                icon.classList.toggle('fa-pause');
+                
+                if (icon.classList.contains('fa-pause')) {
+                    this.classList.remove('bg-success');
+                    this.classList.add('bg-gray-500');
+                } else {
+                    this.classList.remove('bg-gray-500');
+                    this.classList.add('bg-success');
+                }
+            });
+
+            // Voice control buttons
+            document.querySelectorAll('.fas.fa-volume-up').forEach(btn => {
+                btn.parentElement.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // TODO: Play specific error or solution audio using Murf TTS
+                    console.log('Playing audio for specific error/solution');
+                });
+            });
+
+            // Copy code functionality
+            document.querySelectorAll('.fa-copy').forEach(btn => {
+                btn.parentElement.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // TODO: Copy code to clipboard
+                    console.log('Code copied to clipboard');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

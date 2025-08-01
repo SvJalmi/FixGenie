@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixGenie - AI-Powered Code Error Fixing with Voice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark': '#0D1117',
+                        'dark-elevated': '#161B22',
+                        'dark-border': '#30363D',
+                        'primary-blue': '#2F81F7',
+                        'success': '#56D364',
+                        'warning': '#E3B341',
+                        'error': '#F85149',
+                        'text-primary': '#F0F6FC',
+                        'text-secondary': '#8B949E'
+                    },
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'monospace'],
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-dark text-text-primary font-sans">
+
+    <!-- @COMPONENT: Header [app title, user actions, voice status] -->
+    <header class="bg-dark-elevated border-b border-dark-border px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary-blue rounded-lg flex items-center justify-center">
+                        <i class="fas fa-magic text-white text-sm"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-text-primary">FixGenie</h1>
+                    <span class="bg-primary-blue/20 text-primary-blue px-2 py-1 rounded text-xs font-medium">Beta</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <!-- Voice Status Indicator -->
+                <div class="flex items-center space-x-2 bg-dark border border-dark-border rounded-lg px-3 py-2">
+                    <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                    <span class="text-sm text-text-secondary">Murf TTS Ready</span>
+                </div>
+                
+                <!-- API Usage -->
+                <div class="flex items-center space-x-2 text-text-secondary">
+                    <i class="fas fa-chart-bar text-sm"></i>
+                    <span class="text-sm">2.4M / 50M chars</span>
+                </div>
+                
+                <!-- User Menu -->
+                <div class="flex items-center space-x-3">
+                    <button class="p-2 hover:bg-dark-elevated rounded-lg transition-colors">
+                        <i class="fas fa-cog text-text-secondary"></i>
+                    </button>
+                    <div class="w-8 h-8 bg-primary-blue rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">U</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <div class="flex h-screen">
+        <!-- @COMPONENT: Sidebar [language selector, recent files, settings] -->
+        <aside class="w-80 bg-dark-elevated border-r border-dark-border flex flex-col">
+            <!-- Language & Voice Settings -->
+            <div class="p-6 border-b border-dark-border">
+                <h3 class="text-sm font-semibold mb-4 text-text-primary">Language & Voice Settings</h3>
+                
+                <!-- Programming Language Selector -->
+                <div class="mb-4">
+                    <label class="block text-xs font-medium text-text-secondary mb-2">Programming Language</label>
+                    <select class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-text-primary focus:ring-2 focus:ring-primary-blue focus:border-primary-blue">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="cpp">C++</option>
+                        <option value="csharp">C#</option>
+                        <option value="go">Go</option>
+                        <option value="rust">Rust</option>
+                        <option value="php">PHP</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="swift">Swift</option>
+                        <!-- @FUNCTIONALITY: Dropdown should support all 150+ languages from the provided list -->
+                    </select>
+                </div>
+
+                <!-- Voice Selection -->
+                <div class="mb-4">
+                    <label class="block text-xs font-medium text-text-secondary mb-2">Murf Voice</label>
+                    <select class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-text-primary focus:ring-2 focus:ring-primary-blue focus:border-primary-blue">
+                        <option value="matthew">Matthew (US, Male)</option>
+                        <option value="sarah">Sarah (US, Female)</option>
+                        <option value="oliver">Oliver (UK, Male)</option>
+                        <option value="emma">Emma (UK, Female)</option>
+                        <option value="raj">Raj (IN, Male)</option>
+                        <!-- @FUNCTIONALITY: Should load 150+ Murf voices dynamically -->
+                    </select>
+                </div>
+
+                <!-- Voice Speed -->
+                <div class="mb-4">
+                    <label class="block text-xs font-medium text-text-secondary mb-2">Speech Speed</label>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs text-text-secondary">0.5x</span>
+                        <input type="range" min="0.5" max="2" step="0.1" value="1" class="flex-1 accent-primary-blue">
+                        <span class="text-xs text-text-secondary">2x</span>
+                    </div>
+                    <span class="text-xs text-text-secondary mt-1 block">Current: 1.0x</span>
+                </div>
+            </div>
+
+            <!-- Recent Errors -->
+            <div class="p-6 border-b border-dark-border">
+                <h3 class="text-sm font-semibold mb-4 text-text-primary">Recent Error Fixes</h3>
+                <div class="space-y-3">
+                    <!-- @MAP: recentErrors.map(error => ( -->
+                    <div class="p-3 bg-dark rounded-lg border border-dark-border cursor-pointer hover:border-primary-blue transition-colors">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-warning font-medium">SyntaxError</span>
+                            <span class="text-xs text-text-secondary">2min ago</span>
+                        </div>
+                        <p class="text-sm text-text-primary mb-1">Missing semicolon</p>
+                        <p class="text-xs text-text-secondary">JavaScript • line 42</p>
+                    </div>
+
+                    <div class="p-3 bg-dark rounded-lg border border-dark-border cursor-pointer hover:border-primary-blue transition-colors">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-error font-medium">TypeError</span>
+                            <span class="text-xs text-text-secondary">5min ago</span>
+                        </div>
+                        <p class="text-sm text-text-primary mb-1">Undefined variable</p>
+                        <p class="text-xs text-text-secondary">Python • line 18</p>
+                    </div>
+
+                    <div class="p-3 bg-dark rounded-lg border border-dark-border cursor-pointer hover:border-primary-blue transition-colors">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-success font-medium">Fixed</span>
+                            <span class="text-xs text-text-secondary">1hr ago</span>
+                        </div>
+                        <p class="text-sm text-text-primary mb-1">Import statement error</p>
+                        <p class="text-xs text-text-secondary">Java • line 1</p>
+                    </div>
+                    <!-- @END_MAP )) -->
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="p-6 flex-1">
+                <h3 class="text-sm font-semibold mb-4 text-text-primary">Today's Stats</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-text-secondary">Errors Fixed</span>
+                        <span class="text-sm font-semibold text-success">12</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-text-secondary">TTS Generated</span>
+                        <span class="text-sm font-semibold text-primary-blue">8</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-text-secondary">Characters Used</span>
+                        <span class="text-sm font-semibold text-text-primary">2,400</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- @END_COMPONENT: Sidebar -->
+
+        <!-- @COMPONENT: MainContent [code editor, error analysis] -->
+        <main class="flex-1 flex flex-col">
+            <!-- Code Editor Header -->
+            <div class="bg-dark-elevated border-b border-dark-border px-6 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <h2 class="text-sm font-semibold text-text-primary">Code Editor</h2>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                            <span class="text-xs text-text-secondary">3 errors detected</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-1 bg-primary-blue text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors">
+                            <i class="fas fa-volume-up mr-2"></i>
+                            Explain Errors
+                        </button>
+                        <button class="px-3 py-1 bg-dark border border-dark-border text-text-primary rounded-lg text-sm font-medium hover:bg-dark-elevated transition-colors">
+                            <i class="fas fa-magic mr-2"></i>
+                            Auto Fix
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monaco Editor Area -->
+            <div class="flex-1 flex">
+                <!-- Code Editor -->
+                <div class="flex-1 relative">
+                    <div class="absolute inset-0 bg-dark">
+                        <!-- Line Numbers -->
+                        <div class="flex h-full">
+                            <div class="w-12 bg-dark-elevated border-r border-dark-border py-4">
+                                <div class="space-y-1 text-xs text-text-secondary font-mono text-center">
+                                    <div class="py-0.5">1</div>
+                                    <div class="py-0.5">2</div>
+                                    <div class="py-0.5">3</div>
+                                    <div class="py-0.5">4</div>
+                                    <div class="py-0.5">5</div>
+                                    <div class="py-0.5">6</div>
+                                    <div class="py-0.5">7</div>
+                                    <div class="py-0.5">8</div>
+                                    <div class="py-0.5 bg-error/20 text-error">9</div>
+                                    <div class="py-0.5">10</div>
+                                    <div class="py-0.5">11</div>
+                                    <div class="py-0.5">12</div>
+                                    <div class="py-0.5 bg-warning/20 text-warning">13</div>
+                                    <div class="py-0.5">14</div>
+                                    <div class="py-0.5">15</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Code Content -->
+                            <div class="flex-1 p-4 font-mono text-sm overflow-auto">
+                                <pre class="text-text-primary leading-6"><code><span class="text-purple-400">function</span> <span class="text-blue-400">calculateTotal</span>(<span class="text-orange-400">items</span>) {
+    <span class="text-purple-400">let</span> <span class="text-blue-400">total</span> = <span class="text-green-400">0</span>;
+    
+    <span class="text-purple-400">for</span> (<span class="text-purple-400">let</span> <span class="text-orange-400">i</span> = <span class="text-green-400">0</span>; <span class="text-orange-400">i</span> < <span class="text-orange-400">items</span>.<span class="text-blue-400">length</span>; <span class="text-orange-400">i</span>++) {
+        <span class="text-blue-400">total</span> += <span class="text-orange-400">items</span>[<span class="text-orange-400">i</span>].<span class="text-blue-400">price</span>;
+    }
+    
+    <span class="text-gray-500">// Apply discount if total > 100</span>
+    <span class="text-purple-400">if</span> (<span class="text-blue-400">total</span> > <span class="text-green-400">100</span>) {
+        <span class="bg-error/20 text-error border-l-2 border-error pl-2">total = total * <span class="text-green-400">0.9</span></span> <span class="text-red-400">// Missing semicolon</span>
+    }
+    
+    <span class="text-gray-500">// Format currency</span>
+    <span class="bg-warning/20 text-warning border-l-2 border-warning pl-2"><span class="text-purple-400">return</span> <span class="text-blue-400">total</span>.<span class="text-blue-400">toFixed</span>(<span class="text-green-400">2</span>)</span> <span class="text-yellow-400">// Should return string with currency symbol</span>
+    
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Analysis Panel -->
+                <div class="w-96 bg-dark-elevated border-l border-dark-border flex flex-col">
+                    <!-- Panel Header -->
+                    <div class="p-4 border-b border-dark-border">
+                        <h3 class="text-sm font-semibold text-text-primary mb-2">Error Analysis</h3>
+                        <div class="flex items-center space-x-2 text-xs">
+                            <span class="bg-error/20 text-error px-2 py-1 rounded">1 Syntax</span>
+                            <span class="bg-warning/20 text-warning px-2 py-1 rounded">2 Logical</span>
+                        </div>
+                    </div>
+
+                    <!-- Error List -->
+                    <div class="flex-1 overflow-auto p-4 space-y-4">
+                        <!-- @MAP: detectedErrors.map(error => ( -->
+                        <!-- Syntax Error -->
+                        <div class="bg-dark rounded-lg border border-error/30 p-4">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-exclamation-triangle text-error"></i>
+                                    <span class="text-sm font-semibold text-error">SyntaxError</span>
+                                </div>
+                                <span class="text-xs text-text-secondary bg-dark-elevated px-2 py-1 rounded">Line 9</span>
+                            </div>
+                            
+                            <p class="text-sm text-text-primary mb-3">Missing semicolon at end of statement</p>
+                            
+                            <div class="bg-dark-elevated rounded p-3 mb-3 font-mono text-xs">
+                                <span class="text-error">total = total * 0.9</span> <span class="text-text-secondary">// ← Missing ;</span>
+                            </div>
+
+                            <!-- Voice Controls -->
+                            <div class="flex items-center justify-between mb-3">
+                                <button class="flex items-center space-x-2 px-3 py-1 bg-primary-blue text-white rounded text-xs hover:bg-blue-600 transition-colors" data-event="click:speakError" data-implementation="Should use Murf TTS API to speak error explanation">
+                                    <i class="fas fa-play"></i>
+                                    <span>Listen to Error</span>
+                                </button>
+                                <div class="flex items-center space-x-1">
+                                    <button class="p-1 text-text-secondary hover:text-text-primary transition-colors">
+                                        <i class="fas fa-download text-xs"></i>
+                                    </button>
+                                    <button class="p-1 text-text-secondary hover:text-text-primary transition-colors">
+                                        <i class="fas fa-copy text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Solution -->
+                            <div class="bg-success/10 border border-success/30 rounded p-3">
+                                <p class="text-xs text-success font-medium mb-2">💡 Quick Fix</p>
+                                <div class="font-mono text-xs text-text-primary">
+                                    total = total * 0.9<span class="text-success">;</span>
+                                </div>
+                                <button class="mt-2 px-2 py-1 bg-success text-dark rounded text-xs font-medium hover:bg-green-400 transition-colors">
+                                    Apply Fix
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Logical Warning -->
+                        <div class="bg-dark rounded-lg border border-warning/30 p-4">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-exclamation-circle text-warning"></i>
+                                    <span class="text-sm font-semibold text-warning">LogicalIssue</span>
+                                </div>
+                                <span class="text-xs text-text-secondary bg-dark-elevated px-2 py-1 rounded">Line 13</span>
+                            </div>
+                            
+                            <p class="text-sm text-text-primary mb-3">Function should return formatted currency string</p>
+                            
+                            <div class="bg-dark-elevated rounded p-3 mb-3 font-mono text-xs">
+                                <span class="text-warning">return total.toFixed(2)</span> <span class="text-text-secondary">// Returns "100.00"</span>
+                            </div>
+
+                            <!-- Voice Controls -->
+                            <div class="flex items-center justify-between mb-3">
+                                <button class="flex items-center space-x-2 px-3 py-1 bg-primary-blue text-white rounded text-xs hover:bg-blue-600 transition-colors">
+                                    <i class="fas fa-play"></i>
+                                    <span>Listen to Warning</span>
+                                </button>
+                                <div class="flex items-center space-x-1">
+                                    <button class="p-1 text-text-secondary hover:text-text-primary transition-colors">
+                                        <i class="fas fa-download text-xs"></i>
+                                    </button>
+                                    <button class="p-1 text-text-secondary hover:text-text-primary transition-colors">
+                                        <i class="fas fa-copy text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Solution -->
+                            <div class="bg-primary-blue/10 border border-primary-blue/30 rounded p-3">
+                                <p class="text-xs text-primary-blue font-medium mb-2">💡 Suggested Improvement</p>
+                                <div class="font-mono text-xs text-text-primary">
+                                    return <span class="text-green-400">'$'</span> + total.toFixed(<span class="text-green-400">2</span>);
+                                </div>
+                                <button class="mt-2 px-2 py-1 bg-primary-blue text-white rounded text-xs font-medium hover:bg-blue-600 transition-colors">
+                                    Apply Improvement
+                                </button>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+
+                    <!-- Voice Player Control -->
+                    <div class="p-4 border-t border-dark-border bg-dark">
+                        <!-- @STATE: isPlaying:boolean = false, currentAudio:string = null -->
+                        <div class="mb-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-medium text-text-secondary">Now Playing</span>
+                                <span class="text-xs text-text-secondary">00:23 / 01:15</span>
+                            </div>
+                            <div class="w-full bg-dark-elevated rounded-full h-1">
+                                <div class="bg-primary-blue h-1 rounded-full" style="width: 30%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <button class="p-2 bg-primary-blue text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                    <i class="fas fa-pause"></i>
+                                </button>
+                                <button class="p-2 text-text-secondary hover:text-text-primary transition-colors">
+                                    <i class="fas fa-step-forward"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center space-x-2">
+                                <button class="p-1 text-text-secondary hover:text-text-primary transition-colors">
+                                    <i class="fas fa-volume-down text-xs"></i>
+                                </button>
+                                <input type="range" class="w-16 accent-primary-blue" min="0" max="100" value="75">
+                                <button class="p-1 text-text-secondary hover:text-text-primary transition-colors">
+                                    <i class="fas fa-download text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- @END_COMPONENT: MainContent -->
+    </div>
+
+    <!-- @COMPONENT: FloatingActionButton [voice commands, quick actions] -->
+    <div class="fixed bottom-6 right-6 flex flex-col space-y-3">
+        <!-- Voice Command Button -->
+        <button class="w-14 h-14 bg-primary-blue text-white rounded-full shadow-lg hover:bg-blue-600 transition-all duration-200 flex items-center justify-center group" data-event="click:startVoiceCommand" data-implementation="Should implement voice command recognition">
+            <i class="fas fa-microphone text-xl group-hover:scale-110 transition-transform"></i>
+        </button>
+        
+        <!-- Help Button -->
+        <button class="w-12 h-12 bg-dark-elevated border border-dark-border text-text-secondary rounded-full shadow-lg hover:bg-dark hover:text-text-primary transition-all duration-200 flex items-center justify-center">
+            <i class="fas fa-question"></i>
+        </button>
+    </div>
+    <!-- @END_COMPONENT: FloatingActionButton -->
+
+    <!-- @COMPONENT: ToastNotifications [success, error, info messages] -->
+    <div class="fixed top-4 right-4 space-y-2 z-50" id="toast-container">
+        <!-- Success Toast -->
+        <div class="bg-success/10 border border-success/30 text-success px-4 py-3 rounded-lg shadow-lg flex items-center space-x-3 transform translate-x-full opacity-0 transition-all duration-300" data-mock="true">
+            <i class="fas fa-check-circle"></i>
+            <span class="text-sm">Error fixed successfully!</span>
+            <button class="ml-auto">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: ToastNotifications -->
+
+    <!-- @COMPONENT: MobileResponsiveOverlay [mobile navigation and controls] -->
+    <div class="lg:hidden fixed inset-0 bg-dark/50 z-50 hidden" id="mobile-overlay">
+        <div class="absolute bottom-0 left-0 right-0 bg-dark-elevated rounded-t-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-text-primary">Quick Actions</h3>
+                <button class="p-2 text-text-secondary hover:text-text-primary">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <button class="p-4 bg-primary-blue text-white rounded-lg text-center">
+                    <i class="fas fa-volume-up mb-2 block"></i>
+                    <span class="text-sm">Listen to Errors</span>
+                </button>
+                <button class="p-4 bg-dark border border-dark-border text-text-primary rounded-lg text-center">
+                    <i class="fas fa-magic mb-2 block"></i>
+                    <span class="text-sm">Auto Fix</span>
+                </button>
+                <button class="p-4 bg-dark border border-dark-border text-text-primary rounded-lg text-center">
+                    <i class="fas fa-microphone mb-2 block"></i>
+                    <span class="text-sm">Voice Command</span>
+                </button>
+                <button class="p-4 bg-dark border border-dark-border text-text-primary rounded-lg text-center">
+                    <i class="fas fa-cog mb-2 block"></i>
+                    <span class="text-sm">Settings</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: MobileResponsiveOverlay -->
+
+    <script>
+        // TODO: Implement Murf TTS API integration
+        // TODO: Implement Monaco Editor integration
+        // TODO: Implement error detection algorithms
+        // TODO: Implement voice command recognition
+        // TODO: Implement real-time syntax highlighting
+        // TODO: Implement file upload and parsing
+        
+        (function() {
+            // Mock functionality for demonstration
+            
+            // Simulate error detection
+            function simulateErrorDetection() {
+                console.log('Analyzing code for errors...');
+                // In real implementation, this would use language-specific parsers
+            }
+
+            // Simulate TTS generation
+            function simulateTextToSpeech(text) {
+                console.log('Generating speech for:', text);
+                // In real implementation, this would call Murf TTS API
+                // Example API call structure:
+                /*
+                fetch('/api/murf/tts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + API_KEY
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        voice: selectedVoice,
+                        speed: speechSpeed,
+                        format: 'mp3'
+                    })
+                })
+                */
+            }
+
+            // Mobile responsiveness
+            function handleMobileView() {
+                const sidebar = document.querySelector('aside');
+                const mainContent = document.querySelector('main');
+                
+                if (window.innerWidth < 1024) {
+                    sidebar.classList.add('hidden');
+                    mainContent.classList.add('w-full');
+                } else {
+                    sidebar.classList.remove('hidden');
+                    mainContent.classList.remove('w-full');
+                }
+            }
+
+            // Event listeners
+            document.addEventListener('DOMContentLoaded', function() {
+                handleMobileView();
+                simulateErrorDetection();
+            });
+
+            window.addEventListener('resize', handleMobileView);
+
+            // Add click handlers for interactive elements
+            document.querySelectorAll('[data-event]').forEach(element => {
+                const eventData = element.getAttribute('data-event');
+                const [eventType, handlerName] = eventData.split(':');
+                
+                element.addEventListener(eventType, function(e) {
+                    console.log(`Handler: ${handlerName} triggered`);
+                    // Real implementation would call appropriate handler functions
+                });
+            });
+        })();
+    </script>
+
+</body>
+</html>
