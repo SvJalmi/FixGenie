@@ -1,182 +1,185 @@
-# FixGenie
-FixGenie - Revolutionary AI-Powered Code Analysis & Mentorship Platform
-Overview
-FixGenie is the world's most advanced AI-powered code analysis platform that revolutionizes how developers learn, debug, and optimize code. Featuring intelligent error detection with GPT-4o, high-quality Murf TTS explanations, comprehensive settings management, and user analytics across 320+ programming languages, FixGenie represents the next generation of developer debugging tools.
 
-Revolutionary Unique Features (July 2025)
-🧠 AI-Powered Personal Mentor System with Advanced Logical Error Detection
-Personalized Learning Paths: Custom-generated learning journeys based on individual coding patterns and skill assessments
-Intelligent Code Optimization: Real-time performance, readability, and maintainability improvements with GPT-4o
-Advanced Logical Error Detection: Revolutionary AI-powered system that detects sophisticated logical errors including:
-Infinite loops and unreachable code detection
-Assignment vs comparison operator errors (= vs ==)
-Array bounds violations and off-by-one errors
-Division by zero and mathematical logic errors
-Variable initialization and scope problems
-Algorithm correctness and control flow issues
-Advanced Security Auditing: Comprehensive vulnerability detection with OWASP compliance checking and risk scoring
-Smart Code Suggestions: Context-aware code completion, refactoring recommendations, and architectural pattern suggestions
-Natural Language to Code: Generate production-ready code from plain English descriptions
-Image-to-Code Generation: Revolutionary capability to generate code from diagrams, mockups, and handwritten notes
-👥 Real-Time Collaborative Development
-Live Code Collaboration: Multi-user real-time code editing with cursor tracking and participant awareness
-Voice Annotations: Record and share voice explanations directly on code lines for enhanced communication
-Session Management: Create, join, and manage collaborative coding sessions with advanced participant controls
-WebSocket Integration: Low-latency real-time synchronization for seamless collaborative experience
-📊 Advanced Analytics & Progress Tracking
-Comprehensive Code Metrics: Cyclomatic complexity, cognitive load, Halstead metrics, and technical debt analysis
-Skill Progression System: Gamified learning with experience points, levels, and achievement unlocking
-Personalized Insights: AI-generated recommendations based on coding patterns and improvement opportunities
-Visual Analytics Dashboard: Interactive charts showing quality trends, language distribution, and skill radar
-Achievement System: Rare, epic, and legendary achievements to motivate continuous learning
-🎯 Intelligent Code Generation Suite
-Smart Refactoring Engine: AI-powered code restructuring with safety assessments and impact analysis
-Architectural Pattern Suggestions: Intelligent recommendations for design patterns and software architecture
-Code Quality Optimization: Automated improvements for maintainability, performance, and security
-Context-Aware Suggestions: Project-aware code completion and improvement recommendations
-User Preferences
-Preferred communication style: Simple, everyday language.
+# FixGenie 🚀
+**Revolutionary AI-Powered Code Analysis & Mentorship Platform**
 
-Recent Changes (July 2025)
-Clean Code Button - Fully Functional with AI Integration
-AI-Powered Code Cleaning: Created /api/clean-code endpoint using GPT-4o for intelligent code optimization
-Smart Code Formatting: Automatically formats, cleans, and optimizes code with proper indentation and best practices
-Multi-Language Support: Works across all 320+ supported programming languages with language-specific optimizations
-Fallback System: Basic code cleaning when AI is unavailable, ensuring functionality at all times
-User-Friendly Interface: Green "Clean Code" button with loading states and success notifications
-Automatic Re-Analysis: Cleaned code is automatically re-analyzed to show improvements
-User Profile System - Fully Functional
-Real API Integration: Created /api/user/profile/:userId endpoint with real data fetching
-Complete Menu Functionality: All menu items (View Profile, Account Settings, Usage & Billing, Help & Support) now have working modals
-Data Integration: Profile displays real statistics from user analysis history
-Authentication Features: Working logout functionality with proper error handling
-Interactive Modals: Comprehensive modals for each menu item with rich content and proper styling
-Component Headers - Visibility Fixed
-AI Mentor Text: Changed from transparent gradient to solid white for better visibility
-Analytics Dashboard Text: Updated text color to white for proper contrast
-Consistent Theming: All major component headers now use readable white text
-System Architecture
-Frontend Architecture
-Framework: React 18 with TypeScript
-Build Tool: Vite for fast development and optimized builds
-UI Library: Radix UI components with shadcn/ui design system
-Styling: Tailwind CSS with custom FixGenie dark theme
-State Management: TanStack Query for server state management
-Routing: Wouter for lightweight client-side routing
-Code Editor: Monaco Editor with custom theming and error highlighting
-Backend Architecture
-Runtime: Node.js with Express.js server
-Language: TypeScript with ES modules
-API Design: RESTful API with JSON responses
-Middleware: Express middleware for request logging and error handling
-Development: Hot reload with Vite middleware integration
-Database & ORM
-Database: PostgreSQL (configured for Neon serverless)
-ORM: Drizzle ORM for type-safe database operations
-Schema Management: Drizzle Kit for migrations
-Storage: In-memory storage fallback for development
-Key Components
-Code Analysis Engine
-Primary Service: OpenAI GPT-4o integration for intelligent code analysis
-Error Detection: Multi-type error identification (syntax, logical, runtime, semantic)
-Severity Classification: Error, warning, and info level categorization
-Fix Suggestions: Actionable code improvements and corrections
-Text-to-Speech Integration
-Provider: Murf AI TTS service
-Voice Options: Multiple voice personalities and languages
-Audio Controls: Playback speed, volume, and download functionality
-Real-time Generation: On-demand audio explanation creation
-Universal Multi-Language Support
-Supported Languages: 320+ programming languages across 35+ specialized categories
-Core Languages: C, C++, C#, Java, Python, JavaScript, TypeScript, Go, Rust, Swift
-Compiled: Fortran, ALGOL, COBOL, Visual Basic, Smalltalk, Ada, Nim
-Interpreted: Ruby, Perl, Pascal, Lisp, BASIC, APL, Julia, MATLAB
-Scripting: PHP, VBScript, PowerShell, Bash, R, Lua, Tcl
-Markup & Data: HTML, XML, YAML, JSON, TOML, CSS, SCSS, Less
-Functional: Haskell, Scala, Clojure, Erlang, Elixir, F#, Racket
-🧪 Esoteric: Brainfuck, LOLCODE, Whitespace, Malbolge, Befunge, INTERCAL, Ook!, Piet
-🧬 Scientific: J, Nial, IDL, GAMS, Mathematica/Wolfram, Scilab, GNU Octave, SageMath, Modelica
-🧙‍♂️ Blockchain: Solidity, Vyper, Move, Cairo, Scilla, Michelson, Clarity
-🧰 Configuration: Makefile, HCL, Gradle DSL, CMake, Bazel/Starlark, Nix, Dockerfile, Ansible
-🧩 Emerging & Specialized: Zig, Crystal, Bosque, V, Odin, Red, Pony, Grain, Carbon, Vale
-🧠 AI & ML-Focused: Mojo, Gen
-🧩 Domain-Specific: Elm, Pony, Red
-🧙‍♀️ Obscure but Intriguing: LOOP, Frink, Rebol
-🧠 Metaprogramming: Racket, Elixir, Nim, Hy, Template Haskell, Rust Macros
-🧑‍🏫 Educational: Kalaam (Hindi), Citrine, Hedy, Kojo, Snap!, TurtleStitch, Quorum, Greenfoot
-Hardware Description: Verilog, VHDL, ABEL, AHDL, Bluespec, Lava
-Assembly: ARM, x86, MIPS, SPARC, System/360
-Logic Programming: Prolog, ALF, Alma-0, Fril, Janus
-Visual/Educational: Scratch, Logo, Alice, Blockly, Karel
-Non-English: Chinese BASIC, Fjölnir (Icelandic), LSE (French), Lexico (Spanish), Rapira (Russian), ChaScript (Bengali), ezhil (Tamil)
-🧠 Artistic: Piet (Visual Art), Shakespeare Programming Language, Chef, Velato, Taxi
-🧬 Mathematical: Modelica, AMPL, Z3 SMT-LIB, Maple, Maxima, GAP
-🧙‍♀️ AI/Knowledge: CycL, OpenCog Atomese, CLIPS, Drools, SWRL, Jess
-🧩 Robotics: URBI, NQC (Lego Mindstorms), Ch, Robocode, ROS Launch, Arduino
-🧑‍🎨 Creative: Processing, openFrameworks, Pure Data, SuperCollider, ChucK, p5.js, Cinder
-🧑‍🔬 Bioinformatics: BioPerl, Bioconductor, CellML, BioPython, BioJava, EMBOSS, PHYLIP
-🧰 Infrastructure: Starlark, Dhall, CUE, Jsonnet, Pulumi, Helm, Kustomize
-🧬 Constraint/Rules: CHR (Constraint Handling Rules), Drools (Business Rules), Jess (Expert Systems)
-🧩 DSL Creation: MetaOCaml, Rascal, Spoofax, Xtext, JetBrains MPS
-🧙‍♂️ Quantum Computing: QCL, ProjectQ, LIQUi⟩, Q#, Cirq
-🧰 Advanced Automation: Ansible YAML DSL, Terraform HCL, Pulumi Multi-language
-🧑‍🎨 Creative Advanced: ChucK Audio Synthesis, SuperCollider Algorithmic Composition, Hydra Live Visuals, Sonic Pi, TidalCycles
-🧑‍🏫 Accessibility: Quorum Accessibility, Hedy Gradual Programming, TurtleArt
-🧠 Historical Languages: TRAC (1960s), TUTOR (PLATO), JOSS, MAD, FOCAL, PILOT, SNOBOL
-🧬 Simulation/Modeling: GPSS, SIMSCRIPT, DYNAMO, STELLA/iThink, Vensim
-🧙‍♂️ Advanced Quantum: QCL, LIQUi⟩ Toolkit, OpenQASM (IBM)
-🧰 Advanced Infrastructure: Bicep (Azure), Tiltfile (Kubernetes), CUE Advanced
-🧑‍🎨 Multimedia Advanced: Fluxus, Gibber, Impromptu
-🧠 Obsolete/Ultra-Rare: REXX, EGL, CMS-2, JOVIAL, NATURAL
-🧬 Hardware-Specific: OpenCL C, ShaderLab, VHDL-AMS, SystemVerilog
-🧩 Language Design: TXL, ASF+SDF, Stratego/XT
-🧙‍♀️ Security/Formal: SPARK Ada, Cryptol, F*
-🧑‍🎨 Live Performance: Impromptu Performance, Extempore, TidalCycles Performance
-Monaco Integration: Language-specific syntax highlighting and IntelliSense
-User Interface Components
-Code Editor: Full-featured Monaco editor with error markers
-Error Panel: Detailed error analysis with fix suggestions
-Voice Player: Audio playback controls with progress tracking
-Sidebar: Language selection, voice settings, and recent analyses
-Floating Actions: Voice commands and help accessibility
-Data Flow
-Code Input: User writes or pastes code in Monaco editor
-Analysis Request: Code sent to backend analysis endpoint
-AI Processing: OpenAI analyzes code and returns structured error data
-Database Storage: Analysis results stored with user association
-UI Update: Frontend displays errors with visual indicators
-Voice Generation: On-demand TTS generation via Murf API
-Audio Playback: Generated audio served and played in browser
-External Dependencies
-AI Services
-OpenAI API: GPT-4o model for code analysis
-Murf AI: Text-to-speech generation service
-Database Services
-Neon Database: Serverless PostgreSQL hosting
-Connection: @neondatabase/serverless driver
-Development Tools
-Replit Integration: Development environment optimization
-Monaco Editor: Microsoft's code editor (VS Code engine)
-Cartographer: Replit's development tooling
-UI Framework
-Radix UI: Headless component primitives
-Tailwind CSS: Utility-first styling framework
-Lucide Icons: Consistent icon library
-Deployment Strategy
-Development Environment
-Hot Reload: Vite development server with Express backend
-Environment Variables: API keys and database URLs
-TypeScript: Full type checking and compilation
-Production Build
-Frontend: Vite builds optimized static assets
-Backend: esbuild bundles Node.js server code
-Serving: Express serves both API and static files
-Environment Configuration
-Database: PostgreSQL via DATABASE_URL environment variable
-API Keys: OpenAI and Murf API credentials via environment variables
-Build Targets: Separate client and server build processes
-Session Management
-Storage: connect-pg-simple for PostgreSQL session store
-Authentication: Placeholder user system (userId: 1)
-State Persistence: Query caching with TanStack Query
-The application is designed as a full-stack TypeScript application with clear separation between frontend and backend concerns, leveraging modern development practices and AI services for an enhanced code analysis experience.
+FixGenie is the world's most advanced AI-powered code analysis platform that revolutionizes how developers learn, debug, and optimize code. With intelligent error detection, personalized mentorship, comprehensive analytics, and support for 320+ programming languages, FixGenie represents the next generation of developer debugging tools.
+
+---
+
+## 🌟 Key Features
+
+### 🧠 AI-Powered Personal Mentor
+- **Advanced Logical Error Detection** (Infinite loops, unreachable code, operator mix-ups, array bounds, division by zero, scope issues)
+- **Personalized Learning Paths** based on coding patterns and skill assessments
+- **Real-time Code Optimization** for performance, readability & maintainability
+- **Comprehensive Security Audits** with OWASP compliance and risk scoring
+- **Context-Aware Smart Suggestions** for code completion, refactoring & architectural patterns
+- **Natural Language to Code**: Generate production-ready code from plain English
+- **Image-to-Code Generation**: Convert diagrams/mockups/handwritten notes into code
+
+### 👥 Real-Time Collaborative Development
+- Multi-user **Live Code Collaboration** with cursor tracking
+- **Voice Annotations** directly on code lines
+- Session management with participant controls
+- **WebSocket-based Low-Latency Sync**
+
+### 📊 Advanced Analytics & Progress Tracking
+- Cyclomatic complexity, cognitive load, Halstead metrics, technical debt analysis
+- **Gamified Skill Progression** (XP, levels, achievements)
+- Personalized AI insights based on coding patterns
+- **Visual Analytics Dashboard** with interactive charts & skill radar
+
+### 🎯 Intelligent Code Generation Suite
+- Smart Refactoring Engine with impact analysis
+- Architectural Pattern Suggestions
+- Automated Code Quality Optimization
+- Context-Aware Suggestions across projects
+
+---
+
+## 🆕 Recent Updates (July 2025)
+### ✅ Clean Code Button (AI-Integrated)
+- `/api/clean-code` endpoint with GPT-4o for intelligent code optimization
+- Multi-language support (320+ languages)
+- Fallback system ensures basic cleaning even when AI is unavailable
+- Automatic re-analysis post cleaning
+- User-friendly interface with loading & success notifications
+
+### ✅ User Profile System
+- `/api/user/profile/:userId` endpoint with real statistics fetching
+- Functional menu items: View Profile, Account Settings, Usage & Billing, Help & Support
+- Interactive modals with rich content
+- Working Logout with proper error handling
+
+### ✅ UI Improvements
+- Fixed visibility of AI Mentor and Dashboard headers (solid white text)
+- Consistent theming for component headers
+
+---
+
+## 🏗️ System Architecture
+
+### 🖥️ Frontend
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **UI Library**: Radix UI with shadcn/ui
+- **Styling**: Tailwind CSS (FixGenie Dark Theme)
+- **State Management**: TanStack Query
+- **Routing**: Wouter
+- **Code Editor**: Monaco Editor with custom theming & error highlighting
+
+### 🌐 Backend
+- **Runtime**: Node.js with Express.js (TypeScript, ES Modules)
+- **API**: RESTful API with JSON responses
+- **Database**: PostgreSQL (Neon Serverless) + Drizzle ORM
+- **Schema Migrations**: Drizzle Kit
+- **Middleware**: Express for logging & error handling
+
+---
+
+## 🧩 Key Components
+- **Code Analysis Engine**: OpenAI GPT-4o Integration
+- **Error Detection**: Syntax, Logical, Runtime, Semantic with Severity Classification
+- **Fix Suggestions**: Actionable improvements
+- **Text-to-Speech**: Murf AI TTS with multiple voice options
+- **Analytics Dashboard**: Interactive charts for code metrics & progress tracking
+- **Monaco Editor**: Syntax highlighting & IntelliSense for 320+ languages
+
+---
+
+## 📚 Supported Languages
+Supports **320+ programming languages** including:
+- Core: C, C++, C#, Java, Python, JS, TypeScript, Go, Rust, Swift
+- Scripting: PHP, Bash, PowerShell, R, Lua
+- Markup/Data: HTML, XML, JSON, YAML
+- Functional: Haskell, Scala, Erlang
+- AI & ML: Mojo, Gen
+- Blockchain: Solidity, Vyper
+- Esoteric: Brainfuck, Piet, Shakespeare Lang, Chef
+- Hardware: Verilog, VHDL, SystemVerilog
+- DSL Creation, Security/Formal, Quantum Computing, Bioinformatics, and more...
+
+---
+
+## 🗂️ Project Structure
+```
+
+/frontend       → React 18 + Vite Frontend
+/backend        → Node.js + Express API Backend
+/database       → PostgreSQL (Neon Serverless)
+
+````
+
+---
+
+## ⚙️ Development Setup
+
+### Prerequisites
+- Node.js v18+
+- PostgreSQL Database (Neon Serverless recommended)
+- OpenAI API Key
+- Murf AI API Key
+
+### Environment Variables
+```bash
+DATABASE_URL=your_postgresql_connection_string
+OPENAI_API_KEY=your_openai_api_key
+MURF_API_KEY=your_murf_api_key
+````
+
+### Local Development
+
+```bash
+# Clone Repo
+git clone https://github.com/YourUsername/FixGenie.git
+cd FixGenie
+
+# Install Dependencies
+npm install
+
+# Start Development Server (Frontend + Backend)
+npm run dev
+```
+
+---
+
+## 🛠️ Build & Deployment
+
+### Production Build
+
+```bash
+# Build Frontend
+cd frontend
+npm run build
+
+# Bundle Backend
+cd ../backend
+npm run build
+
+# Serve Both (API + Static)
+npm start
+```
+
+---
+
+## 📡 External Dependencies
+
+* **OpenAI GPT-4o API** (Code Analysis & Suggestions)
+* **Murf AI TTS** (Voice Explanations)
+* **Neon PostgreSQL** (Serverless DB)
+* **Replit Tools** (Optional Dev Environment)
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+## 🙌 Contributing
+
+We welcome contributions! Please open issues or submit PRs for suggestions and improvements.
+
+
+
