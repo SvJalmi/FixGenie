@@ -1,7 +1,6 @@
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # FixGenie 🚀
 **Revolutionary AI-Powered Code Analysis & Mentorship Platform**
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 FixGenie is the world's most advanced AI-powered code analysis platform that revolutionizes how developers learn, debug, and optimize code. With intelligent error detection, personalized mentorship, comprehensive analytics, and support for 320+ programming languages, FixGenie represents the next generation of developer debugging tools.
 
